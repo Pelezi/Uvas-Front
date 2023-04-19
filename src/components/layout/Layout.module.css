@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main {
+    display: flex;
+    flex: 1;
+}
+.content { 
+    padding: 1rem;
+    flex: 1;
+}
+.active {
+    font-weight: bold; 
+    text-decoration: underline;
+}
