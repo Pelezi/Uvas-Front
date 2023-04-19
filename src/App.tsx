@@ -4,15 +4,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Layout from './components/layout';
 
+import Home from './pages/home';
+import CadastrarInformacoes from './pages/curriculo/CadastrarInformacoes';
+
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Layout>
-        <h1>Testando</h1>
-        </Layout>
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<Home />} />
+          <Route path="/curriculo/informacoes/cadastro" element={<CadastrarInformacoes />} />
         </Routes>
+      </Layout>
     </BrowserRouter>
   )
 };

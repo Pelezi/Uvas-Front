@@ -18,18 +18,18 @@ const Sidebar: React.FC = ({ children }) => {
                 <h3>Currículo</h3>
                 <ul>
                     <li>
-                        <NavLink to="/curriculo/cadastro/resumo">
-                            Cadastrar Resumo
+                        <NavLink to="/curriculo/informacoes/cadastro">
+                            Cadastrar Informações
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/curriculo/cadastro/experiencia-academica">
-                            Cadastrar Experiência Acadêmica
+                        <NavLink to="/curriculo/experiencia/cadastro">
+                            Cadastrar Experiência
                         </NavLink>
                     </li>
                     <li>
-                    <NavLink to="/curriculo/cadastro/experiencia-profissional">
-                        Cadastrar Experiência Profissional
+                    <NavLink to="/curriculo/experiencia/lista">
+                        Lista de Experiências
                     </NavLink>
                     </li>
                 </ul>
@@ -41,7 +41,7 @@ const Sidebar: React.FC = ({ children }) => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/portfolio/listagem">
+                        <NavLink to="/portfolio/lista">
                             Listagem de Portfolios
                         </NavLink>
                     </li>
