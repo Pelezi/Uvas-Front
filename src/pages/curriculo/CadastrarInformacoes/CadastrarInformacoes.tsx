@@ -4,6 +4,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import styles from "./CadastrarInformacoes.module.css";
+import Input from "../../../components/forms/Input/Input";
+import Textarea from "../../../components/forms/Textarea/Textarea";
 
 interface FormValues {
     foto: string;
@@ -44,51 +46,35 @@ const CadastrarInformacoes: React.FC = () => {
 
                     <Form className={styles.form}>
 
-                        <h2 className={styles.title}>Informações pessoais</h2>
+                        <h2 className={styles.title}>Cadastrar Informações</h2>
 
-                        <fieldset className={styles.formGroup}>
-                            <label htmlFor="foto" className={styles.label}>Foto</label>
-                            <ErrorMessage name="foto" component="div" className={styles.errorMsg} />
-                            <Field
-                                type="text"
-                                id="foto"
-                                name="foto"
-                                className={`${styles.input} ${touched.foto && errors.foto && styles.error}`}
-                            />
-                        </fieldset>
+                        <Input
+                            label="Foto"
+                            name="foto"
+                            errors={errors.foto}
+                            touched={touched.foto}
+                        />
 
-                        <fieldset className={styles.formGroup}>
-                            <label htmlFor="nome" className={styles.label}>Nome</label>
-                            <ErrorMessage name="nome" component="div" className={styles.errorMsg} />
-                            <Field
-                                type="text"
-                                id="nome"
-                                name="nome"
-                                className={`${styles.input} ${touched.nome && errors.nome && styles.error}`}
-                            />
-                        </fieldset>
+                        <Input
+                            label="Nome"
+                            name="nome"
+                            errors={errors.nome}
+                            touched={touched.nome}
+                        />
+                        
+                        <Input
+                            label="Cargo"
+                            name="cargo"
+                            errors={errors.cargo}
+                            touched={touched.cargo}
+                        />
 
-                        <fieldset className={styles.formGroup}>
-                            <label htmlFor="cargo" className={styles.label}>Cargo</label>
-                            <ErrorMessage name="cargo" component="div" className={styles.errorMsg} />
-                            <Field
-                                type="text"
-                                id="cargo"
-                                name="cargo"
-                                className={`${styles.input} ${touched.cargo && errors.cargo && styles.error}`}
-                            />
-                        </fieldset>
-
-                        <fieldset className={styles.formGroup}>
-                            <label htmlFor="resumo" className={styles.label}>Resumo</label>
-                            <ErrorMessage name="resumo" component="div" className={styles.errorMsg} />
-                            <Field
-                                as="textarea"
-                                id="resumo"
-                                name="resumo"
-                                className={`${styles.input} ${touched.resumo && errors.resumo && styles.error}`}
-                            />
-                        </fieldset>
+                        <Textarea
+                            label="Resumo"
+                            name="resumo"
+                            errors={errors.resumo}
+                            touched={touched.resumo}
+                        />
 
                         <button type="submit" className={styles.button}>Salvar</button>
 
