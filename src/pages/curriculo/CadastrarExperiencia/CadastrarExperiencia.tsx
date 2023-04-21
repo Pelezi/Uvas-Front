@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import styles from "./CadastrarExperiencia.module.css";
 import Input from "../../../components/forms/Input/Input";
 import Textarea from "../../../components/forms/Textarea/Textarea";
+import Select from "../../../components/forms/Select/Select";
 
 interface Formvalues {
     titulo: string;
@@ -70,6 +71,17 @@ const CadastrarExperiencia: React.FC = () => {
                             name="anoFim"
                             errors={errors.anoFim}
                             touched={touched.anoFim}
+                        />
+
+                        <Select
+                            label="Tipo de experiência"
+                            name="tipo"
+                            options={[
+                                { value: "profissional", label: "Profissional" },
+                                { value: "academico", label: "Acadêmico" },
+                            ]}
+                            errors={errors.tipo}
+                            touched={touched.tipo}
                         />
 
                         <Textarea
