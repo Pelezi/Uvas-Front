@@ -1,22 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
 import styles from "./CadastrarInformacoes.module.css";
 import Input from "../../../components/forms/Input/Input";
 import Textarea from "../../../components/forms/Textarea/Textarea";
-
-interface FormValues {
-    foto: string;
-    nome: string;
-    cargo: string;
-    resumo: string;
-};
+import { Informacoes, createInfomacoes, getInformacoes } from "../../../services/informacoesService";
+import InformacoesCard from "./InformacoesCard/InformacoesCard";
 
 const CadastrarInformacoes: React.FC = () => {
 
-    const initialValues: FormValues = {
+    const [informacoes, setInformacoes] = useState<Informacoes>({} as Informacoes);
+
+    const initialValues: Informacoes = {
+        id: 1,
         foto: '',
         nome: '',
         cargo: '',
@@ -30,11 +28,33 @@ const CadastrarInformacoes: React.FC = () => {
         resumo: Yup.string().required('Campo obrigatório')
     });
 
-    const onSubmit = (values: FormValues, { resetForm }: { resetForm: () => void }) => {
-        //Lógica de envio para backend
-        console.log(values);
-        resetForm();
-        alert('Formulário enviado com sucesso!');
+    const fetchInformacao = async () => {
+        try {
+            const informacao = await getInformacoes();
+            setInformacoes(informacao);
+        } catch (error) {
+            console.error('Erro ao buscar informações', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchInformacao();
+    }, []);
+
+    const onSubmit = async (values: Informacoes, { resetForm }: { resetForm: () => void }) => {
+        try {
+            await createInfomacoes(values);
+            setInformacoes(values);
+            console.log(values);
+            resetForm();
+            alert('Formulário enviado com sucesso!');
+
+        } catch (error) {
+
+            console.error('Erro ao enviar formulário', error);
+            alert('Erro ao enviar formulário. Tente novamente.')
+
+        }
     };
 
 
@@ -61,7 +81,7 @@ const CadastrarInformacoes: React.FC = () => {
                             errors={errors.nome}
                             touched={touched.nome}
                         />
-                        
+
                         <Input
                             label="Cargo"
                             name="cargo"
@@ -83,6 +103,8 @@ const CadastrarInformacoes: React.FC = () => {
                 )}
 
             </Formik>
+
+            <InformacoesCard informacoes={informacoes}/>
 
         </div>
     );
