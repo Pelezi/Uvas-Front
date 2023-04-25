@@ -15,6 +15,12 @@
     margin: 50px;
 }
 
+.card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .formGroup {
     display: flex;
     flex-direction: column; 
@@ -80,4 +86,14 @@
     font-size: 14px;
     margin-top: 5px;
     font-weight: bold;
+}
+
+.deleteButton {
+    background-color: #ff3333;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.deleteButton:hover {
+    background-color: #cc3333;
 }
