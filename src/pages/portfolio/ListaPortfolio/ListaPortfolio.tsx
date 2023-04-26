@@ -10,12 +10,12 @@ const ListaPortfolio: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const [itensPortfolio, setItensPortfolio] = useState<Portfolio[]>([]);
+    const [portfolio, setItensPortfolio] = useState<Portfolio[]>([]);
 
     const fetchItensPortfolio = async () => {
         try {
-            const itensPortfolio = await getItensPortfolio();
-            setItensPortfolio(itensPortfolio);
+            const portfolio = await getItensPortfolio();
+            setItensPortfolio(portfolio);
         } catch (error) {
             console.log('Erro ao buscar portfolio', error);
         }
@@ -48,15 +48,17 @@ const ListaPortfolio: React.FC = () => {
                     <th>Título</th>
                     <th>Imagem</th>
                     <th>Link</th>
+                    <th>Descrição</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
-                {itensPortfolio.map((itemPortfolio, index) => (
+                {portfolio.map((itemPortfolio, index) => (
                     <tr key={index}>
                         <td>{itemPortfolio.title}</td>
                         <td><img src={itemPortfolio.image} alt={itemPortfolio.title} className={styles.image} /></td>
                         <td><a href={itemPortfolio.link} target="_blank" rel="noreferrer">{itemPortfolio.link}</a></td>
+                        <td>{itemPortfolio.description}</td>
                         <td>
                             <button onClick={() => handleEdit(itemPortfolio)}>Editar</button>
                             <button onClick={() => handleDelete(itemPortfolio.id)}>Excluir</button>

@@ -21,12 +21,14 @@ const ListaPortfolio: React.FC = () => {
         link: "",
         image: "",
         title: "",
+        description: "",
     }
     
     const validationSchema = Yup.object().shape({
         link: Yup.string().required("Campo obrigatório"),
         image: Yup.string().required("Campo obrigatório"),
         title: Yup.string().required("Campo obrigatório"),
+        description: Yup.string(),
     })
 
     const onSubmit = async (values: Portfolio, { resetForm }: { resetForm: () => void }) => {
@@ -73,6 +75,13 @@ const ListaPortfolio: React.FC = () => {
                             name="title"
                             errors={errors.title}
                             touched={touched.title}
+                        />
+
+                        <Input
+                            label="Descrição"
+                            name="description"
+                            errors={errors.description}
+                            touched={touched.description}
                         />
 
                         <button type="submit" className={styles.button}>Enviar</button>

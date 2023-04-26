@@ -2,36 +2,88 @@
   "informacoes": [
     {
       "id": 1,
-      "foto": "https://github.com/Pelezi.png",
-      "nome": "Alessandro Cardoso da Costa",
-      "cargo": "Estudante",
-      "resumo": "I'm the Doctor. I'm a Time Lord. I'm from the planet Gallifrey in the Constellation of Kasterborous. I'm 903 years old, and I'm the man who is going to save your lives and all 6 billion people on the planet below. You got a problem with that?"
+      "foto": "https://i.imgur.com/9U5uB6t.jpg",
+      "nome": "Alessandro Cardoso",
+      "cargo": "Nerd profissioal",
+      "resumo": "Eu sou um cara gente fina, em vários sentidos, gosto de programar e sou facinado pelo mundo nerd e de ficção científica, mas também sou um tanto tímido e não sou muito bom com as palavras, por esse motivo vou continuar esse texto com um Lorem ipsum pra encher linguiça. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id diam vel quam elementum pulvinar etiam non quam lacus. Montes nascetur ridiculus mus mauris vitae ultricies. Nulla at volutpat diam ut venenatis. Orci nulla pellentesque dignissim enim sit amet venenatis urna cursus. In cursus turpis massa tincidunt dui ut. Consequat id porta nibh venenatis cras. Sit amet tellus cras adipiscing enim eu turpis egestas. Amet nulla facilisi morbi tempus. Rhoncus dolor purus non enim praesent elementum facilisis leo vel."
     }
   ],
   "experiencias": [
     {
       "id": 1,
-      "titulo": "Viajante no tempo",
+      "titulo": "Engenharia mecânica na Unifavip Wyden",
       "descricao": "Idk it just works",
-      "tipo": "profissional",
-      "anoInicio": "2025",
-      "anoFim": "1964"
+      "tipo": "academico",
+      "anoInicio": "2020",
+      "anoFim": "2021"
     },
     {
       "id": 2,
-      "titulo": "Estudante na Favip",
+      "titulo": "Ciência da computação na Unifavip Wyden",
       "descricao": "The boring one",
       "tipo": "academico",
+      "anoInicio": "2021",
+      "anoFim": "2021"
+    },
+    {
+      "id": 3,
+      "titulo": "Ciência da computação na Unifavip Wyden",
+      "descricao": "The boring one",
+      "tipo": "academico",
+      "anoInicio": "2023",
+      "anoFim": "2023"
+    },
+    {
+      "id": 4,
+      "titulo": "Tecnico em streaming na Igreja Videira Caruaru",
+      "descricao": "The boring one",
+      "tipo": "profissional",
       "anoInicio": "2020",
+      "anoFim": "2023"
+    },
+    {
+      "id": 5,
+      "titulo": "Produtor de conteúdo na Fluency Be",
+      "descricao": "The boring one",
+      "tipo": "profissional",
+      "anoInicio": "2023",
       "anoFim": "2023"
     }
   ],
-  "itensPortfolio": [
+  "portfolio": [
     {
       "id": 1,
       "link": "https://www.instagram.com/p/CDchkJMHjTt/",
       "image": "https://cf.shopee.com.my/file/5a8542574c47b76e3887c64d1a95edfe",
       "title": "Penguin"
+    },
+    {
+      "id": 2,
+      "link": "https://i.imgur.com/9U5uB6t.jpg",
+      "image": "https://i.imgur.com/9U5uB6t.jpg",
+      "title": "yee"
+    },
+    {
+      "id": 3,
+      "link": "https://i.imgur.com/9U5uB6t.jpg",
+      "image": "https://i.imgur.com/9U5uB6t.jpg",
+      "title": "Test",
+      "description": "yooooooooooooooooooo dude this is lit"
+    },
+    {
+      "id": 4,
+      "link": "https://i.imgur.com/9U5uB6t.jpg",
+      "image": "https://i.imgur.com/9U5uB6t.jpg",
+      "title": "just testing something out",
+      "description": "",
+      "descricao": "It works i guess  idk dude"
+    },
+    {
+      "id": 5,
+      "link": "https://i.imgur.com/9U5uB6t.jpg",
+      "image": "https://i.imgur.com/9U5uB6t.jpg",
+      "title": "testing again",
+      "description": "I'm tired of this"
     }
   ]
 }
