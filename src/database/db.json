@@ -1,4 +1,12 @@
 {
+  "usuarios": [
+    {
+      "id": 1,
+      "email": "teste@email.com",
+      "password": "123456"
+    }
+  ],
+  
   "informacoes": [
     {
       "id": 1,
