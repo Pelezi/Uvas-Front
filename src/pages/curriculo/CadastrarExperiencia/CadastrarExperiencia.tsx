@@ -25,7 +25,7 @@ const CadastrarExperiencia: React.FC = () => {
         tipo: "",
         anoInicio: "",
         anoFim: "",
-    }
+    };
 
     const validationSchema = Yup.object().shape({
         titulo: Yup.string().required("Campo obrigatório"),

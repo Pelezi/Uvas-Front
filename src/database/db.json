@@ -6,13 +6,12 @@
       "password": "123456"
     }
   ],
-  
   "informacoes": [
     {
       "id": 1,
       "foto": "https://i.imgur.com/9U5uB6t.jpg",
       "nome": "Alessandro Cardoso",
-      "cargo": "Nerd profissioal",
+      "cargo": "Nerd profissional",
       "resumo": "Eu sou um cara gente fina, em vários sentidos, gosto de programar e sou facinado pelo mundo nerd e de ficção científica, mas também sou um tanto tímido e não sou muito bom com as palavras, por esse motivo vou continuar esse texto com um Lorem ipsum pra encher linguiça. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id diam vel quam elementum pulvinar etiam non quam lacus. Montes nascetur ridiculus mus mauris vitae ultricies. Nulla at volutpat diam ut venenatis. Orci nulla pellentesque dignissim enim sit amet venenatis urna cursus. In cursus turpis massa tincidunt dui ut. Consequat id porta nibh venenatis cras. Sit amet tellus cras adipiscing enim eu turpis egestas. Amet nulla facilisi morbi tempus. Rhoncus dolor purus non enim praesent elementum facilisis leo vel."
     }
   ],
