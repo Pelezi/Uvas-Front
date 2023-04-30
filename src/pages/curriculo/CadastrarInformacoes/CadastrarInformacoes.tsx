@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
 import styles from "./CadastrarInformacoes.module.css";
@@ -9,6 +8,8 @@ import Textarea from "../../../components/forms/Textarea/Textarea";
 import { Informacoes, updateInfomacoes, getInformacoes } from "../../../services/informacoesService";
 import InformacoesCard from "./InformacoesCard/InformacoesCard";
 import Button from "../../../components/common/Button";
+import Form from "../../../components/forms/Form";
+import Title from "../../../components/common/Title";
 
 const CadastrarInformacoes: React.FC = () => {
 
@@ -16,13 +17,14 @@ const CadastrarInformacoes: React.FC = () => {
 
     const initialValues: Informacoes = {
         id: 1,
-        foto: '',
-        nome: '',
-        cargo: '',
-        resumo: ''
+        foto: "",
+        nome: "",
+        cargo: "",
+        resumo: ""
     };
 
     const validationSchema = Yup.object().shape({
+        id: Yup.number(),
         foto: Yup.string().required('Campo obrigatório'),
         nome: Yup.string().required('Campo obrigatório'),
         cargo: Yup.string().required('Campo obrigatório'),
@@ -72,17 +74,16 @@ const CadastrarInformacoes: React.FC = () => {
 
     return (
         <div className={styles.formWrapper}>
-
-            <Formik 
-            initialValues={informacoes} 
-            enableReinitialize={true}
-            validationSchema={validationSchema} 
-            onSubmit={onSubmit}>
+            <Form
+                initialValues={informacoes}
+                enableReinitialize={true}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}>
                 {({ errors, touched }) => (
 
-                    <Form className={styles.form}>
+                    <>
 
-                        <h2 className={styles.title}>Cadastrar Informações</h2>
+                        <Title>Cadastrar Informações</Title>
 
                         <Input
                             label="Foto"
@@ -114,11 +115,11 @@ const CadastrarInformacoes: React.FC = () => {
 
                         <Button type="submit" >Salvar</Button>
 
-                    </Form>
+                    </>
 
                 )}
 
-            </Formik>
+            </Form>
 
             {informacoes &&
                 Object.entries(informacoes).some(
@@ -131,7 +132,6 @@ const CadastrarInformacoes: React.FC = () => {
                     </div>
                 )
             }
-
         </div>
     );
 };

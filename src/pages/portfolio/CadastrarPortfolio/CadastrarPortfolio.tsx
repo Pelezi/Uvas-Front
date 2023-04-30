@@ -1,14 +1,15 @@
 import React from "react";
 
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
 
 
-import styles from "./CadastrarPortfolio.module.css";
 import Input from "../../../components/forms/Input/Input";
 
 import { Portfolio, createOrUpdatePortfolio } from "../../../services/portfolioService";
+import Form from "../../../components/forms/Form";
+import Title from "../../../components/common/Title";
+import Button from "../../../components/common/Button";
 
 const ListaPortfolio: React.FC = () => {
 
@@ -25,6 +26,7 @@ const ListaPortfolio: React.FC = () => {
     }
     
     const validationSchema = Yup.object().shape({
+        id: Yup.number(),
         link: Yup.string().required("Campo obrigatório"),
         image: Yup.string().required("Campo obrigatório"),
         title: Yup.string().required("Campo obrigatório"),
@@ -45,16 +47,15 @@ const ListaPortfolio: React.FC = () => {
     };
 
     return (
-        <div className={styles.formWrapper}>
-            <Formik
+            <Form
                 initialValues={portfolio || initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
             >
                 {({ errors, touched }) => (
-                    <Form className={styles.form}>
+                    <>
 
-                        <h2 className={styles.title}>Cadastro de Portfolio</h2>
+                        <Title>Cadastro de Portfolio</Title>
 
                         <Input
                             label="Link"
@@ -84,13 +85,11 @@ const ListaPortfolio: React.FC = () => {
                             touched={touched.description}
                         />
 
-                        <button type="submit" className={styles.button}>Enviar</button>
+                        <Button>Enviar</Button>
 
-
-                    </Form>
+                    </>
                 )}
-            </Formik>
-        </div>
+            </Form>
     )
 }
 

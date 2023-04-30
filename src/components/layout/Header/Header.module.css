@@ -2,12 +2,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 0 1rem;
     background-color: #333;
     color:#fff;
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: bold;
+}
+
+.logo p {
+    margin: 1rem 0;
 }

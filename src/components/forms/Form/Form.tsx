@@ -10,14 +10,17 @@ interface FormProps<T> {
     validationSchema: Yup.ObjectSchema<Partial<T>>;
     onSubmit: (values: T, formikHelpers: FormikHelpers<T>) => void | Promise<void>;
     children: (FormikProps: FormikProps<T>) => React.ReactNode;
+    enableReinitialize?: boolean;
+    isSmall?: boolean;
 }
 
-const Form = <T extends FormikValues>({ initialValues, validationSchema, onSubmit, children }: FormProps<T>) => {
+const Form = <T extends FormikValues>({ initialValues, validationSchema, enableReinitialize, isSmall, onSubmit, children }: FormProps<T>) => {
     return (
-        <div className={styles.formWrapper}>
+        <div className={`${styles.formWrapper} ${isSmall && styles.smallWrapper}`}>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
+                enableReinitialize={enableReinitialize}
                 onSubmit={onSubmit}
             >
                 {(formikProps) => (

@@ -1,16 +1,17 @@
 import React from "react";
 
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
 
 
-import styles from "./CadastrarExperiencia.module.css";
 import Input from "../../../components/forms/Input/Input";
 import Textarea from "../../../components/forms/Textarea/Textarea";
 import Select from "../../../components/forms/Select/Select";
 
 import { Experiencia, createOrUpdateExperiencia } from "../../../services/experienciaService";
+import Form from "../../../components/forms/Form";
+import Title from "../../../components/common/Title";
+import Button from "../../../components/common/Button";
 
 const CadastrarExperiencia: React.FC = () => {
 
@@ -23,11 +24,12 @@ const CadastrarExperiencia: React.FC = () => {
         titulo: "",
         descricao: "",
         tipo: "",
-        anoInicio: "",
-        anoFim: "",
+        anoInicio: 0,
+        anoFim: 0,
     };
 
     const validationSchema = Yup.object().shape({
+        id: Yup.number(),
         titulo: Yup.string().required("Campo obrigatório"),
         descricao: Yup.string(),
         tipo: Yup.string().required("Campo obrigatório"),
@@ -49,15 +51,14 @@ const CadastrarExperiencia: React.FC = () => {
     }
 
     return (
-        <div className={styles.formWrapper}>
-            <Formik
+            <Form
                 initialValues={experiencia || initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
             >
                 {({ errors, touched }) => (
-                    <Form className={styles.form}>
-                        <h1 className={styles.title}>Cadastrar Experiência</h1>
+                    <>
+                        <Title>Cadastrar Experiência</Title>
 
                         <Input
                             label="Título"
@@ -98,14 +99,11 @@ const CadastrarExperiencia: React.FC = () => {
                             touched={touched.descricao}
                         />
 
-                        <button type="submit" className={styles.button}>Salvar</button>
+                        <Button>Salvar</Button>
 
-
-                    </Form>
-                
+                    </>
                 )}
-            </Formik>
-        </div>
+            </Form>
     );
 };
 

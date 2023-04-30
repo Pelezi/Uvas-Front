@@ -56,6 +56,7 @@ const Login = () => {
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
+                isSmall
             >
                 {({ errors, touched }) => (
                     <>
