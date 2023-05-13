@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.infoBoxContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 1rem;
+}
+.title {
+    font-size: 30px;
+    margin: 0;
+}

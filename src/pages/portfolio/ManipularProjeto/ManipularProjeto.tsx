@@ -3,42 +3,40 @@ import React from "react";
 import * as Yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
-import Input from "../../../components/forms/Input/Input";
-
-import { Portfolio, createOrUpdatePortfolio } from "../../../services/portfolioService";
 import Form from "../../../components/forms/Form";
-import Title from "../../../components/common/Title";
+import Input from "../../../components/forms/Input/Input";
 import Button from "../../../components/common/Button";
+import Title from "../../../components/common/Title";
+import Textarea from "../../../components/forms/Textarea";
 
-const ListaPortfolio: React.FC = () => {
 
+import { Projeto, createOrUpdateProjeto } from "../../../services/portfolioService";
+
+
+const ManipularProjeto = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const portfolio = location.state as Portfolio;
+    const portfolio = useLocation().state as Projeto;
 
-    const initialValues: Portfolio = {
-        id: 0,
+    const initialValues: Projeto = {
         link: "",
         image: "",
         title: "",
-        description: "",
-    }
+        description: ""
+    };
     
     const validationSchema = Yup.object().shape({
-        id: Yup.number(),
         link: Yup.string().required("Campo obrigatório"),
         image: Yup.string().required("Campo obrigatório"),
         title: Yup.string().required("Campo obrigatório"),
-        description: Yup.string(),
-    })
+        description: Yup.string()
+    });
 
-    const onSubmit = async (values: Portfolio, { resetForm }: { resetForm: () => void }) => {
+    const onSubmit = async (values: Projeto, { resetForm }: { resetForm: () => void }) => {
         try {
-            await createOrUpdatePortfolio(values);
+            await createOrUpdateProjeto(values);
             console.log(values);
             resetForm();
-            navigate("/portfolio/lista");
+            navigate("/portfolio/listar");
             alert("Formulário enviado com sucesso!");
         } catch (error) {
             console.log("Erro ao enviar formulário", error);
@@ -55,7 +53,26 @@ const ListaPortfolio: React.FC = () => {
                 {({ errors, touched }) => (
                     <>
 
-                        <Title>Cadastro de Portfolio</Title>
+                        {
+                            !portfolio ?
+                                <Title>Cadastrar Projeto</Title>
+                                :
+                                <Title>Atualizar Projeto</Title>
+                        }
+
+                        <Input
+                            label="Título"
+                            name="title"
+                            errors={errors.title}
+                            touched={touched.title}
+                        />
+
+                        <Input
+                            label="Imagem" 
+                            name="image"
+                            errors={errors.image}
+                            touched={touched.image}
+                        />
 
                         <Input
                             label="Link"
@@ -64,33 +81,19 @@ const ListaPortfolio: React.FC = () => {
                             touched={touched.link}
                         />
 
-                        <Input
-                            label="Imagem"
-                            name="image"
-                            errors={errors.image}
-                            touched={touched.image}
-                        />
-
-                        <Input 
-                            label="Título"
-                            name="title"
-                            errors={errors.title}
-                            touched={touched.title}
-                        />
-
-                        <Input
+                        <Textarea
                             label="Descrição"
                             name="description"
                             errors={errors.description}
                             touched={touched.description}
                         />
 
-                        <Button>Enviar</Button>
+                        <Button type="submit">Salvar</Button>
 
                     </>
                 )}
             </Form>
-    )
-}
+    );
+};
 
-export default ListaPortfolio;
+export default ManipularProjeto;

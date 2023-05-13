@@ -1,42 +1,42 @@
 import api from './api';
 
-export interface Portfolio {
-    id: number;
+export interface Projeto {
+    id?: number;
     link: string;
     image: string;
     title: string;
-    description: string;
+    description?: string;
 }
 
-export const createPortfolio = async (portfolio: Portfolio) => {
-    const response = await api.post('/portfolio', portfolio);
+export const createProjeto = async (projeto: Projeto): Promise<Projeto> => {
+    const response = await api.post<Projeto>("/portfolio", projeto);
     return response.data;
 }
 
-export const getItensPortfolio = async () => {
-    const response = await api.get('/portfolio');
+export const getPortfolio = async (): Promise<Projeto[]> => {
+    const response = await api.get<Projeto[]>("/portfolio");
     return response.data;
 }
 
-export const getPortfolioById = async (id: number) => {
-    const response = await api.get(`/portfolio/${id}`);
+export const deleteProjeto = async (id: number | undefined): Promise<Projeto> => {
+    const response = await api.delete<Projeto>(`/portfolio/${id}`);
     return response.data;
 }
 
-export const updatePortfolio = async (portfolio: Portfolio) => {
-    const response = await api.put(`/portfolio/${portfolio.id}`, portfolio);
+export const updateProjeto = async (projeto: Projeto): Promise<Projeto> => {
+    const response = await api.put<Projeto>(`/portfolio/${projeto.id}`, projeto);
     return response.data;
 }
 
-export const deletePortfolio = async (id: number) => {
-    const response = await api.delete(`/portfolio/${id}`);
+export const getProjeto = async (id: number): Promise<Projeto> => {
+    const response = await api.get<Projeto>(`/portfolio/${id}`);
     return response.data;
 }
 
-export const createOrUpdatePortfolio = async (portfolio: Portfolio) => {
-    if (portfolio.id === 0) {
-        return await createPortfolio(portfolio);
+export const createOrUpdateProjeto = async (projeto: Projeto): Promise<Projeto> => {
+    if (!projeto.id) {
+        return await createProjeto(projeto);
     } else {
-        return await updatePortfolio(portfolio);
+        return await updateProjeto(projeto);
     }
 }

@@ -1,18 +1,22 @@
 .container {
+    height: 100%;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
 }
 
 .main {
     display: flex;
     flex: 1;
+    height: 165px;
 }
-.content { 
+
+.content {
+    display: flex;
     padding: 1rem;
     flex: 1;
-}
-.active {
-    font-weight: bold; 
-    text-decoration: underline;
+    justify-content: center;
+    overflow-y: auto;
+    height: 100%;
+    box-sizing: border-box;
 }

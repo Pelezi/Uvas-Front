@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+
 import { User } from "../services/userServices";
 
 interface AuthContextProps {
@@ -43,5 +44,5 @@ export const AuthProvider: React.FC = ({ children }) => {
         <AuthContext.Provider value={{ authenticated, user, login, logout, isLoading }}>
             {children}
         </AuthContext.Provider>
-    )
+    );
 }

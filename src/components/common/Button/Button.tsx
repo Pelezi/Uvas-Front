@@ -10,9 +10,15 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ type = "button", onClick, red, children }) => {
-    return <button type={type} onClick={onClick} className={`${styles.button} ${red && styles.redButton}`}>
-        {children}
-    </button>;
+    return (
+        <button
+            type={type}
+            onClick={onClick}
+            className={`${styles.button} ${red && styles.redButton}`}
+        >
+            {children}
+        </button>
+    );
 };
 
 export default Button;

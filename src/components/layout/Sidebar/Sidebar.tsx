@@ -3,6 +3,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 import styles from "./Sidebar.module.css";
+
 import { useAuth } from "../../../contexts/AuthContext";
 
 const Sidebar = () => {
@@ -11,41 +12,44 @@ const Sidebar = () => {
     return(
         <div className={styles.sidebar}>
             <nav className={styles.navigation}>
+
                 <ul>
                     <li>
                         <NavLink to="/">
-                            <h3>Home</h3>
+                            <h3>Dashboard</h3>
                         </NavLink>
                     </li>
                 </ul>
+
                 <h3>Currículo</h3>
                 <ul>
                     <li>
-                        <NavLink to="/curriculo/informacoes/cadastro">
-                            Cadastrar Informações
+                        <NavLink to="/curriculo/informacoes">
+                            Informações
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/curriculo/experiencia/cadastro">
+                        <NavLink to="/curriculo/experiencia/cadastrar">
                             Cadastrar Experiência
                         </NavLink>
                     </li>
                     <li>
-                    <NavLink to="/curriculo/experiencia/lista">
-                        Lista de Experiências
+                    <NavLink to="/curriculo/experiencia/listar">
+                        Listar Experiências
                     </NavLink>
                     </li>
                 </ul>
+
                 <h3>Portfólio</h3>
                 <ul>
                     <li>
-                        <NavLink to="/portfolio/cadastro">
-                            Cadastrar Portfólio
+                        <NavLink to="/portfolio/cadastrar">
+                            Cadastrar Projeto
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/portfolio/lista">
-                            Listagem de Portfolios
+                        <NavLink to="/portfolio/listar">
+                            Listar Portfólio
                         </NavLink>
                     </li>
                 </ul>

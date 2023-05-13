@@ -1,30 +1,21 @@
 import React from 'react';
-import { Field, ErrorMessage } from 'formik';
+
 import styles from './Textarea.module.css';
 
-interface TextareaProps {
-    label?: string;
-    name: string;
-    errors?: string;
-    touched?: boolean;
-}
+import Input, { InputProps } from '../Input';
 
-const Textarea: React.FC<TextareaProps> = ({ label, name, errors, touched }) => {
+interface TextareaProps extends InputProps {}
+
+const Textarea: React.FC<TextareaProps> = ({ label, name, as="textarea", errors, touched }) => {
     return (
-        <div className={styles.formGroup}>
-            {label && (
-                <label htmlFor={name} className={styles.label}>
-                    {label}:
-                </label>
-            )}
-            <Field 
-                as="textarea" 
-                id={name} 
-                name={name} 
-                className={`${styles.textarea} ${touched && errors && styles.error}`} 
-            />
-            <ErrorMessage name={name} component="div" className={styles.errorMsg} />
-        </div>
+        <Input 
+            label={label}
+            name={name}
+            as={as}
+            errors={errors}
+            touched={touched}
+            className={styles.textarea}
+        />
     );
 };
 

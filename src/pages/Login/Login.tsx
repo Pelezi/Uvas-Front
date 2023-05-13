@@ -2,48 +2,43 @@ import React from "react";
 
 // import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./Login.module.css";
 
 import Input from "../../components/forms/Input";
-import { useNavigate } from "react-router-dom";
-import { login as loginService } from "../../services/authService";
-import { useAuth } from "../../contexts/AuthContext";
-
 import Form from "../../components/forms/Form";
 import Button from "../../components/common/Button";
 import Title from "../../components/common/Title";
 
-interface LoginValues {
-    email: string;
-    password: string;
-}
+import { LoginData, login as loginService } from "../../services/authService";
 
-const initialValues: LoginValues = {
-    email: "",
-    password: "",
-};
-
-const validationSchema = Yup.object().shape({
-    email: Yup.string()
-        .email("E-mail inválido")
-        .required("E-mail é obrigatório"),
-    password: Yup.string()
-        .min(6, "A senha deve ter no mínimo 6 caracteres")
-        .required("Senha é obrigatória"),
-});
+import { useAuth } from "../../contexts/AuthContext";
 
 const Login = () => {
 
     const navigate = useNavigate();
     const { login } = useAuth();
 
-    const onSubmit = async (values: LoginValues) => {
+    const initialValues: LoginData = {
+        email: "",
+        password: "",
+    };
+
+    const validationSchema = Yup.object().shape({
+        email: Yup.string()
+            .email("E-mail inválido")
+            .required("E-mail é obrigatório"),
+        password: Yup.string()
+            .min(6, "A senha deve ter no mínimo 6 caracteres")
+            .required("Senha é obrigatória"),
+    });
+
+    const onSubmit = async (values: LoginData) => {
         try {
-            const user = await loginService(values.email, values.password);
+            const user = await loginService(values);
             login(user);
             navigate('/');
-            console.log(values);
         } catch (error) {
             console.log(error);
             alert('Erro ao realizar login');
@@ -56,7 +51,6 @@ const Login = () => {
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
-                isSmall
             >
                 {({ errors, touched }) => (
                     <>

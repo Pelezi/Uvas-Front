@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
 
 import * as Yup from "yup";
+import { AxiosError } from "axios";
 
-import styles from "./CadastrarInformacoes.module.css";
-import Input from "../../../components/forms/Input/Input";
-import Textarea from "../../../components/forms/Textarea/Textarea";
-import { Informacoes, updateInfomacoes, getInformacoes } from "../../../services/informacoesService";
-import InformacoesCard from "./InformacoesCard/InformacoesCard";
-import Button from "../../../components/common/Button";
 import Form from "../../../components/forms/Form";
+import Input from "../../../components/forms/Input";
 import Title from "../../../components/common/Title";
+import Button from "../../../components/common/Button";
+import InformacoesCard from "./InformacoesCard/InformacoesCard";
+import Textarea from "../../../components/forms/Textarea";
 
-const CadastrarInformacoes: React.FC = () => {
+import { Informacoes, getInformacoes, deleteInformacoes, createOrUpdateInformacoes } from "../../../services/informacoesService";
 
-    const [informacoes, setInformacoes] = useState<Informacoes>({} as Informacoes);
+import styles from "./ManipularInformacoes.module.css";
+
+const ManipularInformacoes: React.FC = () => {
+
+    const [informacoes, setInformacoes] = useState<Informacoes>();
 
     const initialValues: Informacoes = {
-        id: 1,
         foto: "",
         nome: "",
         cargo: "",
@@ -24,7 +26,6 @@ const CadastrarInformacoes: React.FC = () => {
     };
 
     const validationSchema = Yup.object().shape({
-        id: Yup.number(),
         foto: Yup.string().required('Campo obrigatório'),
         nome: Yup.string().required('Campo obrigatório'),
         cargo: Yup.string().required('Campo obrigatório'),
@@ -36,7 +37,13 @@ const CadastrarInformacoes: React.FC = () => {
             const informacao = await getInformacoes();
             setInformacoes(informacao);
         } catch (error) {
-            console.error('Erro ao buscar informações', error);
+            if (error instanceof AxiosError) {
+                if (error.response?.status !== 404) {
+                    console.log('Erro ao buscar informações', error);
+                }
+            } else {
+                console.error('Ocorreu um erro desconhecido ao buscar informações', error);
+            }
         }
     };
 
@@ -44,27 +51,22 @@ const CadastrarInformacoes: React.FC = () => {
         fetchInformacao();
     }, []);
 
-    const onSubmit = async (values: Informacoes, { resetForm }: { resetForm: () => void }) => {
+    const onSubmit = async (values: Informacoes) => {
         try {
-            await updateInfomacoes(values);
+            await createOrUpdateInformacoes(values);
             setInformacoes(values);
-            console.log(values);
-            resetForm();
             alert('Formulário enviado com sucesso!');
-
         } catch (error) {
-
             console.error('Erro ao enviar formulário', error);
             alert('Erro ao enviar formulário. Tente novamente.')
-
         }
     };
 
     const handleDelete = async () => {
         try {
-            await updateInfomacoes(initialValues);
-            setInformacoes(initialValues);
-            alert('Formulário deletado com sucesso!');
+            await deleteInformacoes();
+            setInformacoes(undefined);
+            alert('Informações deletadas com sucesso!');
         } catch (error) {
             console.error('Erro ao deletar formulário', error);
             alert('Erro ao deletar formulário. Tente novamente.')
@@ -73,17 +75,19 @@ const CadastrarInformacoes: React.FC = () => {
 
 
     return (
-        <div className={styles.formWrapper}>
+        <div className={styles.container}>
+
             <Form
-                initialValues={informacoes}
+                initialValues={informacoes || initialValues}
                 enableReinitialize={true}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}>
+
                 {({ errors, touched }) => (
 
                     <>
 
-                        <Title>Cadastrar Informações</Title>
+                        <Title>Informações</Title>
 
                         <Input
                             label="Foto"
@@ -122,18 +126,14 @@ const CadastrarInformacoes: React.FC = () => {
             </Form>
 
             {informacoes &&
-                Object.entries(informacoes).some(
-                    ([Key, value]) => Key !== "id" && value.trim() !== ""
-                ) && (
-                    <div className={styles.cardContainer}>
+                <div className={styles.cardContainer}>
                         <InformacoesCard informacoes={informacoes} />
 
                         <Button onClick={handleDelete} red >Deletar</Button>
                     </div>
-                )
             }
         </div>
     );
 };
 
-export default CadastrarInformacoes;
+export default ManipularInformacoes;

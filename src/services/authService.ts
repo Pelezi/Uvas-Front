@@ -1,11 +1,16 @@
 import { User, getUserByEmail } from "./userServices";
 
-export async function login(email: string, password: string): Promise<User> {
-    const user = await getUserByEmail(email);
+export interface LoginData {
+    email: string;
+    password: string;
+}
 
-    if (user && user.password === password) {
-    return user;
+export const login = async (loginData: LoginData): Promise<User> => {
+    const user = await getUserByEmail(loginData.email);
+
+    if (user && user.password === loginData.password) {
+        return user;
     } else {
-        throw new Error("Email ou senha incorretos");
+        throw new Error("Email e/ou senha incorreto(s).");
     }
 } 
