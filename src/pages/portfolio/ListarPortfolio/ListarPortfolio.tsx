@@ -27,7 +27,7 @@ const ListarPortfolio: React.FC = () => {
     }, []);
 
     const handleEdit = (itemPortfolio: Projeto) => {
-        navigate("/projeto/atualizar", { state: itemPortfolio });
+        navigate("/portfolio/atualizar", { state: itemPortfolio });
     };
 
     const handleDelete = async (portfolio: Projeto) => {
