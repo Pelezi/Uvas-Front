@@ -38,7 +38,7 @@ const ManipularExperiencia: React.FC = () => {
             await createOrUpdateExperiencia(values);
             console.log(values);
             resetForm();
-            navigate("/curriculo/experiencia/lista");
+            navigate("/curriculo/experiencia/listar");
             alert("Formulário enviado com sucesso!");
         } catch (error) {
             console.error("Erro ao enviar formulário", error);
