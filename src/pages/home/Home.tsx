@@ -2,50 +2,28 @@ import React, { useEffect, useState} from "react";
 
 import styles from "./Home.module.css";
 
-import { FaGraduationCap, FaBriefcase, FaFolder } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
 import Title from "../../components/common/Title";
 import InfoBox from "../../components/common/InfoBox";
 
-import { Projeto, getPortfolio } from "../../services/portfolioService";
-import { Experiencia, getExperienciasByType} from "../../services/experienciaService";
+import { Pessoa, getPessoas } from "../../services/pessoaService";
 
 const Home = () => {
-    const [experienciasAcademicas, setExperienciasAcademicas] = useState<Experiencia[]>([]);
-    const [experienciasProfissionais, setExperienciasProfissionais] = useState<Experiencia[]>([]);
-    const [portfolio, setPortfolio] = useState<Projeto[]>([]);
+    const [pessoas, setPessoas] = useState<Pessoa[]>([]);
 
-    const fetchExperienciasAcademicas = async () => {
+    const fetchPessoas = async () => {
         try {
-            const response = await getExperienciasByType("academico");
-            setExperienciasAcademicas(response);
+            const response = await getPessoas();
+            setPessoas(response);
         } catch (error) {
             console.log(error);
         }
-    };
-
-    const fetchExperienciasProfissionais = async () => {
-        try {
-            const response = await getExperienciasByType("profissional");
-            setExperienciasProfissionais(response);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const fetchPortfolio = async () => {
-        try {
-            const response = await getPortfolio();
-            setPortfolio(response);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    
+    }
 
     useEffect(() => {
-        fetchExperienciasAcademicas();
-        fetchExperienciasProfissionais();
-        fetchPortfolio();
+        fetchPessoas();
     }, []);
 
     return (
@@ -55,20 +33,9 @@ const Home = () => {
             <div className={styles.infoBoxContainer}>
                 <InfoBox 
                     title="Experiências Acadêmicas"
-                    value={experienciasAcademicas.length}
-                    icon={<FaGraduationCap size={65} />}
+                    value={pessoas.length}
+                    icon={<FaUser size={65} />}
                 />
-                <InfoBox
-                    title="Experiências Profissionais"
-                    value={experienciasProfissionais.length}
-                    icon={<FaBriefcase size={65} />}
-                />
-                <InfoBox
-                    title="Projetos no Portfólio"
-                    value={portfolio.length}
-                    icon={<FaFolder size={65} />}
-                />
-
             </div>
         </main>
     )
