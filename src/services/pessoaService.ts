@@ -1,7 +1,7 @@
 import api from './api';
 
 export interface Pessoa {
-    id?: string;
+    id: string;
     nome: string;
     cargo: string;
     enderecoId?: {

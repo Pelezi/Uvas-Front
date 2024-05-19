@@ -18,6 +18,7 @@ const ManipularPessoa: React.FC = () => {
     const pessoa = useLocation().state as Pessoa;
 
     const initialValues: Pessoa = {
+        id: "",
         nome: "",
         cargo: "",
         enderecoId: {

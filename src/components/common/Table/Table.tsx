@@ -12,14 +12,14 @@ export interface Column<T> {
 }
 
 
-interface TableProps<T> {
+interface TableProps<T extends { id: any }> {
     columns: Column<T>[];
     data: T[];
     handleEdit?: (item: T) => void;
     handleDelete?: (item: T) => void;
 }
 
-export const Table = <T,>({ columns, data, handleEdit, handleDelete }: TableProps<T>): JSX.Element => {
+export const Table = <T extends { id: any},>({ columns, data, handleEdit, handleDelete }: TableProps<T>): JSX.Element => {
     return (
         <table className={styles.table}>
             <thead>

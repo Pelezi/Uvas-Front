@@ -3,11 +3,6 @@ import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import Home from '../pages/home';
-import ListarPortfolio from '../pages/portfolio/ListarPortfolio';
-import ListarExperiencia from '../pages/curriculo/ListarExperiencia';
-import ManipularProjeto from '../pages/portfolio/ManipularProjeto';
-import ManipularInformacoes from '../pages/curriculo/ManipularInformacoes';
-import ManipularExperiencia from '../pages/curriculo/ManipularExperiencia';
 import ListarPessoas from '../pages/pessoas/ListarPessoas';
 import ManipularPessoas from '../pages/pessoas/ManipularPessoas';
 
@@ -31,16 +26,6 @@ const AuthRoutes: React.FC = () => {
     return (
         <Layout>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/curriculo/informacoes" element={<ManipularInformacoes />} />
-                <Route path="/curriculo/experiencia/cadastrar" element={<ManipularExperiencia />} />
-                <Route path="/curriculo/experiencia/atualizar" element={<ManipularExperiencia />} />
-                <Route path="/curriculo/experiencia/listar" element={<ListarExperiencia />} />
-
-                <Route path="/portfolio/cadastrar" element={<ManipularProjeto />} />
-                <Route path="/portfolio/atualizar" element={<ManipularProjeto />} />
-                <Route path="/portfolio/listar" element={<ListarPortfolio />} />
-
                 <Route path="/pessoas/cadastrar" element={<ManipularPessoas />} />
                 <Route path="/pessoas/atualizar" element={<ManipularPessoas />} />
                 <Route path="/pessoas/listar" element={<ListarPessoas />} />
