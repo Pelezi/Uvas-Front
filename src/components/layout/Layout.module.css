@@ -20,3 +20,24 @@
     height: 100%;
     box-sizing: border-box;
 }
+
+.sidebarToggle {
+    position: fixed;
+    display: none;
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-weight: 400;
+    font-size: 27px;
+}
+
+@media screen and (max-width: 600px) {
+    .sidebarToggle {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 1rem;
+        cursor: pointer;
+    }
+}

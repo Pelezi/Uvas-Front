@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Header from "./Header";
 import Sidebar from "./Sidebar";
@@ -11,11 +11,23 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+    const [show, setShow] = useState(false);
+
+    const toggleSidebar = () => {
+        setShow(prevShow => !prevShow);
+    };
+
     return (
         <div className={styles.container}>
             <Header />
             <div className={styles.main}>
-                <Sidebar />
+                <div className={styles.sidebar}>
+                    <div>
+                        <button className={styles.sidebarToggle} id="sidebarToggle" onClick={toggleSidebar}>☰</button>
+                    </div>
+                    {/* <Sidebar /> */}
+                    <Sidebar show={show} />
+                </div>
                 <div className={styles.content}>
                     {children}
                 </div>

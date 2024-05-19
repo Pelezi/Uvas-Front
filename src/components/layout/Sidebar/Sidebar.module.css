@@ -1,8 +1,11 @@
 .sidebar {
     width: 200px;
     background-color: #f1f1f1;
-    padding: 1rem;
+    padding: 1rem 2rem;
     box-sizing: border-box;
+    transition: width 0.3s, opacity 0.3s;
+    opacity: 1;
+    height: 100%;
 }
 
 .navigation ul {
@@ -27,4 +30,24 @@
 
 .navigation a:hover {
     text-decoration: underline;
+}
+
+@media screen and (max-width: 600px) {
+    .sidebar {
+        opacity: 0;
+        width: 0;
+        padding: 0;
+        overflow: hidden;
+        position: fixed;
+        /* height: 95vh; */
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+        width: 250px;
+        padding: 1rem;
+        position: fixed;
+        opacity: 1;
+        box-shadow: #111 0 0 1000px;
+    }
 }
