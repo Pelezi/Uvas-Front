@@ -35,7 +35,14 @@ const Login = () => {
     });
 
     const onSubmit = async (values: User) => {
-        navigate('/');
+        try {
+            const user = await loginService(values);
+            login(user);
+            navigate('/');
+        } catch (error) {
+            console.log(error);
+            alert('Erro ao realizar login');
+        }
     };
 
     return (
