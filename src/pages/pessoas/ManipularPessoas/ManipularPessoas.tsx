@@ -11,6 +11,7 @@ import Textarea from "../../../components/forms/Textarea/Textarea";
 import Title from "../../../components/common/Title";
 
 import { Pessoa, createOrUpdatePessoa } from "../../../services/pessoaService";
+import { getIn } from "formik";
 
 const ManipularPessoa: React.FC = () => {
 
@@ -129,22 +130,28 @@ const ManipularPessoa: React.FC = () => {
                     <Input
                         label="Bairro"
                         name="enderecoId.bairro"
-                        errors={errors.enderecoId}
-                        touched={touched.enderecoId}
+                        // errors={errors.enderecoId}
+                        // touched={touched.enderecoId}
+                        errors={getIn(errors, "enderecoId.bairro")}
+                        touched={getIn(touched, "enderecoId.bairro")}
                     />
 
                     <Input
                         label="Rua"
                         name="enderecoId.rua"
-                        errors={errors.enderecoId}
-                        touched={touched.enderecoId}
+                        // errors={errors.enderecoId}
+                        // touched={touched.enderecoId}
+                        errors={getIn(errors, "enderecoId.rua")}
+                        touched={getIn(touched, "enderecoId.rua")}
                     />
 
                     <Input
                         label="Número"
                         name="enderecoId.numero"
-                        errors={errors.enderecoId}
-                        touched={touched.enderecoId}
+                        // errors={errors.enderecoId}
+                        // touched={touched.enderecoId}
+                        errors={getIn(errors, "enderecoId.numero")}
+                        touched={getIn(touched, "enderecoId.numero")}
                     />
 
                     <Select
@@ -155,8 +162,10 @@ const ManipularPessoa: React.FC = () => {
                             { value: "trabalho", label: "Comercial" },
                             { value: "outro", label: "Outro" },
                         ]}
-                        errors={errors.enderecoId}
-                        touched={touched.enderecoId}
+                        // errors={errors.enderecoId.addressType} 
+                        errors={getIn(errors, "enderecoId.addressType")}
+                        // touched={touched.enderecoId}
+                        touched={getIn(touched, "enderecoId.addressType")}
                     />
 
                     <Button type="submit">Salvar</Button>
