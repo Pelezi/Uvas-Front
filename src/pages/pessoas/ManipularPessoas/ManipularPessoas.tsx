@@ -29,12 +29,14 @@ const ManipularPessoa: React.FC = () => {
         },
         phones: [
             {
+                id: "",
                 numero: "",
                 phoneType: "outro",
             }
         ],
         emails: [
             {
+                id: "",
                 email: "",
                 emailType: "outro",
             }
@@ -45,7 +47,7 @@ const ManipularPessoa: React.FC = () => {
         nome: Yup.string().required("Campo obrigatório"),
         cargo: Yup.string().required("Campo obrigatório"),
         enderecoId: Yup.object().shape({
-            id: Yup.number(),
+            id: Yup.string(),
             bairro: Yup.string(),
             rua: Yup.string(),
             numero: Yup.string(),
@@ -53,14 +55,14 @@ const ManipularPessoa: React.FC = () => {
         }),
         phones: Yup.array().of(
             Yup.object().shape({
-                id: Yup.number(),
+                id: Yup.string(),
                 numero: Yup.string(),
                 phoneType: Yup.string(),
             })
         ),
         emails: Yup.array().of(
             Yup.object().shape({
-                id: Yup.number(),
+                id: Yup.string(),
                 email: Yup.string(),
                 emailType: Yup.string(),
             })

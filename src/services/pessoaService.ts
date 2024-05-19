@@ -5,19 +5,19 @@ export interface Pessoa {
     nome: string;
     cargo: string;
     enderecoId?: {
-        id?: number;
+        id?: string;
         numero?: string;
         rua?: string;
         bairro?: string;
         addressType?: string;
     };
     phones?: {
-        id?: number;
+        id?: string;
         numero?: string;
         phoneType?: string;
     }[];
     emails?: {
-        id?: number;
+        id?: string;
         email?: string;
         emailType?: string;
     }[];
