@@ -18,14 +18,16 @@ const AuthRoutes: React.FC = () => {
         return <p>Carregando...</p>
     }
 
-    if (!authenticated) {
-        return <Navigate to="/login" />
-    }
+    // if (!authenticated) {
+    //     return <Navigate to="/login" />
+    // }
 
 
     return (
         <Layout>
             <Routes>
+                <Route path="/" element={<Home />} />
+                
                 <Route path="/pessoas/cadastrar" element={<ManipularPessoas />} />
                 <Route path="/pessoas/atualizar" element={<ManipularPessoas />} />
                 <Route path="/pessoas/listar" element={<ListarPessoas />} />
