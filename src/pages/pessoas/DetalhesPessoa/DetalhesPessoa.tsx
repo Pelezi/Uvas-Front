@@ -6,6 +6,8 @@ import { Pessoa, deletePessoa, getPessoasById } from "../../../services/pessoaSe
 
 import { useParams } from "react-router-dom";
 
+import styles from "./DetalhesPessoa.module.css";
+
 
 const DetalhesPessoa: React.FC = () => {
 
@@ -47,7 +49,6 @@ const DetalhesPessoa: React.FC = () => {
 
     return (
         <div>
-            <div>Teste</div>
             <p>Nome: {pessoa.nome}</p>
             <p>Cargo: {pessoa.cargo}</p>
             <br />
@@ -55,7 +56,7 @@ const DetalhesPessoa: React.FC = () => {
             <p>Rua: {pessoa.enderecoId?.rua}</p>
             <p>Número: {pessoa.enderecoId?.numero}</p>
             <p>Tipo de endereço: {pessoa.enderecoId?.addressType}</p>
-            <button onClick={() => handleEdit(pessoa)}>Editar</button>
+            <button className={styles.button} onClick={() => handleEdit(pessoa)}>Editar</button>
             <button onClick={() => handleDelete(pessoa)}>Deletar</button>
             <br /><br />
             {pessoa.phones?.map((phone) => (
