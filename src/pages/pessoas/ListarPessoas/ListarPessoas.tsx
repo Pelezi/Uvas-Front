@@ -43,9 +43,14 @@ const ListarPessoa: React.FC = () => {
         }
     };
 
+    const capitalize = (str: string) => {
+        if (typeof str !== 'string') return ''
+        return str.charAt(0).toUpperCase() + str.slice(1)
+    }
+
     const columns: Column<Pessoa>[] = [
         { header: "Nome", accessor: (item) => item.nome },
-        { header: "Cargo", accessor: (item) => item.cargo },
+        { header: "Cargo", accessor: (item) => item.cargo === "frequentador_assiduo" ? "Frequentador assíduo" : capitalize(item.cargo)},
         { header: "Bairro", accessor: (item) => item.enderecoId?.bairro },
         { header: "Rua", accessor: (item) => item.enderecoId?.rua },
         // { header: "Telefone", accessor: (item) => item.phones?.[0]?.numero },

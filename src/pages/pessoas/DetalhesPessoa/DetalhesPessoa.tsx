@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { Table, Column } from "../../../components/common/Table";
-
 import { Pessoa, deletePessoa, getPessoasById } from "../../../services/pessoaService";
 
 import { useParams } from "react-router-dom";
