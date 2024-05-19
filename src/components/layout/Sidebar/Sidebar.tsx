@@ -8,9 +8,11 @@ import { useAuth } from "../../../contexts/AuthContext";
 
 interface SidebarProps {
     show?: boolean;
+    toggleSidebar?: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({show}) => {
+const Sidebar: React.FC<SidebarProps> = ({show, toggleSidebar}) => {
+    
     const { logout } = useAuth();
 
     return (
@@ -19,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({show}) => {
 
                     <ul>
                         <li>
-                            <NavLink to="/">
+                            <NavLink to="/" onClick={toggleSidebar}>
                                 <h3>Dashboard</h3>
                             </NavLink>
                         </li>
@@ -28,12 +30,12 @@ const Sidebar: React.FC<SidebarProps> = ({show}) => {
                     <h3>Pessoas</h3>
                     <ul>
                         <li>
-                            <NavLink to="/pessoas/cadastrar">
+                            <NavLink to="/pessoas/cadastrar" onClick={toggleSidebar}>
                                 Cadastrar Pessoa
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/pessoas/listar">
+                            <NavLink to="/pessoas/listar" onClick={toggleSidebar}>
                                 Listar Pessoas
                             </NavLink>
                         </li>

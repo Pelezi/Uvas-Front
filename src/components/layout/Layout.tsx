@@ -26,7 +26,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         <button className={styles.sidebarToggle} id="sidebarToggle" onClick={toggleSidebar}>☰</button>
                     </div>
                     {/* <Sidebar /> */}
-                    <Sidebar show={show} />
+                    <Sidebar 
+                    show={show} 
+                    toggleSidebar={toggleSidebar}
+                    />
                 </div>
                 <div className={styles.content}>
                     {children}
