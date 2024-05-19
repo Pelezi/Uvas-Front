@@ -1,25 +1,25 @@
 import api from './api';
 
 export interface Pessoa {
-    id?: number;
+    id?: string;
     nome: string;
     cargo: string;
-    enderecoId: {
+    enderecoId?: {
         id?: number;
-        numero: string;
-        Rua: string;
-        bairro: string;
-        addressType: string;
+        numero?: string;
+        rua?: string;
+        bairro?: string;
+        addressType?: string;
     };
-    phones: {
+    phones?: {
         id?: number;
-        number: string;
-        phoneType: string;
+        numero?: string;
+        phoneType?: string;
     }[];
-    emails: {
+    emails?: {
         id?: number;
-        email: string;
-        emailType: string;
+        email?: string;
+        emailType?: string;
     }[];
 }
 
@@ -33,7 +33,7 @@ export const getPessoas = async (): Promise<Pessoa[]> => {
     return response.data;
 }
 
-export const getPessoasById = async (id: number): Promise<Pessoa> => {
+export const getPessoasById = async (id: string): Promise<Pessoa> => {
     const response = await api.get<Pessoa>(`/pessoas/${id}`);
     return response.data;
 }
@@ -43,7 +43,7 @@ export const updatePessoa = async (pessoa: Pessoa): Promise<Pessoa> => {
     return response.data;
 }
 
-export const deletePessoa = async (id: number | undefined): Promise<Pessoa> => {
+export const deletePessoa = async (id: string | undefined): Promise<Pessoa> => {
     const response = await api.delete<Pessoa>(`/pessoas/${id}`);
     return response.data;
 }

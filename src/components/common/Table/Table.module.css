@@ -5,16 +5,36 @@
     height: fit-content;
 }
 
-.th, td {
+.td {
     border: 1px solid #ddd;
-    padding: 8px;
     text-align: left;
 }
 
 .th {
     background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 8px;
 }
 
 img {
     width: 100px;
+}
+
+.row:hover {
+    background-color: #f2f2f2;
+}
+
+.link {
+    display: block;
+    padding: 8px;
+    text-decoration: none;
+    color: black;
+}
+
+.buttons {
+    text-align: center;
+}
+
+.buttons button {
+    margin: 5px;
 }

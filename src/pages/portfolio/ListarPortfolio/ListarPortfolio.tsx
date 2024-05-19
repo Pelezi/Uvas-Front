@@ -43,7 +43,8 @@ const ListarPortfolio: React.FC = () => {
 
     const columns: Column<Projeto>[] = [
         { header: "Título", accessor: "title" },
-        { header: "Imagem", accessor: "image" },
+        // { header: "Imagem", accessor: "image" },
+        { header: "Image", accessor: (item) => item.image, isImage: true },
         { header: "Link", accessor: "link" },
     ];
 

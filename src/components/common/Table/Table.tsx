@@ -2,10 +2,15 @@ import React from "react";
 
 import styles from "./Table.module.css";
 
+import { Link } from "react-router-dom";
+
 export interface Column<T> {
     header: string;
-    accessor: keyof T;
+    // accessor: keyof T;
+    accessor: (item: T) => any;
+    isImage?: boolean;
 }
+
 
 interface TableProps<T> {
     columns: Column<T>[];
@@ -29,19 +34,21 @@ export const Table = <T,>({ columns, data, handleEdit, handleDelete }: TableProp
             </thead>
             <tbody>
                 {data.map((item, index) => (
-                    <tr key={index}>
+                    <tr className={styles.row} key={index}>
                         {columns.map((column, columnIndex) => (
-                            column.accessor == "image" ?
+                            column.isImage ?
                                 <td key={columnIndex} className={styles.td}>
-                                    <img src={item[column.accessor] as string} alt="Imagem" />
+                                    <img src={column.accessor(item)} alt="Imagem" />
                                 </td>
                                 :
                                 <td key={columnIndex} className={styles.td}>
-                                    {item[column.accessor]}
+                                    <Link className={styles.link} to={`/pessoa/${item.id}`}>
+                                        {column.accessor(item)}
+                                    </Link>
                                 </td>
                         ))}
                         {(handleEdit || handleDelete) && (
-                            <td className={styles.td}>
+                            <td className={`${styles.td} ${styles.buttons}`}>
                                 {handleEdit && <button onClick={() => handleEdit(item)}>
                                     Editar
                                 </button>}

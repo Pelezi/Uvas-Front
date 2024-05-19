@@ -28,11 +28,11 @@ const Home = () => {
 
     return (
         <main className={styles.container}>
-            <Title className={styles.title}>Bem-vindo ao BackOffice do Meu site pessoal</Title>
+            <Title className={styles.title}>Bem-vindo ao Uvas</Title>
             <p>Esta é a página inicial onde podemos encontrar algumas estatísticas.</p>
             <div className={styles.infoBoxContainer}>
                 <InfoBox 
-                    title="Experiências Acadêmicas"
+                    title="Pessoas cadastradas"
                     value={pessoas.length}
                     icon={<FaUser size={65} />}
                 />

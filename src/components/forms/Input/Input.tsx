@@ -13,11 +13,12 @@ export interface InputProps {
     touched?: boolean;
     className?: string;
     children?: React.ReactNode;
+    hidden?: boolean;
 };
 
-const Input: React.FC<InputProps> = ({ label, name, type = "text", as, errors, touched, children, className }) => {
+const Input: React.FC<InputProps> = ({ label, name, type = "text", as, errors, touched, children, className, hidden }) => {
     return (
-        <fieldset className={styles.formGroup}>
+        <fieldset className={`${styles.formGroup} ${hidden && styles.hidden}`}>
             <label htmlFor={name} className={styles.label}>
                 {label}:
             </label>

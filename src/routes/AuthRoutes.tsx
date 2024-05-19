@@ -8,10 +8,13 @@ import ListarExperiencia from '../pages/curriculo/ListarExperiencia';
 import ManipularProjeto from '../pages/portfolio/ManipularProjeto';
 import ManipularInformacoes from '../pages/curriculo/ManipularInformacoes';
 import ManipularExperiencia from '../pages/curriculo/ManipularExperiencia';
+import ListarPessoas from '../pages/pessoas/ListarPessoas';
+import ManipularPessoas from '../pages/pessoas/ManipularPessoas';
 
 import Layout from '../components/layout';
 
 import { useAuth } from "../contexts/AuthContext";
+import DetalhesPessoa from "../pages/pessoas/DetalhesPessoa";
 
 const AuthRoutes: React.FC = () => {
     const { authenticated, isLoading } = useAuth();
@@ -37,6 +40,11 @@ const AuthRoutes: React.FC = () => {
                 <Route path="/portfolio/cadastrar" element={<ManipularProjeto />} />
                 <Route path="/portfolio/atualizar" element={<ManipularProjeto />} />
                 <Route path="/portfolio/listar" element={<ListarPortfolio />} />
+
+                <Route path="/pessoas/cadastrar" element={<ManipularPessoas />} />
+                <Route path="/pessoas/atualizar" element={<ManipularPessoas />} />
+                <Route path="/pessoas/listar" element={<ListarPessoas />} />
+                <Route path="/pessoa/:id" element={<DetalhesPessoa />} />
             </Routes>
         </Layout>
     )
