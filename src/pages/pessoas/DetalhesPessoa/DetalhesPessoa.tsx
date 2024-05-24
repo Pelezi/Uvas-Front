@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Pessoa, deletePessoa, getPessoasById } from "../../../services/pessoaService";
+import { Phone, deletePhone, createOrUpdatePhone } from "../../../services/phoneService";
+import { Email, deleteEmail, createOrUpdateEmail } from "../../../services/emailService";
 
 import { useParams } from "react-router-dom";
 
@@ -16,6 +18,8 @@ const DetalhesPessoa: React.FC = () => {
     const navigate = useNavigate();
 
     const [pessoa, setPessoa] = useState<Pessoa>({} as Pessoa);
+    const [phone, setPhone] = useState<Phone>({} as Phone);
+    const [email, setEmail] = useState<Email>({} as Email);
 
     const fetchPessoa = async () => {
         try {
@@ -31,11 +35,11 @@ const DetalhesPessoa: React.FC = () => {
         fetchPessoa();
     }, []);
     
-    const handleEdit = (pessoa: Pessoa) => {
+    const handleEditPessoa = (pessoa: Pessoa) => {
         navigate("/pessoas/atualizar", { state: pessoa });
     }
     
-    const handleDelete = async (pessoa: Pessoa) => {
+    const handleDeletePessoa = async (pessoa: Pessoa) => {
         try {
             await deletePessoa(pessoa.id);
             fetchPessoa();
@@ -46,6 +50,28 @@ const DetalhesPessoa: React.FC = () => {
             
         }
     };
+    const handleDeletePhone = async (phone: string | undefined) => {
+        try {
+            await deletePhone(phone);
+            fetchPessoa();
+            alert("Telefone removido com sucesso!");
+        } catch (error) {
+            console.log("Erro ao remover telefone", error);
+            alert("Erro ao remover telefone. Tente novamente.");
+            
+        }
+    }
+    const handleDeleteEmail = async (email: string | undefined) => {
+        try {
+            await deleteEmail(email);
+            fetchPessoa();
+            alert("Email removido com sucesso!");
+        } catch (error) {
+            console.log("Erro ao remover email", error);
+            alert("Erro ao remover email. Tente novamente.");
+            
+        }
+    }
 
     return (
         <div>
@@ -56,13 +82,14 @@ const DetalhesPessoa: React.FC = () => {
             <p>Rua: {pessoa.enderecoId?.rua}</p>
             <p>Número: {pessoa.enderecoId?.numero}</p>
             <p>Tipo de endereço: {pessoa.enderecoId?.addressType}</p>
-            <button className={styles.button} onClick={() => handleEdit(pessoa)}>Editar</button>
-            <button onClick={() => handleDelete(pessoa)}>Deletar</button>
+            <button className={styles.button} onClick={() => handleEditPessoa(pessoa)}>Editar</button>
+            <button onClick={() => handleDeletePessoa(pessoa)}>Deletar</button>
             <br /><br />
             {pessoa.phones?.map((phone) => (
                 <div>
                     <p key={phone.id}>Telefone: {phone.numero}</p>
                     <p key={phone.id}>Tipo de telefone: {phone.phoneType}</p>
+                    <button onClick={() => handleDeletePhone(phone.id)}>Deletar telefone</button>
                 </div>
             ))}
             <br />
@@ -70,6 +97,7 @@ const DetalhesPessoa: React.FC = () => {
                 <div>
                     <p key={email.id}>Email: {email.email}</p>
                     <p key={email.id}>Tipo de email: {email.emailType}</p>
+                    <button onClick={() => handleDeleteEmail(email.id)}>Deletar email</button>
                 </div>
             ))}
             <br />
