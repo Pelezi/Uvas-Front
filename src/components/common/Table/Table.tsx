@@ -8,6 +8,7 @@ export interface Column<T> {
     header: string;
     accessor: (item: T) => any;
     isImage?: boolean;
+    link?: string;
 }
 
 
