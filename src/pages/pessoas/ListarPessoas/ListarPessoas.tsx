@@ -52,9 +52,7 @@ const ListarPessoa: React.FC = () => {
         { header: "Nome", accessor: (item) => item.nome },
         { header: "Cargo", accessor: (item) => item.cargo === "frequentador_assiduo" ? "Frequentador assíduo" : capitalize(item.cargo)},
         { header: "Bairro", accessor: (item) => item.enderecoId?.bairro },
-        { header: "Rua", accessor: (item) => item.enderecoId?.rua },
-        // { header: "Telefone", accessor: (item) => item.phones?.[0]?.numero },
-        // { header: "Email", accessor: (item) => item.emails?.[0]?.email },
+        { header: "Célula", accessor: (item) => item.celulaId?.nome },
     ];
 
     return (

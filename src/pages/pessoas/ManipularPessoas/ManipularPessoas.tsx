@@ -7,7 +7,6 @@ import Form from "../../../components/forms/Form";
 import Input from "../../../components/forms/Input/Input";
 import Select from "../../../components/forms/Select/Select";
 import Button from "../../../components/common/Button";
-import Textarea from "../../../components/forms/Textarea/Textarea";
 import Title from "../../../components/common/Title";
 
 import { Pessoa, createOrUpdatePessoa } from "../../../services/pessoaService";
@@ -41,10 +40,22 @@ const ManipularPessoa: React.FC = () => {
                 email: "",
                 emailType: "outro",
             }
-        ]
+        ],
+        celulaId: {
+            id: "",
+            nome: "",
+            liderId:{
+                id: "",
+                pessoaId: {
+                    id: "",
+                    nome: "",
+                },
+            },
+        }
     };
 
     const validationSchema = Yup.object().shape({
+        id: Yup.string(),
         nome: Yup.string().required("Campo obrigatório"),
         cargo: Yup.string().required("Campo obrigatório"),
         enderecoId: Yup.object().shape({
@@ -68,6 +79,17 @@ const ManipularPessoa: React.FC = () => {
                 emailType: Yup.string(),
             })
         ),
+        celulaId: Yup.object().shape({
+            id: Yup.string(),
+            nome: Yup.string(),
+            liderId: Yup.object().shape({
+                id: Yup.string(),
+                pessoaId: Yup.object().shape({
+                    id: Yup.string(),
+                    nome: Yup.string(),
+                })
+            })
+        }),
     });
 
     const onSubmit = async (values: Pessoa, { resetForm }: { resetForm: () => void }) => {
@@ -126,7 +148,7 @@ const ManipularPessoa: React.FC = () => {
                         hidden
                     />
 
-                    
+
                     <Input
                         label="Bairro"
                         name="enderecoId.bairro"

@@ -4,6 +4,7 @@ export interface Email {
     id: string;
     emailType: string;
     email: string;
+    pessoaId?: string;
 }
 
 export const createEmail = async (email: Email): Promise<Email> => {

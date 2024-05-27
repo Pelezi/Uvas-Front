@@ -21,6 +21,17 @@ export interface Pessoa {
         email?: string;
         emailType?: string;
     }[];
+    celulaId?: {
+        id?: string;
+        nome?: string;
+        liderId?: {
+            id?: string,
+            pessoaId?: {
+                id?: string,
+                nome?: string
+            }
+        };
+    };
 }
 
 export const createPessoa = async (pessoa: Pessoa): Promise<Pessoa> => {

@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 export interface Column<T> {
     header: string;
-    // accessor: keyof T;
     accessor: (item: T) => any;
     isImage?: boolean;
 }

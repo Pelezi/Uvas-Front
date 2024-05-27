@@ -41,6 +41,20 @@ const Sidebar: React.FC<SidebarProps> = ({show, toggleSidebar}) => {
                         </li>
                     </ul>
 
+                    <h3>Liderança</h3>
+                    <ul>
+                        <li>
+                            <NavLink to="/lideres/cadastrar" onClick={toggleSidebar}>
+                                Cadastrar Líder
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/lideres/listar" onClick={toggleSidebar}>
+                                Listar Líderes
+                            </NavLink>
+                        </li>
+                    </ul>
+
                     <ul>
                         <li>
                             <NavLink onClick={logout} to="/Login">

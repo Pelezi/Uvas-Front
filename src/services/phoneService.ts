@@ -4,6 +4,7 @@ export interface Phone {
     id: string;
     phoneType: string;
     numero: string;
+    pessoaId?: string;
 }
 
 export const createPhone = async (phone: Phone): Promise<Phone> => {

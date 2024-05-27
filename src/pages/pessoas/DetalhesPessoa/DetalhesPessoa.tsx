@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Pessoa, deletePessoa, getPessoasById } from "../../../services/pessoaService";
-import { Phone, deletePhone, createOrUpdatePhone } from "../../../services/phoneService";
-import { Email, deleteEmail, createOrUpdateEmail } from "../../../services/emailService";
+import { deletePhone } from "../../../services/phoneService";
+import { deleteEmail } from "../../../services/emailService";
+import { Celula, getCelulasById } from "../../../services/celulaService";
 
 import { useParams } from "react-router-dom";
 
@@ -18,27 +19,28 @@ const DetalhesPessoa: React.FC = () => {
     const navigate = useNavigate();
 
     const [pessoa, setPessoa] = useState<Pessoa>({} as Pessoa);
-    const [phone, setPhone] = useState<Phone>({} as Phone);
-    const [email, setEmail] = useState<Email>({} as Email);
+    const [celula, setCelula] = useState<Celula>({} as Celula);
 
     const fetchPessoa = async () => {
         try {
             const pessoa = await getPessoasById(String(id));
             setPessoa(pessoa);
+            const celula = await getCelulasById(String(pessoa.celulaId?.id));
+            setCelula(celula);
         } catch (error) {
             console.log('Erro ao buscar pessoas', error);
-            
+
         }
     };
 
     useEffect(() => {
         fetchPessoa();
     }, []);
-    
+
     const handleEditPessoa = (pessoa: Pessoa) => {
         navigate("/pessoas/atualizar", { state: pessoa });
     }
-    
+
     const handleDeletePessoa = async (pessoa: Pessoa) => {
         try {
             await deletePessoa(pessoa.id);
@@ -47,7 +49,7 @@ const DetalhesPessoa: React.FC = () => {
         } catch (error) {
             console.log("Erro ao remover pessoa", error);
             alert("Erro ao remover pessoa. Tente novamente.");
-            
+
         }
     };
     const handleDeletePhone = async (phone: string | undefined) => {
@@ -58,7 +60,7 @@ const DetalhesPessoa: React.FC = () => {
         } catch (error) {
             console.log("Erro ao remover telefone", error);
             alert("Erro ao remover telefone. Tente novamente.");
-            
+
         }
     }
     const handleDeleteEmail = async (email: string | undefined) => {
@@ -69,9 +71,17 @@ const DetalhesPessoa: React.FC = () => {
         } catch (error) {
             console.log("Erro ao remover email", error);
             alert("Erro ao remover email. Tente novamente.");
-            
+
         }
     }
+
+    const handleAddPhone = () => {
+        navigate(`/pessoas/phones/cadastrar/${id}`);
+    };
+
+    const handleAddEmail = () => {
+        navigate(`/pessoas/emails/cadastrar/${id}`);
+    };
 
     return (
         <div>
@@ -93,6 +103,8 @@ const DetalhesPessoa: React.FC = () => {
                 </div>
             ))}
             <br />
+            <button onClick={handleAddPhone}>Adicionar telefone</button>
+            <br />
             {pessoa.emails?.map((email) => (
                 <div>
                     <p key={email.id}>Email: {email.email}</p>
@@ -101,6 +113,21 @@ const DetalhesPessoa: React.FC = () => {
                 </div>
             ))}
             <br />
+            <button onClick={handleAddEmail}>Adicionar email</button>
+            <br />
+            <br />
+            {pessoa.celulaId ?
+                <div>
+                    <p>Célula: {celula.nome}</p>
+                    <p>Líder: {celula.liderId?.pessoaId?.nome}</p>
+                    <p>Bairro: {celula.enderecoId?.bairro}</p>
+                    <p>Rua: {celula.enderecoId?.rua}</p>
+                    <br />
+                </div>
+
+                :
+                null
+            }
 
 
         </div>
