@@ -3,6 +3,8 @@ import api from './api';
 export interface Celula {
     id: string;
     nome: string;
+    diaDaSemana?: string;
+    horario?: string;
     liderId?: {
         id?: string,
         pessoaId?: {
@@ -10,14 +12,21 @@ export interface Celula {
             nome?: string
         }
     };
-    discipuladorId: string;
-    enderecoId?: {
-        id: string;
-        numero: string;
-        rua: string;
-        bairro: string;
-        addressType: string;
+    discipuladorId?: {
+        id?: string,
+        pessoaId?: {
+            id?: string,
+            nome?: string
+        }
     };
+    enderecoId?: {
+        id?: string;
+        numero?: string;
+        rua?: string;
+        bairro?: string;
+        addressType?: string;
+    };
+    pessoas?: string[];
 }
 
 export const createCelula = async (celula: Celula): Promise<Celula> => {

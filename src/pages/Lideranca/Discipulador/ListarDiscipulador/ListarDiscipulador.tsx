@@ -4,20 +4,20 @@ import { useNavigate } from "react-router-dom";
 
 import { Table, Column } from "../../../../components/common/Table";
 
-import { Lider, deleteLider, getLideres } from "../../../../services/liderService";
+import { Discipulador, deleteDiscipulador, getDiscipuladores } from "../../../../services/discipuladorService";
 import { Celula } from "../../../../services/celulaService";
 
-const ListarLider: React.FC = () => {
+const ListarDiscipulador: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const [lideres, setLideres] = useState<Lider[]>([]);
+    const [discipuladores, setDiscipuladores] = useState<Discipulador[]>([]);
     const [celulas, setCelulas] = useState<Celula[]>([]);
 
-    const fetchLideres = async () => {
+    const fetchDiscipuladores = async () => {
         try {
-            const lideres = await getLideres();
-            setLideres(lideres);
+            const discipuladores = await getDiscipuladores();
+            setDiscipuladores(discipuladores);
         } catch (error) {
             console.log('Erro ao buscar líderes', error);
             
@@ -25,26 +25,22 @@ const ListarLider: React.FC = () => {
     };
 
     useEffect(() => {
-        fetchLideres();
+        fetchDiscipuladores();
     }, []);
-
-    const handleEdit = (lider: Lider) => {
-        navigate("/lideres/atualizar", { state: lider });
-    }
     
-    const handleDelete = async (lider: Lider) => {
+    const handleDelete = async (discipulador: Discipulador) => {
         try {
-            await deleteLider(lider.id);
-            fetchLideres();
-            alert("Lider removido com sucesso!");
+            await deleteDiscipulador(discipulador.id);
+            fetchDiscipuladores();
+            alert("Discipulador removida com sucesso!");
         } catch (error) {
-            console.log("Erro ao remover lider", error);
-            alert("Erro ao remover lider. Tente novamente.");
+            console.log("Erro ao remover discipulador", error);
+            alert("Erro ao remover discipulador. Tente novamente.");
             
         }
     };
 
-    const columns: Column<Lider>[] = [
+    const columns: Column<Discipulador>[] = [
         { header: "Nome", accessor: (item) => item.pessoaId.nome, linkAccessor: (item) => item.pessoaId.id },
         { header: "Células", accessor: (item) => item.celulas?.map((celula) => celula.nome).join(", ") },
     ];
@@ -52,11 +48,11 @@ const ListarLider: React.FC = () => {
     return (
         <Table 
             columns={columns}
-            data={lideres}
+            data={discipuladores}
             handleDelete={handleDelete}
         />
         
     )
 };
 
-export default ListarLider;
+export default ListarDiscipulador;

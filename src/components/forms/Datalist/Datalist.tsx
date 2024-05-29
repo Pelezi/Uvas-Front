@@ -34,6 +34,19 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
         if (!selectedOption) {
             setFieldValue(name, "");
             setSelectedNome("");
+        } else {
+            setSelectedNome(selectedOption.nome);
+            setFieldValue(name, selectedOption.id);
+        }
+    }
+
+    const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        const selectedOption = options.find(option => option.id === value);
+
+        if (!selectedOption) {
+            setFieldValue(name, "");
+            setSelectedNome("");
             alert("Opção inválida, por favor selecione uma opção válida");
         } else {
             setSelectedNome(selectedOption.nome);
@@ -53,6 +66,7 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
                 className={`${className ? className : styles.input} ${touched && errors && styles.error}`}
                 list="lista"
                 onChange={handleInputChange}
+                onBlur={handleBlur}
                 placeholder="Selecione uma opção"
             >
             </Field>

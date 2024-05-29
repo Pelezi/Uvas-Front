@@ -49,7 +49,7 @@ const ListarPessoa: React.FC = () => {
     }
 
     const columns: Column<Pessoa>[] = [
-        { header: "Nome", accessor: (item) => item.nome },
+        { header: "Nome", accessor: (item) => item.nome, linkAccessor: (item) => item.id},
         { header: "Cargo", accessor: (item) => item.cargo === "frequentador_assiduo" ? "Frequentador assíduo" : capitalize(item.cargo)},
         { header: "Bairro", accessor: (item) => item.enderecoId?.bairro },
         { header: "Célula", accessor: (item) => item.celulaId?.nome },

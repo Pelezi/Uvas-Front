@@ -16,11 +16,11 @@ interface MultipleDatalistProps {
     errors?: string;
     touched?: boolean;
     className?: string;
-    selectedCelulas: string[];
-    setSelectedCelulas: (selectedCelulas: string[]) => void;
+    selectedGrupos: string[];
+    setSelectedGrupos: (selectedGrupos: string[]) => void;
 }
 
-const MultipleDatalist: React.FC<MultipleDatalistProps> = ({ label, name, options, touched, className, errors, selectedCelulas, setSelectedCelulas }) => {
+const MultipleDatalist: React.FC<MultipleDatalistProps> = ({ label, name, options, touched, className, errors, selectedGrupos, setSelectedGrupos }) => {
     const { setFieldValue } = useFormikContext();
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const [inputValue, setInputValue] = useState("");
@@ -35,7 +35,7 @@ const MultipleDatalist: React.FC<MultipleDatalistProps> = ({ label, name, option
             alert("Opção inválida, por favor selecione uma opção válida");
         } else if (!selectedItems.includes(selectedOption.id)){
             setSelectedItems([...selectedItems, selectedOption.id]);
-            setSelectedCelulas([...selectedItems, selectedOption.id]);
+            setSelectedGrupos([...selectedItems, selectedOption.id]);
             setInputValue("");
             if (!selectedItems.includes(inputValue)) {
                 setFieldValue(name, selectedItems);
@@ -46,7 +46,7 @@ const MultipleDatalist: React.FC<MultipleDatalistProps> = ({ label, name, option
 
     const handleItemRemove = (itemId: string) => {
         setSelectedItems(selectedItems.filter((item) => item !== itemId));
-        setSelectedCelulas(selectedItems.filter((item) => item !== itemId));
+        setSelectedGrupos(selectedItems.filter((item) => item !== itemId));
     }
 
     return (

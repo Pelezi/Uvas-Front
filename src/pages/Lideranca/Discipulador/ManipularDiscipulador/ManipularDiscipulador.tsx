@@ -1,27 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Form from "../../../../components/forms/Form";
 import Button from "../../../../components/common/Button";
 import Title from "../../../../components/common/Title";
 import Datalist from "../../../../components/forms/Datalist/Datalist";
 
-import { Lider, createOrUpdateLider, getLideres } from "../../../../services/liderService";
+import { Discipulador , createOrUpdateDiscipulador, getDiscipuladores } from "../../../../services/discipuladorService";
 
 import MultipleDatalist from "../../../../components/forms/Checkbox";
 import { Pessoa, getPessoas } from "../../../../services/pessoaService";
 import { Celula, getCelulas } from "../../../../services/celulaService";
 import { getIn } from "formik";
 
-const ManipularLider: React.FC = () => {
+const ManipularDiscipulador: React.FC = () => {
 
     const navigate = useNavigate();
-    const lider = useLocation().state as Lider;
 
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
     const [celulas, setCelulas] = useState<Celula[]>([]);
-    const [lideres, setLideres] = useState<Lider[]>([]);
-    const [lideresIds, setLideresIds] = useState<string[]>([]);
+    const [discipuladores, setDiscipuladores] = useState<Discipulador[]>([]);
+    const [discipuladoresIds, setDiscipuladoresIds] = useState<string[]>([]);
 
     const fetchPessoas = async () => {
         try {
@@ -29,7 +28,7 @@ const ManipularLider: React.FC = () => {
             setPessoas(pessoas);
         } catch (error) {
             console.error("Erro ao buscar pessoas", error);
-
+            
         }
     };
 
@@ -39,38 +38,35 @@ const ManipularLider: React.FC = () => {
             setCelulas(celulas);
         } catch (error) {
             console.error("Erro ao buscar celulas", error);
-
+            
         }
     };
 
-    const fetchLideres = async () => {
+    const fetchDiscipuladores = async () => {
         try {
-            const lideres = await getLideres();
-            setLideres(lideres);
-            if (lideres.length > 0) {
-                const lideresIdsList = lideres.map((lider) => lider.pessoaId.id).filter((id) => id !== undefined) as string[];
-                if (lider) {
-                    lideresIdsList.splice(lideresIdsList.indexOf(lider.pessoaId.id), 1);
-                }
-                setLideresIds(lideresIdsList);
+            const discipuladores = await getDiscipuladores();
+            setDiscipuladores(discipuladores);
+            if (discipuladores.length > 0) {
+                const discipuladoresIdsList = discipuladores.map((discipulador) => discipulador.pessoaId.id).filter((id) => id !== undefined) as string[];
+                setDiscipuladoresIds(discipuladoresIdsList);
             }
         } catch (error) {
-            console.error("Erro ao buscar lideres", error);
-
+            console.error("Erro ao buscar discipuladores", error);
+            
         }
-
+    
     };
 
 
 
 
     useEffect(() => {
-        fetchPessoas();
-        fetchCelulas();
-        fetchLideres();
+            fetchPessoas();
+            fetchCelulas();
+            fetchDiscipuladores();
     }, []);
 
-    const initialValues: Lider = {
+    const initialValues: Discipulador = {
         id: "",
         pessoaId: {
             id: "",
@@ -89,12 +85,12 @@ const ManipularLider: React.FC = () => {
         }))
     });
 
-    const onSubmit = async (values: Lider, { resetForm }: { resetForm: () => void }) => {
+    const onSubmit = async (values: Discipulador, { resetForm }: { resetForm: () => void }) => {
         try {
             values.celulas = selectedCelulas.map((celulaId) => ({ id: celulaId }));
-            await createOrUpdateLider(values);
+            await createOrUpdateDiscipulador(values);
             resetForm();
-            navigate("/lideres/listar");
+            navigate("/discipuladores/listar");
             alert("Líder salvo com sucesso!");
         } catch (error) {
             console.error("Erro ao salvar líder", error);
@@ -106,26 +102,21 @@ const ManipularLider: React.FC = () => {
 
     return (
         <Form
-            initialValues={lider || initialValues}
+            initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
         >
             {({ errors, touched }) => (
                 <>
-                    {
-                        !lider ?
-                            <Title>Adicionar Líder</Title>
-                            :
-                            <Title>Atualizar Líder</Title>
-                    }
+                    <Title>Adicionar Líder</Title>
 
-                    <Datalist
+                    <Datalist 
                         label="Id do membro"
                         name="pessoaId.id"
                         options={pessoas}
                         errors={getIn(errors, "pessoaId.id")}
                         touched={getIn(touched, "pessoaId.id")}
-                        optionFilter={lideresIds}
+                        optionFilter={discipuladoresIds}
                     />
 
                     <MultipleDatalist
@@ -145,4 +136,4 @@ const ManipularLider: React.FC = () => {
     );
 };
 
-export default ManipularLider;
+export default ManipularDiscipulador;

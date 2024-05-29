@@ -3,7 +3,7 @@ import api from './api';
 export interface Lider {
     id: string;
     pessoaId: {
-        id?: string
+        id: string
         nome?: string;
     };
     celulas?: {
@@ -13,17 +13,7 @@ export interface Lider {
     }[];
 }
 
-export interface LiderCreateOrUpdate {
-    id?: string;
-    pessoaId: string;
-    celulas?: {
-            id?: string;
-            nome?: string;
-            
-    }[];
-}
-
-export const createLider = async (lider: LiderCreateOrUpdate): Promise<Lider> => {
+export const createLider = async (lider: Lider): Promise<Lider> => {
     const response = await api.post<Lider>('/lideres', lider);
     return response.data;
 }
@@ -38,7 +28,7 @@ export const getLideresById = async (id: string): Promise<Lider> => {
     return response.data;
 }
 
-export const updateLider = async (lider: LiderCreateOrUpdate): Promise<Lider> => {
+export const updateLider = async (lider: Lider): Promise<Lider> => {
     const response = await api.put<Lider>(`/lideres/${lider.id}`, lider);
     return response.data;
 }
@@ -48,7 +38,7 @@ export const deleteLider = async (id: string | undefined): Promise<Lider> => {
     return response.data;
 }
 
-export const createOrUpdateLider = async (lider: LiderCreateOrUpdate): Promise<Lider> => {
+export const createOrUpdateLider = async (lider: Lider): Promise<Lider> => {
     if (!lider.id) {
         return await createLider(lider);
     } else {

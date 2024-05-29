@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 export interface Column<T> {
     header: string;
     accessor: (item: T) => any;
-    isImage?: boolean;
-    link?: string;
+    type?: string;
+    linkAccessor?: (item: T) => string | undefined;
 }
 
 
@@ -36,13 +36,13 @@ export const Table = <T extends { id: any},>({ columns, data, handleEdit, handle
                 {data.map((item, index) => (
                     <tr className={styles.row} key={index}>
                         {columns.map((column, columnIndex) => (
-                            column.isImage ?
+                            column.type === "image" ?
                                 <td key={columnIndex} className={styles.td}>
                                     <img src={column.accessor(item)} alt="Imagem" />
                                 </td>
                                 :
                                 <td key={columnIndex} className={styles.td}>
-                                    <Link className={styles.link} to={`/pessoa/${item.id}`}>
+                                    <Link className={styles.link} to={`/${column.type  ? column.type : "pessoa"}/${column.linkAccessor ? column.linkAccessor(item) : item.id}`}>
                                         {column.accessor(item)}
                                     </Link>
                                 </td>
