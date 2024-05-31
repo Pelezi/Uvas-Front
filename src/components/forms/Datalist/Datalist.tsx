@@ -21,9 +21,10 @@ interface DatalistProps {
     hidden?: boolean;
     options: Options[];
     optionFilter?: string[];
+    filterType: "exclude" | "include";
 }
 
-const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touched, as, hidden, className, optionFilter }) => {
+const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touched, as, hidden, className, optionFilter, filterType }) => {
     const { setFieldValue } = useFormikContext();
     const [selectedNome, setSelectedNome] = useState("");
 
@@ -64,17 +65,24 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
                 name={name}
                 as={as ? as : undefined}
                 className={`${className ? className : styles.input} ${touched && errors && styles.error}`}
-                list="lista"
+                list={label}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
                 placeholder="Selecione uma opção"
             >
             </Field>
             <ErrorMessage name={name} component="div" className={styles.errorMsg} />
-            <datalist id="lista">
+            <datalist id={label}>
                 <option value="">Selecione uma opção</option>
                 {options
-                .filter((option) => !optionFilter || !optionFilter.includes(option.id))
+                .filter((option) => {
+                    if (filterType === "include") {
+                        console.log(`include ${optionFilter}`)
+                        return optionFilter && optionFilter.includes(option.id);
+                    } else if (filterType === "exclude") {
+                        console.log(`exclude ${optionFilter}`)
+                        return !optionFilter || !optionFilter.includes(option.id)
+                    }})
                 .map((option) => (
                     <option key={option.id} value={option.id}>
                         {option.nome}

@@ -126,6 +126,7 @@ const ManipularLider: React.FC = () => {
                         errors={getIn(errors, "pessoaId.id")}
                         touched={getIn(touched, "pessoaId.id")}
                         optionFilter={lideresIds}
+                        filterType="exclude"
                     />
 
                     <MultipleDatalist

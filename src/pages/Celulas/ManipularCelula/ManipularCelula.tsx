@@ -13,19 +13,27 @@ import { getIn } from "formik";
 import Datalist from "../../../components/forms/Datalist";
 import { Lider, getLideres } from "../../../services/liderService";
 import { Discipulador, getDiscipuladores } from "../../../services/discipuladorService";
+import { Pessoa, getPessoas } from "../../../services/pessoaService";
 
 const ManipularCelula: React.FC = () => {
     
     const navigate = useNavigate();
     const celula = useLocation().state as Celula;
 
+    const [pessoas, setPessoas] = useState<Pessoa[]>([]);
     const [lideres, setLideres] = useState<Lider[]>([]);
+    const [lideresIds, setLideresIds] = useState<string[]>([]);
     const [discipuladores, setDiscipuladores] = useState<Discipulador[]>([]);
+    const [discipuladoresIds, setDiscipuladoresIds] = useState<string[]>([]);
     
     const fetchLideres = async () => {
         try {
             const lideres = await getLideres();
             setLideres(lideres);
+            if (lideres.length > 0) {
+                const lideresIdsList = lideres.map((lider) => lider.pessoaId.id).filter((id) => id !== undefined) as string[];
+                setLideresIds(lideresIdsList);
+            }
         } catch (error) {
             console.error("Erro ao buscar líderes", error);
         }
@@ -35,14 +43,30 @@ const ManipularCelula: React.FC = () => {
         try {
             const discipuladores = await getDiscipuladores();
             setDiscipuladores(discipuladores);
+            if (discipuladores.length > 0) {
+                const discipuladoresIdsList = discipuladores.map((discipulador) => discipulador.pessoaId.id).filter((id) => id !== undefined) as string[];
+                setDiscipuladoresIds(discipuladoresIdsList);
+                console.log(discipuladoresIdsList);
+            }
         } catch (error) {
             console.error("Erro ao buscar discipuladores", error);
         }
     }
 
+    const fetchPessoas = async () => {
+        try {
+            const pessoas = await getPessoas();
+            setPessoas(pessoas);
+        } catch (error) {
+            console.error("Erro ao buscar pessoas", error);
+        }
+    
+    }
+
     useEffect(() => {
         fetchLideres();
         fetchDiscipuladores();
+        fetchPessoas();
     }, []);
     
 
@@ -194,16 +218,20 @@ const ManipularCelula: React.FC = () => {
 
                     <Datalist 
                         label="Líder"
-                        name="liderId.pessoaId"
-                        options={[]}
+                        name="liderId.pessoaId.id"
+                        options={pessoas}
+                        optionFilter={lideresIds}
+                        filterType="include"
                         errors={getIn(errors, "liderId.pessoaId.id")}
                         touched={getIn(touched, "liderId.pessoaId.id")}
                     />
 
                     <Datalist 
                         label="Discipulador"
-                        name="discipuladorId.pessoaId"
-                        options={[]}
+                        name="discipuladorId.pessoaId.id"
+                        options={pessoas}
+                        optionFilter={discipuladoresIds}
+                        filterType="include"
                         errors={getIn(errors, "discipuladorId.pessoaId.id")}
                         touched={getIn(touched, "discipuladorId.pessoaId.id")}
                     />

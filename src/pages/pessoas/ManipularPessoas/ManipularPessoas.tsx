@@ -25,20 +25,20 @@ const ManipularPessoa: React.FC = () => {
             bairro: "",
             rua: "",
             numero: "",
-            addressType: "outro",
+            addressType: "",
         },
         phones: [
             {
                 id: "",
                 numero: "",
-                phoneType: "outro",
+                phoneType: "",
             }
         ],
         emails: [
             {
                 id: "",
                 email: "",
-                emailType: "outro",
+                emailType: "",
             }
         ],
         celulaId: {
@@ -94,6 +94,18 @@ const ManipularPessoa: React.FC = () => {
 
     const onSubmit = async (values: Pessoa, { resetForm }: { resetForm: () => void }) => {
         try {
+            if (values.celulaId?.id === "") {
+                delete values.celulaId
+            }
+            if (values.enderecoId?.id === "") {
+                delete values.enderecoId
+            }
+            if (values.phones?.[0]?.id === "") {
+                delete values.phones
+            }
+            if (values.emails?.[0]?.id === "") {
+                delete values.emails
+            }
             await createOrUpdatePessoa(values);
             console.log(values);
             resetForm();
