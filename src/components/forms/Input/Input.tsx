@@ -14,18 +14,21 @@ export interface InputProps {
     className?: string;
     children?: React.ReactNode;
     hidden?: boolean;
+    hiddenLabel?: boolean;
+    readonly?: boolean;
 };
 
-const Input: React.FC<InputProps> = ({ label, name, type = "text", as, errors, touched, children, className, hidden }) => {
+const Input: React.FC<InputProps> = ({ label, name, type = "text", as, errors, touched, children, className, hidden, readonly, hiddenLabel }) => {
     return (
         <fieldset className={`${styles.formGroup} ${hidden && styles.hidden}`}>
-            <label htmlFor={name} className={styles.label}>
+            <label htmlFor={name} className={`${styles.label} ${hiddenLabel && styles.hidden}`}>
                 {label}:
             </label>
             <Field
                 name={name}
                 type={type}
                 as={as ? as : undefined}
+                readOnly={readonly}
                 className={`${className ? className : styles.input} ${touched && errors && styles.error}`}
             >
                 {children}

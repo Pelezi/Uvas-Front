@@ -117,6 +117,7 @@ const ManipularDiscipulador: React.FC = () => {
                         errors={getIn(errors, "pessoaId.id")}
                         touched={getIn(touched, "pessoaId.id")}
                         optionFilter={discipuladoresIds}
+                        filterType="exclude"
                     />
 
                     <MultipleDatalist

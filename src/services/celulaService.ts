@@ -26,7 +26,12 @@ export interface Celula {
         bairro?: string;
         addressType?: string;
     };
-    pessoas?: string[];
+    pessoas?: Array<
+        {
+            id?: string;
+            nome?: string;
+        }
+    >;
 }
 
 export const createCelula = async (celula: Celula): Promise<Celula> => {

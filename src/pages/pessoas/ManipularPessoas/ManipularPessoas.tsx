@@ -107,7 +107,6 @@ const ManipularPessoa: React.FC = () => {
                 delete values.emails
             }
             await createOrUpdatePessoa(values);
-            console.log(values);
             resetForm();
             navigate("/pessoas/listar");
             alert("Formulário enviado com sucesso!");

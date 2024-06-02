@@ -49,6 +49,12 @@ export const getPessoasById = async (id: string): Promise<Pessoa> => {
     return response.data;
 }
 
+export const getPessoasByCelulaId = async (id: string): Promise<Pessoa[]> => {
+    const response = await api.get<Pessoa[]>(`/pessoas/celula/${id}`);
+    return response.data;
+
+}
+
 export const updatePessoa = async (pessoa: Pessoa): Promise<Pessoa> => {
     const response = await api.put<Pessoa>(`/pessoas/${pessoa.id}`, pessoa);
     return response.data;

@@ -13,10 +13,11 @@ import { getIn } from "formik";
 import Datalist from "../../../components/forms/Datalist";
 import { Lider, getLideres } from "../../../services/liderService";
 import { Discipulador, getDiscipuladores } from "../../../services/discipuladorService";
-import { Pessoa, getPessoas } from "../../../services/pessoaService";
+import { Pessoa, getPessoas, getPessoasByCelulaId } from "../../../services/pessoaService";
+import MultipleDatalist from "../../../components/forms/Checkbox";
 
 const ManipularCelula: React.FC = () => {
-    
+
     const navigate = useNavigate();
     const celula = useLocation().state as Celula;
 
@@ -25,7 +26,8 @@ const ManipularCelula: React.FC = () => {
     const [lideresIds, setLideresIds] = useState<string[]>([]);
     const [discipuladores, setDiscipuladores] = useState<Discipulador[]>([]);
     const [discipuladoresIds, setDiscipuladoresIds] = useState<string[]>([]);
-    
+    const [selectedPessoas, setSelectedPessoas] = useState<string[]>([]);
+
     const fetchLideres = async () => {
         try {
             const lideres = await getLideres();
@@ -46,7 +48,6 @@ const ManipularCelula: React.FC = () => {
             if (discipuladores.length > 0) {
                 const discipuladoresIdsList = discipuladores.map((discipulador) => discipulador.pessoaId.id).filter((id) => id !== undefined) as string[];
                 setDiscipuladoresIds(discipuladoresIdsList);
-                console.log(discipuladoresIdsList);
             }
         } catch (error) {
             console.error("Erro ao buscar discipuladores", error);
@@ -60,15 +61,30 @@ const ManipularCelula: React.FC = () => {
         } catch (error) {
             console.error("Erro ao buscar pessoas", error);
         }
-    
+
+    }
+
+    const fetchPessoasFromCelula = async (id: string) => {
+        try {
+            const pessoas = await getPessoasByCelulaId(id);
+            const pessoasIds = pessoas.map((pessoa) => pessoa.id);
+            setSelectedPessoas(pessoasIds);
+            console.log("pessoasIds", pessoasIds);
+        } catch (error) {
+            console.error("Erro ao buscar pessoas da célula", error);
+        }
+
     }
 
     useEffect(() => {
         fetchLideres();
         fetchDiscipuladores();
         fetchPessoas();
+        if (celula) {
+            fetchPessoasFromCelula(celula.id);
+        }
     }, []);
-    
+
 
     const initialValues: Celula = {
         id: "",
@@ -96,7 +112,12 @@ const ManipularCelula: React.FC = () => {
                 nome: "",
             },
         },
-        pessoas: [],
+        pessoas: [
+            {
+                id: "",
+                nome: "",
+            },
+        ],
     };
 
     const validationSchema = Yup.object().shape({
@@ -125,12 +146,23 @@ const ManipularCelula: React.FC = () => {
                 nome: Yup.string(),
             }),
         }),
-        pessoas: Yup.array(),
+        pessoas: Yup.array().of(
+            Yup.object().shape({
+                id: Yup.string(),
+                nome: Yup.string(),
+            })
+        )
 
     });
 
-    const onSubmit = async (values: Celula, { resetForm}: { resetForm: () => void }) => {
+    const onSubmit = async (values: Celula, { resetForm }: { resetForm: () => void }) => {
         try {
+            if (values.enderecoId?.id === "") {
+                delete values.enderecoId?.id;
+            }
+            values.pessoas = selectedPessoas.map((pessoaId) => ({ id: pessoaId }))
+            values.liderId = { id: values.liderId?.id, pessoaId: undefined};
+            values.discipuladorId = { id: values.discipuladorId?.id, pessoaId: undefined};
             await createOrUpdateCelula(values);
             resetForm();
             navigate("/celulas/listar");
@@ -216,7 +248,7 @@ const ManipularCelula: React.FC = () => {
                         touched={getIn(touched, "enderecoId.addressType")}
                     />
 
-                    <Datalist 
+                    <Datalist
                         label="Líder"
                         name="liderId.pessoaId.id"
                         options={pessoas}
@@ -224,9 +256,10 @@ const ManipularCelula: React.FC = () => {
                         filterType="include"
                         errors={getIn(errors, "liderId.pessoaId.id")}
                         touched={getIn(touched, "liderId.pessoaId.id")}
+                        initialName={celula.liderId?.pessoaId?.nome}
                     />
 
-                    <Datalist 
+                    <Datalist
                         label="Discipulador"
                         name="discipuladorId.pessoaId.id"
                         options={pessoas}
@@ -234,6 +267,17 @@ const ManipularCelula: React.FC = () => {
                         filterType="include"
                         errors={getIn(errors, "discipuladorId.pessoaId.id")}
                         touched={getIn(touched, "discipuladorId.pessoaId.id")}
+                        initialName={celula.discipuladorId?.pessoaId?.nome}
+                    />
+
+                    <MultipleDatalist
+                        label="Pessoas"
+                        name="pessoas.id"
+                        options={pessoas}
+                        errors={getIn(errors, "celulas.id")}
+                        touched={getIn(touched, "celulas.id")}
+                        selectedGrupos={selectedPessoas}
+                        setSelectedGrupos={setSelectedPessoas}
                     />
 
                     <Button type="submit">Salvar</Button>

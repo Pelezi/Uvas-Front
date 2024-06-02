@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Field, ErrorMessage, useFormikContext } from "formik";
 
@@ -22,22 +22,24 @@ interface DatalistProps {
     options: Options[];
     optionFilter?: string[];
     filterType: "exclude" | "include";
+    initialName?: string;
 }
 
-const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touched, as, hidden, className, optionFilter, filterType }) => {
+const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touched, as, hidden, className, optionFilter, filterType, initialName }) => {
     const { setFieldValue } = useFormikContext();
     const [selectedNome, setSelectedNome] = useState("");
 
-    const handleInputChange = (event: React.FocusEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        const selectedOption = options.find(option => option.id === value);
+    useEffect(() => {
+        
+    }, [])
 
-        if (!selectedOption) {
-            setFieldValue(name, "");
-            setSelectedNome("");
-        } else {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setFieldValue(name, value);
+
+        const selectedOption = options.find(option => option.id === value);
+        if (selectedOption) {
             setSelectedNome(selectedOption.nome);
-            setFieldValue(name, selectedOption.id);
         }
     }
 
@@ -75,28 +77,26 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
             <datalist id={label}>
                 <option value="">Selecione uma opção</option>
                 {options
-                .filter((option) => {
-                    if (filterType === "include") {
-                        console.log(`include ${optionFilter}`)
-                        return optionFilter && optionFilter.includes(option.id);
-                    } else if (filterType === "exclude") {
-                        console.log(`exclude ${optionFilter}`)
-                        return !optionFilter || !optionFilter.includes(option.id)
-                    }})
-                .map((option) => (
-                    <option key={option.id} value={option.id}>
-                        {option.nome}
-                    </option>
-                ))}
+                    .filter((option) => {
+                        if (filterType === "include") {
+                            return optionFilter && optionFilter.includes(option.id);
+                        } else if (filterType === "exclude") {
+                            return !optionFilter || !optionFilter.includes(option.id)
+                        }
+                    })
+                    .map((option) => (
+                        <option key={option.id} value={option.id}>
+                            {option.nome}
+                        </option>
+                    ))}
             </datalist>
 
             <input
                 type="text"
-                value={selectedNome}
+                value={selectedNome || initialName}
                 readOnly
                 className={`${className ? className : styles.input} ${touched && errors && styles.error}`}
                 placeholder="Nome da opção selecionada"
-
             />
         </fieldset>
     );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Field, ErrorMessage, useFormikContext } from "formik";
 
@@ -25,6 +25,12 @@ const MultipleDatalist: React.FC<MultipleDatalistProps> = ({ label, name, option
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const [inputValue, setInputValue] = useState("");
 
+    useEffect(() => {
+        if (selectedGrupos) {
+            setSelectedItems(selectedGrupos);
+        }
+    })
+
     const handleInputChange = (event: React.FocusEvent<HTMLInputElement>) => {
         const value = event.target.value;
         const selectedOption = options.find(option => option.id === value);
@@ -47,6 +53,7 @@ const MultipleDatalist: React.FC<MultipleDatalistProps> = ({ label, name, option
     const handleItemRemove = (itemId: string) => {
         setSelectedItems(selectedItems.filter((item) => item !== itemId));
         setSelectedGrupos(selectedItems.filter((item) => item !== itemId));
+        console.log("remove selectedGrupos", selectedGrupos);
     }
 
     return (
@@ -71,11 +78,6 @@ const MultipleDatalist: React.FC<MultipleDatalistProps> = ({ label, name, option
 
             />
             <datalist id={`${name}-datalist`}>
-                {/* {options.map((option) => (
-                    <option key={option.id} value={option.id}>
-                        {option.nome}
-                    </option>
-                ))} */}
                 {options
                     .filter(option => !selectedItems.includes(option.id))
                     .map(option => (

@@ -117,6 +117,7 @@ const ManipularDiretor: React.FC = () => {
                         errors={getIn(errors, "pessoaId.id")}
                         touched={getIn(touched, "pessoaId.id")}
                         optionFilter={diretoresIds}
+                        filterType="exclude"
                     />
 
                     <MultipleDatalist
