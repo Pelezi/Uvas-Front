@@ -68,8 +68,8 @@ export const getPessoasByCelulaId = async (id: string): Promise<Pessoa[]> => {
 
 }
 
-export const getPessoasByGrupoId = async (id: string, grupoId: string): Promise<Pessoa[]> => {
-    const response = await api.get<Pessoa[]>(`/pessoas/grupo/${id}/${grupoId}`);
+export const getPessoasByGrupoId = async (id: string): Promise<Pessoa[]> => {
+    const response = await api.get<Pessoa[]>(`/pessoas/grupo/${id}`);
     return response.data;
 
 }
@@ -91,7 +91,7 @@ export const removePessoaFromCelula = async (id: string): Promise<Pessoa> => {
 }
 
 export const removePessoaFromGrupo = async (id: string, grupoId: string): Promise<Pessoa> => {
-    const response = await api.put<Pessoa>(`/pessoas/removeGrupo/${id}`);
+    const response = await api.put<Pessoa>(`/pessoas/removeGrupo/${id}/${grupoId}`);
     return response.data;
 
 }
