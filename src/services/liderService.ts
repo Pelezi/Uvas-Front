@@ -23,7 +23,7 @@ export const getLideres = async (): Promise<Lider[]> => {
     return response.data;
 }
 
-export const getLideresById = async (id: string): Promise<Lider> => {
+export const getLiderById = async (id: string): Promise<Lider> => {
     const response = await api.get<Lider>(`/lideres/${id}`);
     return response.data;
 }

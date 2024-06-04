@@ -1,16 +1,26 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./Home.module.css";
 
-import { FaUser } from "react-icons/fa6";
+import { FaHouseChimney, FaHouseChimneyUser, FaUser, FaUserGroup, FaUserTie, FaUsers } from "react-icons/fa6";
 
 import Title from "../../components/common/Title";
 import InfoBox from "../../components/common/InfoBox";
 
 import { Pessoa, getPessoas } from "../../services/pessoaService";
+import { Lider, getLideres } from "../../services/liderService";
+import { Discipulador, getDiscipuladores } from "../../services/discipuladorService";
+import { Diretor, getDiretores } from "../../services/diretorService";
+import { Celula, getCelulas } from "../../services/celulaService";
+import { Grupo, getGrupos } from "../../services/grupoService";
 
 const Home = () => {
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
+    const [lideres, setLideres] = useState<Lider[]>([]);
+    const [discipuladores, setDiscipuladores] = useState<Discipulador[]>([]);
+    const [celulas, setCelulas] = useState<Celula[]>([]);
+    const [grupos, setGrupos] = useState<Grupo[]>([]);
+    const [diretores, setDiretores] = useState<Diretor[]>([]);
 
     const fetchPessoas = async () => {
         try {
@@ -19,11 +29,60 @@ const Home = () => {
         } catch (error) {
             console.log(error);
         }
-    
+    }
+
+    const fetchLideres = async () => {
+        try {
+            const response = await getLideres();
+            setLideres(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchDiscipuladores = async () => {
+        try {
+            const response = await getDiscipuladores();
+            setDiscipuladores(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchDiretores = async () => {
+        try {
+            const response = await getDiretores();
+            setDiretores(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchCelulas = async () => {
+        try {
+            const response = await getCelulas();
+            setCelulas(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchGrupos = async () => {
+        try {
+            const response = await getGrupos();
+            setGrupos(response);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
         fetchPessoas();
+        fetchLideres();
+        fetchDiscipuladores();
+        fetchDiretores();
+        fetchCelulas();
+        fetchGrupos();
     }, []);
 
     return (
@@ -31,10 +90,35 @@ const Home = () => {
             <Title className={styles.title}>Bem-vindo ao Uvas</Title>
             <p>Esta é a página inicial onde podemos encontrar algumas estatísticas.</p>
             <div className={styles.infoBoxContainer}>
-                <InfoBox 
+                <InfoBox
                     title="Pessoas cadastradas"
                     value={pessoas.length}
                     icon={<FaUser size={65} />}
+                />
+                <InfoBox
+                    title="Células cadastradas"
+                    value={celulas.length}
+                    icon={<FaHouseChimney size={65} />}
+                />
+                <InfoBox
+                    title="Grupos cadastrados"
+                    value={grupos.length}
+                    icon={<FaUsers size={65} />}
+                />
+                <InfoBox
+                    title="Líderes cadastrados"
+                    value={lideres.length}
+                    icon={<FaHouseChimneyUser size={65} />}
+                />
+                <InfoBox
+                    title="Discipuladores cadastrados"
+                    value={discipuladores.length}
+                    icon={<FaUserGroup size={65} />}
+                />
+                <InfoBox
+                    title="Diretores cadastrados"
+                    value={diretores.length}
+                    icon={<FaUserTie size={65} />}
                 />
             </div>
         </main>

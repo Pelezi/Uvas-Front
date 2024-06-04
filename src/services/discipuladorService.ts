@@ -23,7 +23,7 @@ export const getDiscipuladores = async (): Promise<Discipulador[]> => {
     return response.data;
 }
 
-export const getDiscipuladoresById = async (id: string): Promise<Discipulador> => {
+export const getDiscipuladorById = async (id: string): Promise<Discipulador> => {
     const response = await api.get<Discipulador>(`/discipuladores/${id}`);
     return response.data;
 }

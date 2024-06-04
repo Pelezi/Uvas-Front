@@ -23,7 +23,7 @@ export const getDiretores = async (): Promise<Diretor[]> => {
     return response.data;
 }
 
-export const getDiretoresById = async (id: string): Promise<Diretor> => {
+export const getDiretorById = async (id: string): Promise<Diretor> => {
     const response = await api.get<Diretor>(`/diretores/${id}`);
     return response.data;
 }

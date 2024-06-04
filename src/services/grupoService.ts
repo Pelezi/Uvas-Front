@@ -61,6 +61,11 @@ export const deleteGrupo = async (id: string | undefined): Promise<Grupo> => {
     return response.data;
 }
 
+export const removeDiretorFromGrupo = async (id: string): Promise<Grupo> => {
+    const response = await api.put<Grupo>(`/grupos/removeDiretor/${id}`);
+    return response.data;
+}
+
 export const createOrUpdateGrupo = async (grupo: Grupo): Promise<Grupo> => {
     if (!grupo.id) {
         return await createGrupo(grupo);

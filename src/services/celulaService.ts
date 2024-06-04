@@ -84,6 +84,16 @@ export const deleteCelula = async (id: string | undefined): Promise<Celula> => {
     return response.data;
 }
 
+export const removeLiderFromCelula = async (celulaId: string): Promise<Celula> => {
+    const response = await api.put<Celula>(`/celulas/removeLider/${celulaId}`);
+    return response.data;
+}
+
+export const removeDiscipuladorFromCelula = async (celulaId: string): Promise<Celula> => {
+    const response = await api.put<Celula>(`/celulas/removeDiscipulador/${celulaId}`);
+    return response.data;
+}
+
 export const createOrUpdateCelula = async (celula: Celula): Promise<Celula> => {
     if (!celula.id) {
         return await createCelula(celula);

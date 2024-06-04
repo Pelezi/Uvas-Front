@@ -11,6 +11,7 @@
     transition: all 0.3s ease-in-out;
     color: #ffffff;
     text-align: center;
+    margin: 0.5rem;
 }
 
 .infoBoxContainer {
