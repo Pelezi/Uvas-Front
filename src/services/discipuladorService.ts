@@ -3,7 +3,7 @@ import api from './api';
 export interface Discipulador {
     id: string;
     pessoaId: {
-        id?: string
+        id: string
         nome?: string;
     };
     celulas?: {
@@ -25,6 +25,11 @@ export const getDiscipuladores = async (): Promise<Discipulador[]> => {
 
 export const getDiscipuladoresById = async (id: string): Promise<Discipulador> => {
     const response = await api.get<Discipulador>(`/discipuladores/${id}`);
+    return response.data;
+}
+
+export const getDiscipuladoresByPessoaId = async (id: string): Promise<Discipulador[]> => {
+    const response = await api.get<Discipulador[]>(`/discipuladores/pessoa/${id}`);
     return response.data;
 }
 

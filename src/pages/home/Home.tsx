@@ -2,7 +2,7 @@ import React, { useEffect, useState} from "react";
 
 import styles from "./Home.module.css";
 
-import { FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa6";
 
 import Title from "../../components/common/Title";
 import InfoBox from "../../components/common/InfoBox";

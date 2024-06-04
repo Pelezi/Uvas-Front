@@ -3,6 +3,7 @@ import api from './api';
 export interface Grupo {
     id: string;
     nome: string;
+    grupoType?: string;
     diretorId?: {
         id?: string,
         pessoaId?: {
@@ -10,6 +11,12 @@ export interface Grupo {
             nome?: string
         }
     };
+    integrantes?: Array<
+        {
+            id?: string;
+            nome?: string;
+        }
+    >
 }
 
 export const createGrupo = async (grupo: Grupo): Promise<Grupo> => {
@@ -25,6 +32,23 @@ export const getGrupos = async (): Promise<Grupo[]> => {
 export const getGruposById = async (id: string): Promise<Grupo> => {
     const response = await api.get<Grupo>(`/grupos/${id}`);
     return response.data;
+}
+
+export const getGruposByDiretorId = async (id: string): Promise<Grupo[]> => {
+    const response = await api.get<Grupo[]>(`/grupos/diretor/${id}`);
+    return response.data;
+}
+
+export const getGruposByType = async (type: string): Promise<Grupo[]> => {
+    const response = await api.get<Grupo[]>(`/grupos/grupoType/${type}`);
+    return response.data;
+
+}
+
+export const getGruposByIntegranteId = async (id: string): Promise<Grupo[]> => {
+    const response = await api.get<Grupo[]>(`/grupos/integrante/${id}`);
+    return response.data;
+
 }
 
 export const updateGrupo = async (grupo: Grupo): Promise<Grupo> => {

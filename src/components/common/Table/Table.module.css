@@ -1,3 +1,7 @@
+.TableWrapper {
+    width: 100%;
+}
+
 .table {
     border-collapse: collapse;
     width: 100%;
@@ -14,6 +18,25 @@
     background-color: #f2f2f2;
     border: 1px solid #ddd;
     padding: 8px;
+}
+
+.filterButton{
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.filterButton Button{
+    height: 40px;
+}
+
+.filterInput{
+    padding: 7px 20px;
+    margin: 0px 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 5px;
+    height: 40px;
 }
 
 img {

@@ -23,7 +23,7 @@ const ListarCelulas: React.FC = () => {
     }, []);
 
     const handleEdit = (celula: Celula) => {
-        navigate("/celulas/atualizar", { state: celula });
+        navigate("/celulas/editar", { state: celula });
     }
 
     const handleDelete = async (celula: Celula) => {
@@ -43,7 +43,7 @@ const ListarCelulas: React.FC = () => {
     }
 
     const columns: Column<Celula>[] = [
-        { header: "Nome", accessor: (item) => item.nome, type: "celulas", linkAccessor: (item) => item.id},
+        { header: "Nome", accessor: (item) => item.nome, type: "celula/", linkAccessor: (item) => item.id},
         { header: "Discipulador", accessor: (item) => item.discipuladorId?.pessoaId?.nome},
         { header: "Lider", accessor: (item) => item.liderId?.pessoaId?.nome},
         { header: "Dia", accessor: (item) => item.diaDaSemana },

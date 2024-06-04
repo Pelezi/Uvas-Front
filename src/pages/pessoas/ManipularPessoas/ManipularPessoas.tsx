@@ -129,7 +129,7 @@ const ManipularPessoa: React.FC = () => {
                         !pessoa ?
                             <Title>Cadastrar Pessoa</Title>
                             :
-                            <Title>Atualizar Pessoa</Title>
+                            <Title>Editar Pessoa</Title>
                     }
 
                     <Input

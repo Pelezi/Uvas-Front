@@ -49,8 +49,27 @@ export const getPessoasById = async (id: string): Promise<Pessoa> => {
     return response.data;
 }
 
+export const getPessoasByCargo = async (cargo: string): Promise<Pessoa[]> => {
+    const response = await api.get<Pessoa[]>(`/pessoas/cargo/${cargo}`);
+    return response.data;
+
+}
+
+export const getPessoasByBairro = async (bairro: string): Promise<Pessoa[]> => {
+    const response = await api.get<Pessoa[]>(`/pessoas/endereco/bairro/${bairro}`);
+    return response.data;
+
+
+}
+
 export const getPessoasByCelulaId = async (id: string): Promise<Pessoa[]> => {
     const response = await api.get<Pessoa[]>(`/pessoas/celula/${id}`);
+    return response.data;
+
+}
+
+export const getPessoasByGrupoId = async (id: string, grupoId: string): Promise<Pessoa[]> => {
+    const response = await api.get<Pessoa[]>(`/pessoas/grupo/${id}/${grupoId}`);
     return response.data;
 
 }
@@ -63,6 +82,18 @@ export const updatePessoa = async (pessoa: Pessoa): Promise<Pessoa> => {
 export const deletePessoa = async (id: string | undefined): Promise<Pessoa> => {
     const response = await api.delete<Pessoa>(`/pessoas/${id}`);
     return response.data;
+}
+
+export const removePessoaFromCelula = async (id: string): Promise<Pessoa> => {
+    const response = await api.put<Pessoa>(`/pessoas/removeCelula/${id}`);
+    return response.data;
+
+}
+
+export const removePessoaFromGrupo = async (id: string, grupoId: string): Promise<Pessoa> => {
+    const response = await api.put<Pessoa>(`/pessoas/removeGrupo/${id}`);
+    return response.data;
+
 }
 
 export const createOrUpdatePessoa = async (pessoa: Pessoa): Promise<Pessoa> => {

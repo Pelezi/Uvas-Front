@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Form from "../../../../components/forms/Form";
 import Button from "../../../../components/common/Button";
 import Title from "../../../../components/common/Title";
 import Datalist from "../../../../components/forms/Datalist/Datalist";
 
-import { Diretor , createOrUpdateDiretor, getDiretores } from "../../../../services/diretorService";
+import { Diretor, createOrUpdateDiretor, getDiretores } from "../../../../services/diretorService";
 
 import MultipleDatalist from "../../../../components/forms/Checkbox";
 import { Pessoa, getPessoas } from "../../../../services/pessoaService";
-import { Grupo, getGrupos } from "../../../../services/grupoService";
+import { Grupo, getGrupos, getGruposByDiretorId } from "../../../../services/grupoService";
 import { getIn } from "formik";
 
 const ManipularDiretor: React.FC = () => {
 
     const navigate = useNavigate();
+    const diretor = useLocation().state as Diretor;
 
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
     const [grupos, setGrupos] = useState<Grupo[]>([]);
     const [diretores, setDiretores] = useState<Diretor[]>([]);
     const [diretoresIds, setDiretoresIds] = useState<string[]>([]);
+    const [selectedGrupos, setSelectedGrupos] = useState<string[]>([]);
 
     const fetchPessoas = async () => {
         try {
@@ -28,7 +30,7 @@ const ManipularDiretor: React.FC = () => {
             setPessoas(pessoas);
         } catch (error) {
             console.error("Erro ao buscar pessoas", error);
-            
+
         }
     };
 
@@ -38,7 +40,7 @@ const ManipularDiretor: React.FC = () => {
             setGrupos(grupos);
         } catch (error) {
             console.error("Erro ao buscar grupos", error);
-            
+
         }
     };
 
@@ -52,18 +54,30 @@ const ManipularDiretor: React.FC = () => {
             }
         } catch (error) {
             console.error("Erro ao buscar diretores", error);
-            
+
         }
-    
+
     };
 
 
+    const fetchGruposByDiretor = async (id: string) => {
+        try {
+            const grupos = await getGruposByDiretorId(id);
+            const gruposIds = grupos.map((grupo) => grupo.id);
+            setSelectedGrupos(gruposIds);
+        } catch (error) {
+            console.error("Erro ao buscar grupos do diretor", error);
 
+        }
+    }
 
     useEffect(() => {
-            fetchPessoas();
-            fetchGrupos();
-            fetchDiretores();
+        fetchPessoas();
+        fetchGrupos();
+        fetchDiretores();
+        if (diretor) {
+            fetchGruposByDiretor(diretor.id);
+        }
     }, []);
 
     const initialValues: Diretor = {
@@ -98,19 +112,23 @@ const ManipularDiretor: React.FC = () => {
         }
     };
 
-    const [selectedGrupos, setSelectedGrupos] = useState<string[]>([]);
 
     return (
         <Form
-            initialValues={initialValues}
+            initialValues={diretor || initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
         >
             {({ errors, touched }) => (
                 <>
-                    <Title>Adicionar Líder</Title>
+                    {
+                        !diretor ?
+                            <Title>Adicionar Diretor</Title>
+                            :
+                            <Title>Editar Diretor</Title>
+                    }
 
-                    <Datalist 
+                    <Datalist
                         label="Id do membro"
                         name="pessoaId"
                         options={pessoas}

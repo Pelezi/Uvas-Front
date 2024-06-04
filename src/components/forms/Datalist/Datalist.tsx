@@ -6,7 +6,11 @@ import styles from "./Datalist.module.css";
 
 interface Options {
     id: string;
-    nome: string;
+    nome?: string;
+    pessoaId?: {
+        id: string;
+        nome?: string;
+    };
 }
 
 interface DatalistProps {
@@ -26,12 +30,10 @@ interface DatalistProps {
 }
 
 const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touched, as, hidden, className, optionFilter, filterType, initialName }) => {
-    const { setFieldValue } = useFormikContext();
+    const { setFieldValue, setFieldError, setFieldTouched } = useFormikContext();
+    
     const [selectedNome, setSelectedNome] = useState("");
 
-    useEffect(() => {
-        
-    }, [])
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -39,7 +41,10 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
 
         const selectedOption = options.find(option => option.id === value);
         if (selectedOption) {
-            setSelectedNome(selectedOption.nome);
+            setFieldValue(name, selectedOption.id);
+            setSelectedNome(selectedOption.nome || selectedOption.pessoaId?.nome || "");
+        } else {
+            setSelectedNome("");
         }
     }
 
@@ -47,14 +52,14 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
         const value = event.target.value;
         const selectedOption = options.find(option => option.id === value);
 
-        if (!selectedOption) {
-            setFieldValue(name, "");
+        if (!selectedOption && value !== "") {
             setSelectedNome("");
             alert("Opção inválida, por favor selecione uma opção válida");
-        } else {
-            setSelectedNome(selectedOption.nome);
+        } else if (selectedOption){
+            setSelectedNome(selectedOption.nome || selectedOption.pessoaId?.nome || "");
             setFieldValue(name, selectedOption.id);
         }
+        setFieldTouched(name, true);
     }
 
     return (
@@ -78,15 +83,19 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
                 <option value="">Selecione uma opção</option>
                 {options
                     .filter((option) => {
-                        if (filterType === "include") {
+                        if (filterType === "include" && option.nome != null) {
                             return optionFilter && optionFilter.includes(option.id);
-                        } else if (filterType === "exclude") {
+                        } else if (filterType === "include" && option.pessoaId?.nome != null) {
+                            return optionFilter && optionFilter.includes(option.pessoaId.id);
+                        } else if (filterType === "exclude" && option.nome != null) {
                             return !optionFilter || !optionFilter.includes(option.id)
+                        } else if (filterType === "exclude" && option.pessoaId?.nome != null) {
+                            return !optionFilter || !optionFilter.includes(option.pessoaId.id)
                         }
                     })
                     .map((option) => (
                         <option key={option.id} value={option.id}>
-                            {option.nome}
+                            {option.nome || option.pessoaId?.nome}
                         </option>
                     ))}
             </datalist>
@@ -94,8 +103,8 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
             <input
                 type="text"
                 value={selectedNome || initialName}
-                readOnly
-                className={`${className ? className : styles.input} ${touched && errors && styles.error}`}
+                disabled
+                className={`${className ? className : styles.input}`}
                 placeholder="Nome da opção selecionada"
             />
         </fieldset>

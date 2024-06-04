@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { Pessoa, deletePessoa, getPessoasById } from "../../../services/pessoaService";
+import { Pessoa, deletePessoa, getPessoasById, removePessoaFromCelula, removePessoaFromGrupo } from "../../../services/pessoaService";
 import { deletePhone } from "../../../services/phoneService";
 import { deleteEmail } from "../../../services/emailService";
 import { Celula, getCelulasById } from "../../../services/celulaService";
+import { Grupo, getGruposByIntegranteId } from "../../../services/grupoService";
 
 import { useParams } from "react-router-dom";
 
@@ -20,6 +21,7 @@ const DetalhesPessoa: React.FC = () => {
 
     const [pessoa, setPessoa] = useState<Pessoa>({} as Pessoa);
     const [celula, setCelula] = useState<Celula>({} as Celula);
+    const [grupos, setGrupos] = useState<Grupo[]>([] as Grupo[]);
 
     const fetchPessoa = async () => {
         try {
@@ -33,12 +35,23 @@ const DetalhesPessoa: React.FC = () => {
         }
     };
 
+    const fetchGrupos = async () => {
+        try {
+            const grupos = await getGruposByIntegranteId(String(id));
+            setGrupos(grupos);
+        } catch (error) {
+            console.log('Erro ao buscar grupos', error);
+
+        }
+    }
+
     useEffect(() => {
         fetchPessoa();
+        fetchGrupos();
     }, []);
 
     const handleEditPessoa = (pessoa: Pessoa) => {
-        navigate("/pessoas/atualizar", { state: pessoa });
+        navigate("/pessoas/editar", { state: pessoa });
     }
 
     const handleDeletePessoa = async (pessoa: Pessoa) => {
@@ -83,6 +96,30 @@ const DetalhesPessoa: React.FC = () => {
         navigate(`/pessoas/emails/cadastrar/${id}`);
     };
 
+    const handleRemoveFromCelula = async (id: string) => {
+        try {
+            await removePessoaFromCelula(id);
+            fetchPessoa();
+            alert("Pessoa removida da célula com sucesso!");
+        } catch (error) {
+            console.log("Erro ao remover pessoa da célula", error);
+            alert("Erro ao remover pessoa da célula. Tente novamente.");
+
+        }
+    }
+
+    const handleRemoveFromGrupo = async (id: string, grupoId: string) => {
+        try {
+            await removePessoaFromGrupo(id, grupoId);
+            fetchPessoa();
+            alert("Pessoa removida do grupo com sucesso!");
+        } catch (error) {
+            console.log("Erro ao remover pessoa do grupo", error);
+            alert("Erro ao remover pessoa do grupo. Tente novamente.");
+
+        }
+    }
+
     return (
         <div>
             <p>Nome: {pessoa.nome}</p>
@@ -122,12 +159,26 @@ const DetalhesPessoa: React.FC = () => {
                     <p>Líder: {celula.liderId?.pessoaId?.nome}</p>
                     <p>Bairro: {celula.enderecoId?.bairro}</p>
                     <p>Rua: {celula.enderecoId?.rua}</p>
+                    <button onClick={() => handleRemoveFromCelula(String(pessoa.id))}>Remover da célula</button>
                     <br />
                 </div>
 
                 :
                 null
             }
+            <br />
+            <br />
+            {grupos.map((grupo) => (
+                <div>
+                    <p key={grupo.id}>Nome do grupo: {grupo.nome}</p>
+                    <p key={grupo.id}>Tipo de grupo: {grupo.grupoType}</p>
+                    <p key={grupo.id}>Diretor: {grupo.diretorId?.pessoaId?.nome}</p>
+                    <button onClick={() => handleRemoveFromGrupo(String(pessoa.id), String(grupo.id))}>Remover do grupo</button>
+                    <br />
+                </div>
+            ))}
+            <br />
+            <br />
 
 
         </div>

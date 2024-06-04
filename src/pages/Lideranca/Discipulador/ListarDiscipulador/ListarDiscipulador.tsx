@@ -40,6 +40,10 @@ const ListarDiscipulador: React.FC = () => {
         }
     };
 
+    const handleEdit = (discipulador: Discipulador) => {
+        navigate("/discipuladores/editar", { state: discipulador });
+    }
+
     const columns: Column<Discipulador>[] = [
         { header: "Nome", accessor: (item) => item.pessoaId.nome, linkAccessor: (item) => item.pessoaId.id },
         { header: "Células", accessor: (item) => item.celulas?.map((celula) => celula.nome).join(", ") },
@@ -50,6 +54,7 @@ const ListarDiscipulador: React.FC = () => {
             columns={columns}
             data={discipuladores}
             handleDelete={handleDelete}
+            handleEdit={handleEdit}
         />
         
     )

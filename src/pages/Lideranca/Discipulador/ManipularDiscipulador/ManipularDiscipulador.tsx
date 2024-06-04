@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Form from "../../../../components/forms/Form";
 import Button from "../../../../components/common/Button";
 import Title from "../../../../components/common/Title";
 import Datalist from "../../../../components/forms/Datalist/Datalist";
 
-import { Discipulador , createOrUpdateDiscipulador, getDiscipuladores } from "../../../../services/discipuladorService";
+import { Discipulador, createOrUpdateDiscipulador, getDiscipuladores } from "../../../../services/discipuladorService";
 
 import MultipleDatalist from "../../../../components/forms/Checkbox";
 import { Pessoa, getPessoas } from "../../../../services/pessoaService";
-import { Celula, getCelulas } from "../../../../services/celulaService";
+import { Celula, getCelulas, getCelulasByDiscipuladorId } from "../../../../services/celulaService";
 import { getIn } from "formik";
 
 const ManipularDiscipulador: React.FC = () => {
 
     const navigate = useNavigate();
+    const discipulador = useLocation().state as Discipulador;
 
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
     const [celulas, setCelulas] = useState<Celula[]>([]);
     const [discipuladores, setDiscipuladores] = useState<Discipulador[]>([]);
     const [discipuladoresIds, setDiscipuladoresIds] = useState<string[]>([]);
+    const [selectedCelulas, setSelectedCelulas] = useState<string[]>([]);
 
     const fetchPessoas = async () => {
         try {
@@ -28,7 +30,7 @@ const ManipularDiscipulador: React.FC = () => {
             setPessoas(pessoas);
         } catch (error) {
             console.error("Erro ao buscar pessoas", error);
-            
+
         }
     };
 
@@ -38,7 +40,7 @@ const ManipularDiscipulador: React.FC = () => {
             setCelulas(celulas);
         } catch (error) {
             console.error("Erro ao buscar celulas", error);
-            
+
         }
     };
 
@@ -52,18 +54,30 @@ const ManipularDiscipulador: React.FC = () => {
             }
         } catch (error) {
             console.error("Erro ao buscar discipuladores", error);
-            
+
         }
-    
+
     };
 
+    const fetchCelulasByDiscipulador = async (id: string) => {
+        try {
+            const celulas = await getCelulasByDiscipuladorId(id);
+            const celulasIds = celulas.map((celula) => celula.id);
+            setSelectedCelulas(celulasIds);
+        } catch (error) {
+            console.error("Erro ao buscar celulas do discipulador", error);
+        }
 
+    }
 
 
     useEffect(() => {
-            fetchPessoas();
-            fetchCelulas();
-            fetchDiscipuladores();
+        fetchPessoas();
+        fetchCelulas();
+        fetchDiscipuladores();
+        if (discipulador) {
+            fetchCelulasByDiscipulador(discipulador.id);
+        }
     }, []);
 
     const initialValues: Discipulador = {
@@ -98,19 +112,23 @@ const ManipularDiscipulador: React.FC = () => {
         }
     };
 
-    const [selectedCelulas, setSelectedCelulas] = useState<string[]>([]);
 
     return (
         <Form
-            initialValues={initialValues}
+            initialValues={discipulador || initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
         >
             {({ errors, touched }) => (
                 <>
-                    <Title>Adicionar Líder</Title>
+                    {
+                        !discipulador ?
+                            <Title>Adicionar Discipulador</Title>
+                            :
+                            <Title>Editar Discipulador</Title>
+                    }
 
-                    <Datalist 
+                    <Datalist
                         label="Id do membro"
                         name="pessoaId.id"
                         options={pessoas}

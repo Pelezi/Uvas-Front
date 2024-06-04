@@ -40,6 +40,10 @@ const ListarDiretor: React.FC = () => {
         }
     };
 
+    const handleEdit = (diretor: Diretor) => {
+        navigate("/diretores/editar", { state: diretor });
+    }
+
     const columns: Column<Diretor>[] = [
         { header: "Nome", accessor: (item) => item.pessoaId.nome, linkAccessor: (item) => item.pessoaId.id },
         { header: "Grupos", accessor: (item) => item.grupos?.map((grupo) => grupo.nome).join(", ") },
@@ -50,6 +54,7 @@ const ListarDiretor: React.FC = () => {
             columns={columns}
             data={diretores}
             handleDelete={handleDelete}
+            handleEdit={handleEdit}
         />
         
     )

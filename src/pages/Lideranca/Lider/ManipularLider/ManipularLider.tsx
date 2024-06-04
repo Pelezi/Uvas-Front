@@ -10,18 +10,19 @@ import { Lider, createOrUpdateLider, getLideres } from "../../../../services/lid
 
 import MultipleDatalist from "../../../../components/forms/Checkbox";
 import { Pessoa, getPessoas } from "../../../../services/pessoaService";
-import { Celula, getCelulas } from "../../../../services/celulaService";
+import { Celula, getCelulas, getCelulasByLiderId } from "../../../../services/celulaService";
 import { getIn } from "formik";
 
 const ManipularLider: React.FC = () => {
-
+    
     const navigate = useNavigate();
     const lider = useLocation().state as Lider;
-
+    
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
     const [celulas, setCelulas] = useState<Celula[]>([]);
     const [lideres, setLideres] = useState<Lider[]>([]);
     const [lideresIds, setLideresIds] = useState<string[]>([]);
+    const [selectedCelulas, setSelectedCelulas] = useState<string[]>([]);
 
     const fetchPessoas = async () => {
         try {
@@ -61,6 +62,16 @@ const ManipularLider: React.FC = () => {
 
     };
 
+    const fetchCelulasByLider = async (id: string) => {
+        try {
+            const celulas = await getCelulasByLiderId(id);
+            const celulasIds = celulas.map((celula) => celula.id);
+            setSelectedCelulas(celulasIds);
+        } catch (error) {
+            console.error("Erro ao buscar celulas do lider", error);
+        }
+    }
+
 
 
 
@@ -68,6 +79,9 @@ const ManipularLider: React.FC = () => {
         fetchPessoas();
         fetchCelulas();
         fetchLideres();
+        if (lider) {
+            fetchCelulasByLider(lider.id);
+        }
     }, []);
 
     const initialValues: Lider = {
@@ -102,7 +116,6 @@ const ManipularLider: React.FC = () => {
         }
     };
 
-    const [selectedCelulas, setSelectedCelulas] = useState<string[]>([]);
 
     return (
         <Form
@@ -116,7 +129,7 @@ const ManipularLider: React.FC = () => {
                         !lider ?
                             <Title>Adicionar Líder</Title>
                             :
-                            <Title>Atualizar Líder</Title>
+                            <Title>Editar Líder</Title>
                     }
 
                     <Datalist

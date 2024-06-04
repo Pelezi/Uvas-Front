@@ -29,7 +29,7 @@ const ListarLider: React.FC = () => {
     }, []);
 
     const handleEdit = (lider: Lider) => {
-        navigate("/lideres/atualizar", { state: lider });
+        navigate("/lideres/editar", { state: lider });
     }
     
     const handleDelete = async (lider: Lider) => {
@@ -54,6 +54,7 @@ const ListarLider: React.FC = () => {
             columns={columns}
             data={lideres}
             handleDelete={handleDelete}
+            handleEdit={handleEdit}
         />
         
     )

@@ -69,7 +69,6 @@ const ManipularCelula: React.FC = () => {
             const pessoas = await getPessoasByCelulaId(id);
             const pessoasIds = pessoas.map((pessoa) => pessoa.id);
             setSelectedPessoas(pessoasIds);
-            console.log("pessoasIds", pessoasIds);
         } catch (error) {
             console.error("Erro ao buscar pessoas da célula", error);
         }
@@ -127,20 +126,20 @@ const ManipularCelula: React.FC = () => {
         horario: Yup.string(),
         enderecoId: Yup.object().shape({
             id: Yup.string(),
-            bairro: Yup.string(),
+            bairro: Yup.string().required("Campo obrigatório"),
             rua: Yup.string(),
             numero: Yup.string(),
-            addressType: Yup.string(),
+            addressType: Yup.string().required("Campo obrigatório"),
         }),
         liderId: Yup.object().shape({
-            id: Yup.string(),
+            id: Yup.string().required("Campo obrigatório"),
             pessoaId: Yup.object().shape({
                 id: Yup.string(),
                 nome: Yup.string(),
             }),
         }),
         discipuladorId: Yup.object().shape({
-            id: Yup.string(),
+            id: Yup.string().required("Campo obrigatório"),
             pessoaId: Yup.object().shape({
                 id: Yup.string(),
                 nome: Yup.string(),
@@ -156,13 +155,14 @@ const ManipularCelula: React.FC = () => {
     });
 
     const onSubmit = async (values: Celula, { resetForm }: { resetForm: () => void }) => {
+        console.log("values", values);
         try {
             if (values.enderecoId?.id === "") {
                 delete values.enderecoId?.id;
             }
             values.pessoas = selectedPessoas.map((pessoaId) => ({ id: pessoaId }))
-            values.liderId = { id: values.liderId?.id, pessoaId: undefined};
-            values.discipuladorId = { id: values.discipuladorId?.id, pessoaId: undefined};
+            values.liderId = { id: lideres.find((lider) => lider.id === values.liderId?.id)?.id, pessoaId: undefined };
+            values.discipuladorId = { id: discipuladores.find((discipulador) => discipulador.id === values.discipuladorId?.id)?.id, pessoaId: undefined };
             await createOrUpdateCelula(values);
             resetForm();
             navigate("/celulas/listar");
@@ -182,7 +182,7 @@ const ManipularCelula: React.FC = () => {
             {({ errors, touched }) => (
                 <>
                     {
-                        celula ? <Title>Atualizar Célula</Title> : <Title>Cadastrar Célula</Title>
+                        celula ? <Title>Editar Célula</Title> : <Title>Cadastrar Célula</Title>
                     }
 
                     <Input
@@ -250,24 +250,24 @@ const ManipularCelula: React.FC = () => {
 
                     <Datalist
                         label="Líder"
-                        name="liderId.pessoaId.id"
-                        options={pessoas}
+                        name="liderId.id"
+                        options={lideres}
                         optionFilter={lideresIds}
                         filterType="include"
-                        errors={getIn(errors, "liderId.pessoaId.id")}
-                        touched={getIn(touched, "liderId.pessoaId.id")}
-                        initialName={celula.liderId?.pessoaId?.nome}
+                        errors={getIn(errors, "liderId.id")}
+                        touched={getIn(touched, "liderId.id")}
+                        initialName={celula && celula.liderId?.pessoaId?.nome}
                     />
 
                     <Datalist
                         label="Discipulador"
-                        name="discipuladorId.pessoaId.id"
-                        options={pessoas}
+                        name="discipuladorId.id"
+                        options={discipuladores}
                         optionFilter={discipuladoresIds}
                         filterType="include"
-                        errors={getIn(errors, "discipuladorId.pessoaId.id")}
-                        touched={getIn(touched, "discipuladorId.pessoaId.id")}
-                        initialName={celula.discipuladorId?.pessoaId?.nome}
+                        errors={getIn(errors, "discipuladorId.id")}
+                        touched={getIn(touched, "discipuladorId.id")}
+                        initialName={celula && celula.discipuladorId?.pessoaId?.nome}
                     />
 
                     <MultipleDatalist
