@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Celula, deleteCelula, getCelulas } from "../../../services/celulaService";
 import { Column, Table } from "../../../components/common/Table";
 
 
 const ListarCelulas: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [celulas, setCelulas] = useState<Celula[]>([]);
+    const [filter, setFilter] = useState<string>("");
+
+    useEffect(() => {
+        // Get the filter value from the query parameters
+        const queryParams = new URLSearchParams(location.search);
+        const filterParam = queryParams.get("filter");
+        if (filterParam) {
+            setFilter(filterParam);
+        }
+    }, [location.search]);
 
     const fetchCelulas = async () => {
         try {
@@ -44,11 +55,11 @@ const ListarCelulas: React.FC = () => {
 
     const columns: Column<Celula>[] = [
         { header: "Nome", accessor: (item) => item.nome, type: "celula/", linkAccessor: (item) => item.id},
-        { header: "Discipulador", accessor: (item) => item.discipuladorId?.pessoaId?.nome},
-        { header: "Lider", accessor: (item) => item.liderId?.pessoaId?.nome},
-        { header: "Dia", accessor: (item) => item.diaDaSemana },
-        { header: "Horário", accessor: (item) => item.horario },
-        { header: "Bairro", accessor: (item) => item.enderecoId?.bairro },
+        { header: "Discipulador", accessor: (item) => item.discipuladorId?.pessoaId?.nome, type: "discipulador/", linkAccessor: (item) => item.discipuladorId?.id},
+        { header: "Lider", accessor: (item) => item.liderId?.pessoaId?.nome, type: "lider/", linkAccessor: (item) => item.liderId?.id},
+        { header: "Dia", accessor: (item) => item.diaDaSemana, type: "celulas/listar?filter=", linkAccessor: (item) => item.diaDaSemana},
+        { header: "Horário", accessor: (item) => item.horario, type: "celulas/listar?filter=", linkAccessor: (item) => item.horario},
+        { header: "Bairro", accessor: (item) => item.enderecoId?.bairro, type: "celulas/listar?filter=", linkAccessor: (item) => item.enderecoId?.bairro},
     ];
     return (
         <Table
@@ -56,6 +67,7 @@ const ListarCelulas: React.FC = () => {
             data={celulas}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
+            initialFilter={filter}
         />
     )
 };

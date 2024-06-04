@@ -44,7 +44,7 @@ export const getPessoas = async (): Promise<Pessoa[]> => {
     return response.data;
 }
 
-export const getPessoasById = async (id: string): Promise<Pessoa> => {
+export const getPessoaById = async (id: string): Promise<Pessoa> => {
     const response = await api.get<Pessoa>(`/pessoas/${id}`);
     return response.data;
 }
@@ -87,13 +87,21 @@ export const deletePessoa = async (id: string | undefined): Promise<Pessoa> => {
 export const removePessoaFromCelula = async (id: string): Promise<Pessoa> => {
     const response = await api.put<Pessoa>(`/pessoas/removeCelula/${id}`);
     return response.data;
+}
 
+export const addPessoaToCelula = async (id: string, celulaId: string): Promise<Pessoa> => {
+    const response = await api.put<Pessoa>(`/pessoas/addCelula/${id}/${celulaId}`);
+    return response.data;
 }
 
 export const removePessoaFromGrupo = async (id: string, grupoId: string): Promise<Pessoa> => {
     const response = await api.put<Pessoa>(`/pessoas/removeGrupo/${id}/${grupoId}`);
     return response.data;
+}
 
+export const addPessoaToGrupo = async (id: string, grupoId: string): Promise<Pessoa> => {
+    const response = await api.put<Pessoa>(`/pessoas/addGrupo/${id}/${grupoId}`);
+    return response.data;
 }
 
 export const createOrUpdatePessoa = async (pessoa: Pessoa): Promise<Pessoa> => {

@@ -105,11 +105,16 @@ export const Table = <T extends { id: any },>({ columns, data, handleEdit, handl
                                             <img src={column.accessor(item)} alt="Imagem" />
                                         </td>
                                         :
-                                        <td key={columnIndex} className={styles.td}>
-                                            <Link className={styles.link} to={`/${column.type ? column.type : ""}${column.linkAccessor ? column.linkAccessor(item) : ""}`}>
-                                                {column.accessor(item)}
-                                            </Link>
-                                        </td>
+                                        !column.accessor(item) ?
+                                            <td key={columnIndex} className={styles.td}>
+
+                                            </td>
+                                            :
+                                            <td key={columnIndex} className={styles.td}>
+                                                <Link className={styles.link} to={`/${column.type ? column.type : ""}${column.linkAccessor ? column.linkAccessor(item) : ""}`}>
+                                                    {column.accessor(item)}
+                                                </Link>
+                                            </td>
                                 ))}
                                 {(handleEdit || handleDelete) && (
                                     <td className={`${styles.td} ${styles.buttons}`}>
@@ -124,9 +129,15 @@ export const Table = <T extends { id: any },>({ columns, data, handleEdit, handl
                             </tr>
                         )))
                         :
-                        <tr>
-                            <td colSpan={columns.length + 1} className={styles.td}>Nenhum dado encontrado</td>
-                        </tr>
+                        // Add a message for loading or for not found data
+                        data.length == 0 ?
+                            <tr>
+                                <td className={styles.td}>Carregando...</td>
+                            </tr>
+                            :
+                            <tr>
+                                <td colSpan={columns.length + 1} className={styles.td}>Nenhum dado encontrado</td>
+                            </tr>
                     }
                 </tbody>
             </table>

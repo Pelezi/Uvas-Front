@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { Table, Column } from "../../../../components/common/Table";
 
@@ -10,9 +10,19 @@ import { Celula } from "../../../../services/celulaService";
 const ListarDiscipulador: React.FC = () => {
 
     const navigate = useNavigate();
-
+    const location = useLocation();
     const [discipuladores, setDiscipuladores] = useState<Discipulador[]>([]);
     const [celulas, setCelulas] = useState<Celula[]>([]);
+    const [filter, setFilter] = useState<string>("");
+
+    useEffect(() => {
+        // Get the filter value from the query parameters
+        const queryParams = new URLSearchParams(location.search);
+        const filterParam = queryParams.get("filter");
+        if (filterParam) {
+            setFilter(filterParam);
+        }
+    }, [location.search]);
 
     const fetchDiscipuladores = async () => {
         try {
@@ -45,8 +55,8 @@ const ListarDiscipulador: React.FC = () => {
     }
 
     const columns: Column<Discipulador>[] = [
-        { header: "Nome", accessor: (item) => item.pessoaId.nome, linkAccessor: (item) => item.pessoaId.id },
-        { header: "Células", accessor: (item) => item.celulas?.map((celula) => celula.nome).join(", ") },
+        { header: "Nome", accessor: (item) => item.pessoaId.nome, type: "discipulador/", linkAccessor: (item) => item.id},
+        { header: "Células", accessor: (item) => item.celulas?.map((celula) => celula.nome).join(", "), type: "celulas/listar?filter=", linkAccessor: (item) => item.pessoaId.nome},
     ];
 
     return (
@@ -55,6 +65,7 @@ const ListarDiscipulador: React.FC = () => {
             data={discipuladores}
             handleDelete={handleDelete}
             handleEdit={handleEdit}
+            initialFilter={filter}
         />
         
     )

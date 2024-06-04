@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { Pessoa, deletePessoa, getPessoasById, removePessoaFromCelula, removePessoaFromGrupo } from "../../../services/pessoaService";
+import { Pessoa, deletePessoa, getPessoaById, removePessoaFromCelula, removePessoaFromGrupo } from "../../../services/pessoaService";
 import { deletePhone } from "../../../services/phoneService";
 import { deleteEmail } from "../../../services/emailService";
 import { Celula, getCelulasById } from "../../../services/celulaService";
@@ -25,7 +25,7 @@ const DetalhesPessoa: React.FC = () => {
 
     const fetchPessoa = async () => {
         try {
-            const pessoa = await getPessoasById(String(id));
+            const pessoa = await getPessoaById(String(id));
             setPessoa(pessoa);
             const celula = await getCelulasById(String(pessoa.celulaId?.id));
             setCelula(celula);
@@ -122,9 +122,10 @@ const DetalhesPessoa: React.FC = () => {
 
     return (
         <div>
-            <p>Nome: {pessoa.nome}</p>
+            <h1>{pessoa.nome}</h1>
             <p>Cargo: {pessoa.cargo}</p>
             <br />
+            <h3>Endereço:</h3>
             <p>Bairro: {pessoa.enderecoId?.bairro}</p>
             <p>Rua: {pessoa.enderecoId?.rua}</p>
             <p>Número: {pessoa.enderecoId?.numero}</p>
@@ -132,6 +133,7 @@ const DetalhesPessoa: React.FC = () => {
             <button className={styles.button} onClick={() => handleEditPessoa(pessoa)}>Editar</button>
             <button onClick={() => handleDeletePessoa(pessoa)}>Deletar</button>
             <br /><br />
+            <h3>Telefones:</h3>
             {pessoa.phones?.map((phone) => (
                 <div>
                     <p key={phone.id}>Telefone: {phone.numero}</p>
@@ -142,6 +144,8 @@ const DetalhesPessoa: React.FC = () => {
             <br />
             <button onClick={handleAddPhone}>Adicionar telefone</button>
             <br />
+            <br />
+            <h3>Emails:</h3>
             {pessoa.emails?.map((email) => (
                 <div>
                     <p key={email.id}>Email: {email.email}</p>
@@ -153,6 +157,7 @@ const DetalhesPessoa: React.FC = () => {
             <button onClick={handleAddEmail}>Adicionar email</button>
             <br />
             <br />
+            <h3>Célula:</h3>
             {pessoa.celulaId ?
                 <div>
                     <p>Célula: {celula.nome}</p>
@@ -168,6 +173,7 @@ const DetalhesPessoa: React.FC = () => {
             }
             <br />
             <br />
+            <h3>Grupos:</h3>
             {grupos.map((grupo) => (
                 <div>
                     <p key={grupo.id}>Nome do grupo: {grupo.nome}</p>

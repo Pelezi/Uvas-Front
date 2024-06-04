@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { Table, Column } from "../../../../components/common/Table";
 
@@ -10,9 +10,19 @@ import { Grupo } from "../../../../services/grupoService";
 const ListarDiretor: React.FC = () => {
 
     const navigate = useNavigate();
-
+    const location = useLocation();
     const [diretores, setDiretores] = useState<Diretor[]>([]);
     const [grupos, setGrupos] = useState<Grupo[]>([]);
+    const [filter, setFilter] = useState<string>("");
+
+    useEffect(() => {
+        // Get the filter value from the query parameters
+        const queryParams = new URLSearchParams(location.search);
+        const filterParam = queryParams.get("filter");
+        if (filterParam) {
+            setFilter(filterParam);
+        }
+    }, [location.search]);
 
     const fetchDiretores = async () => {
         try {
@@ -45,8 +55,8 @@ const ListarDiretor: React.FC = () => {
     }
 
     const columns: Column<Diretor>[] = [
-        { header: "Nome", accessor: (item) => item.pessoaId.nome, linkAccessor: (item) => item.pessoaId.id },
-        { header: "Grupos", accessor: (item) => item.grupos?.map((grupo) => grupo.nome).join(", ") },
+        { header: "Nome", accessor: (item) => item.pessoaId.nome, type: "diretor/", linkAccessor: (item) => item.id},
+        { header: "Grupos", accessor: (item) => item.grupos?.map((grupo) => grupo.nome).join(", "), type: "grupos/listar?filter=", linkAccessor: (item) => item.pessoaId.nome},
     ];
 
     return (
@@ -55,6 +65,7 @@ const ListarDiretor: React.FC = () => {
             data={diretores}
             handleDelete={handleDelete}
             handleEdit={handleEdit}
+            initialFilter={filter}
         />
         
     )
