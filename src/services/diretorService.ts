@@ -3,7 +3,7 @@ import api from './api';
 export interface Diretor {
     id: string;
     pessoaId: {
-        id?: string
+        id: string
         nome?: string;
     };
     grupos?: {

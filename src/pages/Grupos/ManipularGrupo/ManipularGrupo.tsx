@@ -115,7 +115,7 @@ const ManipularGrupo: React.FC = () => {
         console.log("values", values);
         try {
             values.integrantes = selectedPessoas.map((pessoaId) => ({ id: pessoaId }))
-            values.diretorId = { id: values.diretorId?.id, pessoaId: undefined};
+            values.diretorId = { id: diretores.find((diretor) => diretor.id === values.diretorId?.id)?.id, pessoaId: undefined}
             await createOrUpdateGrupo(values);
             resetForm();
             navigate("/grupos/listar");
@@ -160,12 +160,12 @@ const ManipularGrupo: React.FC = () => {
 
                     <Datalist
                         label="Diretor"
-                        name="diretorId.pessoaId.id"
-                        options={pessoas}
+                        name="diretorId.id"
+                        options={diretores}
                         optionFilter={diretoresIds}
                         filterType="include"
-                        errors={getIn(errors, "diretorId.pessoaId.id")}
-                        touched={getIn(touched, "diretorId.pessoaId.id")}
+                        errors={getIn(errors, "diretorId.id")}
+                        touched={getIn(touched, "diretorId.id")}
                         initialName={grupo && grupo.diretorId?.pessoaId?.nome}
                     />
 

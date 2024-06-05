@@ -110,7 +110,7 @@ const ManipularDiscipulador: React.FC = () => {
             navigate("/discipuladores/listar");
             alert("Discipulador salvo com sucesso!");
         } catch (error) {
-            console.error("Erro ao salvar líder", error);
+            console.error("Erro ao salvar discipulador", error);
             alert("Erro ao salvar discipulador. Tente novamente.");
         }
     };

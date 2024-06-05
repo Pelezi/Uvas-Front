@@ -105,10 +105,10 @@ const ManipularDiretor: React.FC = () => {
             await createOrUpdateDiretor(values);
             resetForm();
             navigate("/diretores/listar");
-            alert("Líder salvo com sucesso!");
+            alert("Diretor salvo com sucesso!");
         } catch (error) {
-            console.error("Erro ao salvar líder", error);
-            alert("Erro ao salvar líder. Tente novamente.");
+            console.error("Erro ao salvar diretor", error);
+            alert("Erro ao salvar diretor. Tente novamente.");
         }
     };
 

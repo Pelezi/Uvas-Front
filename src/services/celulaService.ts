@@ -88,8 +88,18 @@ export const removeLiderFromCelula = async (celulaId: string): Promise<Celula> =
     return response.data;
 }
 
+export const addLiderToCelula = async (celulaId: string, liderId: string): Promise<Celula> => {
+    const response = await api.put<Celula>(`/celulas/addLider/${celulaId}/${liderId}`);
+    return response.data;
+}
+
 export const removeDiscipuladorFromCelula = async (celulaId: string): Promise<Celula> => {
     const response = await api.put<Celula>(`/celulas/removeDiscipulador/${celulaId}`);
+    return response.data;
+}
+
+export const addDiscipuladorToCelula = async (celulaId: string, discipuladorId: string): Promise<Celula> => {
+    const response = await api.put<Celula>(`/celulas/addDiscipulador/${celulaId}/${discipuladorId}`);
     return response.data;
 }
 
