@@ -13,6 +13,8 @@ import DetalhesPessoa from "../pages/pessoas/DetalhesPessoa";
 import CriarPhone from "../pages/pessoas/Phone/CriarPhone";
 import CriarEmail from "../pages/pessoas/Email/CriarEmail";
 
+import AdicionarACelula from "../pages/pessoas/Celula/AdicionarACelula";
+
 import ManipularCelula from "../pages/Celulas/ManipularCelula";
 import ListarCelulas from "../pages/Celulas/ListarCelulas";
 import DetalhesCelula from "../pages/Celulas/DetalhesCelula";
@@ -52,6 +54,7 @@ const AuthRoutes: React.FC = () => {
                 <Route path="/pessoa/:id" element={<DetalhesPessoa />} />
                 <Route path="pessoas/phones/cadastrar/:pessoaId" element={<CriarPhone />}/>
                 <Route path="pessoas/emails/cadastrar/:pessoaId" element={<CriarEmail />}/>
+                <Route path="pessoas/celula/:pessoaId" element={<AdicionarACelula />} />
 
                 <Route path="/celulas/cadastrar" element={<ManipularCelula />} />
                 <Route path="/celulas/editar" element={<ManipularCelula />} />

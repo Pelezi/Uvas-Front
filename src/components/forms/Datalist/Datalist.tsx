@@ -31,7 +31,7 @@ interface DatalistProps {
 
 const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touched, as, hidden, className, optionFilter, filterType, initialName }) => {
     const { setFieldValue, setFieldError, setFieldTouched } = useFormikContext();
-    
+
     const [selectedNome, setSelectedNome] = useState("");
 
 
@@ -55,7 +55,7 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
         if (!selectedOption && value !== "") {
             setSelectedNome("");
             alert("Opção inválida, por favor selecione uma opção válida");
-        } else if (selectedOption){
+        } else if (selectedOption) {
             setSelectedNome(selectedOption.nome || selectedOption.pessoaId?.nome || "");
             setFieldValue(name, selectedOption.id);
         }
@@ -81,7 +81,7 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
             <ErrorMessage name={name} component="div" className={styles.errorMsg} />
             <datalist id={label}>
                 <option value="">Selecione uma opção</option>
-                {options
+                {optionFilter ? options
                     .filter((option) => {
                         if (filterType === "include" && option.nome != null) {
                             return optionFilter && optionFilter.includes(option.id);
@@ -94,6 +94,12 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
                         }
                     })
                     .map((option) => (
+                        <option key={option.id} value={option.id}>
+                            {option.nome || option.pessoaId?.nome}
+                        </option>
+                    ))
+                    :
+                    options.map((option) => (
                         <option key={option.id} value={option.id}>
                             {option.nome || option.pessoaId?.nome}
                         </option>

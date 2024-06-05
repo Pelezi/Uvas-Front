@@ -14,33 +14,39 @@
     margin: 0.5rem;
 }
 
-.contactSection{
+.sectionButtons{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.contentSection{
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: start;
 }
 
-.contactRow{
+.contentRow{
     display: flex;
     flex-direction: row;
     gap: 10px;
 }
 
-.contactRow p{
+.contentRow p{
     margin: 5px 0;
 }
 
-.contactBlock{
+.contentBlock{
     margin-left: 20px;
     flex: 1;
 }
 
-.contactBlock h3{
+.contentBlock h3{
     text-align: left;
 }
 
-.contactTitle{
+.contentTitle{
     display: flex;
     flex-direction: row;
     align-items: center;

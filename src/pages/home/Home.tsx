@@ -90,36 +90,40 @@ const Home = () => {
             <Title className={styles.title}>Bem-vindo ao Uvas</Title>
             <p>Esta é a página inicial onde podemos encontrar algumas estatísticas.</p>
             <div className={styles.infoBoxContainer}>
-                <InfoBox
-                    title="Pessoas cadastradas"
-                    value={pessoas.length}
-                    icon={<FaUser size={65} />}
-                />
-                <InfoBox
-                    title="Células cadastradas"
-                    value={celulas.length}
-                    icon={<FaHouseChimney size={65} />}
-                />
-                <InfoBox
-                    title="Grupos cadastrados"
-                    value={grupos.length}
-                    icon={<FaUsers size={65} />}
-                />
-                <InfoBox
-                    title="Líderes cadastrados"
-                    value={lideres.length}
-                    icon={<FaHouseChimneyUser size={65} />}
-                />
-                <InfoBox
-                    title="Discipuladores cadastrados"
-                    value={discipuladores.length}
-                    icon={<FaUserGroup size={65} />}
-                />
-                <InfoBox
-                    title="Diretores cadastrados"
-                    value={diretores.length}
-                    icon={<FaUserTie size={65} />}
-                />
+                <div className={styles.section}>
+                    <InfoBox
+                        title="Pessoas cadastradas"
+                        value={pessoas.length}
+                        icon={<FaUser size={65} />}
+                    />
+                    <InfoBox
+                        title="Células cadastradas"
+                        value={celulas.length}
+                        icon={<FaHouseChimney size={65} />}
+                    />
+                    <InfoBox
+                        title="Grupos cadastrados"
+                        value={grupos.length}
+                        icon={<FaUsers size={65} />}
+                    />
+                </div>
+                <div className={styles.section}>
+                    <InfoBox
+                        title="Líderes cadastrados"
+                        value={lideres.length}
+                        icon={<FaHouseChimneyUser size={65} />}
+                    />
+                    <InfoBox
+                        title="Discipuladores cadastrados"
+                        value={discipuladores.length}
+                        icon={<FaUserGroup size={65} />}
+                    />
+                    <InfoBox
+                        title="Diretores cadastrados"
+                        value={diretores.length}
+                        icon={<FaUserTie size={65} />}
+                    />
+                </div>
             </div>
         </main>
     )

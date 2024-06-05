@@ -35,14 +35,10 @@ const DetalhesPessoa: React.FC = () => {
         try {
             const pessoa = await getPessoaById(String(id));
             setPessoa(pessoa);
-            const celula = await getCelulasById(String(pessoa.celulaId?.id));
-            setCelula(celula);
-            const lider = await getLiderByPessoaId(String(pessoa.id));
-            setLider(lider);
-            const discipulador = await getDiscipuladorByPessoaId(String(pessoa.id));
-            setDiscipulador(discipulador);
-            const diretor = await getDiretorByPessoaId(String(pessoa.id));
-            setDiretor(diretor);
+            try { const celula = await getCelulasById(String(pessoa.celulaId?.id)); setCelula(celula); } catch (error) { console.log('Erro ao buscar celula', error); }
+            try { const lider = await getLiderByPessoaId(String(pessoa.id)); setLider(lider); } catch (error) { console.log('Erro ao buscar lider', error); }
+            try { const discipulador = await getDiscipuladorByPessoaId(String(pessoa.id)); setDiscipulador(discipulador); } catch (error) { console.log('Erro ao buscar discipulador', error); }
+            try { const diretor = await getDiretorByPessoaId(String(pessoa.id)); setDiretor(diretor); } catch (error) { console.log('Erro ao buscar diretor', error); }
         } catch (error) {
             console.log('Erro ao buscar pessoas', error);
 
@@ -122,6 +118,14 @@ const DetalhesPessoa: React.FC = () => {
         navigate(`/diretor/${diretor.id}`);
     }
 
+    const handleCelulaProfile = () => {
+        navigate(`/celula/${celula.id}`);
+    }
+
+    const handleGrupoProfile = (grupoId: string) => {
+        navigate(`/grupo/${grupoId}`);
+    }
+
     const handleRemoveFromCelula = async (id: string) => {
         try {
             await removePessoaFromCelula(id);
@@ -134,6 +138,10 @@ const DetalhesPessoa: React.FC = () => {
         }
     }
 
+    const handleAddToCelula = () => {
+        navigate(`/pessoas/celula/${id}`);
+    }
+
     const handleRemoveFromGrupo = async (id: string, grupoId: string) => {
         try {
             await removePessoaFromGrupo(id, grupoId);
@@ -144,6 +152,10 @@ const DetalhesPessoa: React.FC = () => {
             alert("Erro ao remover pessoa do grupo. Tente novamente.");
 
         }
+    }
+
+    const handleAddToGrupo = () => {
+        navigate(`/pessoas/grupo/${id}`);
     }
 
     return (
@@ -167,27 +179,27 @@ const DetalhesPessoa: React.FC = () => {
                 <Button onClick={() => handleDeletePessoa(pessoa)}><FaRegTrashCan /></Button>
             </div>
             <div className={styles.section}>
-                <div className={styles.contactSection}>
-                    <div className={styles.contactBlock}>
-                        <div className={styles.contactTitle}>
+                <div className={styles.contentSection}>
+                    <div className={styles.contentBlock}>
+                        <div className={styles.contentTitle}>
                             <h3>Telefones:</h3>
                             <Button green onClick={handleAddPhone}><FaPlus /></Button>
                         </div>
                         {pessoa.phones?.map((phone) => (
-                            <div className={styles.contactRow}>
+                            <div className={styles.contentRow}>
                                 <p key={phone.id}>{phone.numero}</p>
                                 <p key={phone.id}>{phone.phoneType}</p>
                                 <Button deleteButton onClick={() => handleDeletePhone(phone.id)}><FaRegTrashCan /></Button>
                             </div>
                         ))}
                     </div>
-                    <div className={styles.contactBlock}>
-                        <div className={styles.contactTitle}>
+                    <div className={styles.contentBlock}>
+                        <div className={styles.contentTitle}>
                             <h3>Emails:</h3>
                             <Button green onClick={handleAddEmail}><FaPlus /></Button>
                         </div>
                         {pessoa.emails?.map((email) => (
-                            <div className={styles.contactRow}>
+                            <div className={styles.contentRow}>
                                 <p key={email.id}>{email.email}</p>
                                 <p key={email.id}>{email.emailType}</p>
                                 <Button deleteButton onClick={() => handleDeleteEmail(email.id)}><FaRegTrashCan /></Button>
@@ -196,34 +208,78 @@ const DetalhesPessoa: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <br />
-            <br />
-            <h3>Célula:</h3>
-            {pessoa.celulaId ?
-                <div>
-                    <p>Célula: {celula.nome}</p>
-                    <p>Líder: {celula.liderId?.pessoaId?.nome}</p>
-                    <p>Bairro: {celula.enderecoId?.bairro}</p>
-                    <p>Rua: {celula.enderecoId?.rua}</p>
-                    <button onClick={() => handleRemoveFromCelula(String(pessoa.id))}>Remover da célula</button>
-                    <br />
-                </div>
+            <div className={styles.section}>
+                <div className={styles.contentSection}>
+                    <div className={styles.contentBlock}>
+                        <div className={styles.contentTitle}>
+                            <h3>Célula:</h3>
+                            {celula ?
+                                <div className={styles.sectionButtons}>
+                                    <Button blue onClick={handleAddToCelula}><FaPencil /></Button>
+                                    <Button deleteButton onClick={() => handleRemoveFromCelula(String(pessoa.id))}><FaRegTrashCan /></Button>
+                                </div>
+                                :
+                                <Button green onClick={handleAddToCelula}><FaPlus /></Button>
+                            }
+                        </div>
+                        {pessoa.celulaId ?
+                            <div>
+                                <h3>{celula.nome}</h3>
+                                <div className={styles.contentRow}>
+                                    <p>{celula.enderecoId?.bairro}</p>
+                                    <p>{celula.diaDaSemana}</p>
+                                    <p>{celula.horario}</p>
+                                </div>
+                                <div className={styles.contentRow}>
+                                    <p>Líder: {celula.liderId?.pessoaId?.nome}</p>
+                                    <p>Discipulador: {celula.discipuladorId?.pessoaId?.nome}</p>
+                                    <br />
+                                </div>
+                                <br />
+                                <div className={styles.contentRow}>
+                                    <Button blue onClick={handleCelulaProfile}>Ver Célula</Button>
+                                </div>
+                            </div>
 
-                :
-                null
-            }
-            <br />
-            <br />
-            <h3>Grupos:</h3>
-            {grupos.map((grupo) => (
-                <div>
-                    <p key={grupo.id}>Nome do grupo: {grupo.nome}</p>
-                    <p key={grupo.id}>Tipo de grupo: {grupo.grupoType}</p>
-                    <p key={grupo.id}>Diretor: {grupo.diretorId?.pessoaId?.nome}</p>
-                    <button onClick={() => handleRemoveFromGrupo(String(pessoa.id), String(grupo.id))}>Remover do grupo</button>
-                    <br />
+                            :
+                            null
+                        }
+                    </div>
                 </div>
-            ))}
+            </div>
+            <div className={styles.section}>
+                <div className={styles.contentSection}>
+                    <div className={styles.contentBlock}>
+                        <div className={styles.contentTitle}>
+                            <h3>Grupos:</h3>
+                            {grupos.length > 0 ?
+                                <div className={styles.sectionButtons}>
+                                    <Button blue onClick={handleAddToGrupo}><FaPencil /></Button>
+                                    <Button deleteButton onClick={() => handleRemoveFromGrupo(String(pessoa.id), String(grupos[0].id))}><FaRegTrashCan /></Button>
+                                </div>
+                                :
+                                <Button green onClick={handleAddToGrupo}><FaPlus /></Button>
+                            }
+                        </div>
+                        {grupos.map((grupo) => (
+                            <div>
+                                <div className={styles.contentTitle}>
+
+                                    <h3 key={grupo.id}>{grupo.nome}</h3>
+                                    <button onClick={() => handleRemoveFromGrupo(String(pessoa.id), String(grupo.id))}>Remover do grupo</button>
+                                </div>
+                                <div className={styles.contentRow}>
+                                    <p key={grupo.id}>Grupo de: {grupo.grupoType}</p>
+                                </div>
+                                <div className={styles.contentRow}>
+                                    <p key={grupo.id}>Diretor: {grupo.diretorId?.pessoaId?.nome}</p>
+                                </div>
+                                <br />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
             <br />
             <br />
 
