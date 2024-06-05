@@ -7,10 +7,15 @@ import { deletePhone } from "../../../services/phoneService";
 import { deleteEmail } from "../../../services/emailService";
 import { Celula, getCelulasById } from "../../../services/celulaService";
 import { Grupo, getGruposByIntegranteId } from "../../../services/grupoService";
+import { Lider, getLiderByPessoaId } from "../../../services/liderService";
+import { Discipulador, getDiscipuladorByPessoaId } from "../../../services/discipuladorService";
+import { Diretor, getDiretorByPessoaId } from "../../../services/diretorService";
+import Button from "../../../components/common/Button";
 
 import { useParams } from "react-router-dom";
 
 import styles from "./DetalhesPessoa.module.css";
+import { FaPencil, FaPlus, FaRegTrashCan } from "react-icons/fa6";
 
 
 const DetalhesPessoa: React.FC = () => {
@@ -22,6 +27,9 @@ const DetalhesPessoa: React.FC = () => {
     const [pessoa, setPessoa] = useState<Pessoa>({} as Pessoa);
     const [celula, setCelula] = useState<Celula>({} as Celula);
     const [grupos, setGrupos] = useState<Grupo[]>([] as Grupo[]);
+    const [lider, setLider] = useState<Lider>({} as Lider);
+    const [discipulador, setDiscipulador] = useState<Discipulador>({} as Discipulador);
+    const [diretor, setDiretor] = useState<Diretor>({} as Diretor);
 
     const fetchPessoa = async () => {
         try {
@@ -29,6 +37,12 @@ const DetalhesPessoa: React.FC = () => {
             setPessoa(pessoa);
             const celula = await getCelulasById(String(pessoa.celulaId?.id));
             setCelula(celula);
+            const lider = await getLiderByPessoaId(String(pessoa.id));
+            setLider(lider);
+            const discipulador = await getDiscipuladorByPessoaId(String(pessoa.id));
+            setDiscipulador(discipulador);
+            const diretor = await getDiretorByPessoaId(String(pessoa.id));
+            setDiretor(diretor);
         } catch (error) {
             console.log('Erro ao buscar pessoas', error);
 
@@ -96,6 +110,18 @@ const DetalhesPessoa: React.FC = () => {
         navigate(`/pessoas/emails/cadastrar/${id}`);
     };
 
+    const handleLiderProfile = () => {
+        navigate(`/lider/${lider.id}`);
+    }
+
+    const handleDiscipuladorProfile = () => {
+        navigate(`/discipulador/${discipulador.id}`);
+    }
+
+    const handleDiretorProfile = () => {
+        navigate(`/diretor/${diretor.id}`);
+    }
+
     const handleRemoveFromCelula = async (id: string) => {
         try {
             await removePessoaFromCelula(id);
@@ -121,40 +147,55 @@ const DetalhesPessoa: React.FC = () => {
     }
 
     return (
-        <div>
-            <h1>{pessoa.nome}</h1>
-            <p>Cargo: {pessoa.cargo}</p>
-            <br />
-            <h3>Endereço:</h3>
-            <p>Bairro: {pessoa.enderecoId?.bairro}</p>
-            <p>Rua: {pessoa.enderecoId?.rua}</p>
-            <p>Número: {pessoa.enderecoId?.numero}</p>
-            <p>Tipo de endereço: {pessoa.enderecoId?.addressType}</p>
-            <button className={styles.button} onClick={() => handleEditPessoa(pessoa)}>Editar</button>
-            <button onClick={() => handleDeletePessoa(pessoa)}>Deletar</button>
-            <br /><br />
-            <h3>Telefones:</h3>
-            {pessoa.phones?.map((phone) => (
-                <div>
-                    <p key={phone.id}>Telefone: {phone.numero}</p>
-                    <p key={phone.id}>Tipo de telefone: {phone.phoneType}</p>
-                    <button onClick={() => handleDeletePhone(phone.id)}>Deletar telefone</button>
+        <div className={styles.detalhesPage}>
+            <div className={styles.section}>
+                <h1>{pessoa.nome}</h1>
+                <div className={styles.profiles}>
+                    {/* <p className={styles.cargo}>{pessoa.cargo}</p> */}
+                    <Button selected>{pessoa.cargo}</Button>
+                    {lider.id ? <Button onClick={handleLiderProfile}>Líder</Button> : null}
+                    {discipulador.id ? <Button onClick={handleDiscipuladorProfile}>Discipulador</Button> : null}
+                    {diretor.id ? <Button onClick={handleDiretorProfile}>Diretor</Button> : null}
                 </div>
-            ))}
-            <br />
-            <button onClick={handleAddPhone}>Adicionar telefone</button>
-            <br />
-            <br />
-            <h3>Emails:</h3>
-            {pessoa.emails?.map((email) => (
-                <div>
-                    <p key={email.id}>Email: {email.email}</p>
-                    <p key={email.id}>Tipo de email: {email.emailType}</p>
-                    <button onClick={() => handleDeleteEmail(email.id)}>Deletar email</button>
+                <div className={styles.endereco}>
+                    <p>Rua: {pessoa.enderecoId?.rua}, {pessoa.enderecoId?.numero}</p>
+                    <p>Bairro: {pessoa.enderecoId?.bairro}</p>
                 </div>
-            ))}
-            <br />
-            <button onClick={handleAddEmail}>Adicionar email</button>
+            </div>
+            <div className={styles.buttons}>
+                <Button onClick={() => handleEditPessoa(pessoa)}><FaPencil /></Button>
+                <Button onClick={() => handleDeletePessoa(pessoa)}><FaRegTrashCan /></Button>
+            </div>
+            <div className={styles.section}>
+                <div className={styles.contactSection}>
+                    <div className={styles.contactBlock}>
+                        <div className={styles.contactTitle}>
+                            <h3>Telefones:</h3>
+                            <Button green onClick={handleAddPhone}><FaPlus /></Button>
+                        </div>
+                        {pessoa.phones?.map((phone) => (
+                            <div className={styles.contactRow}>
+                                <p key={phone.id}>{phone.numero}</p>
+                                <p key={phone.id}>{phone.phoneType}</p>
+                                <Button deleteButton onClick={() => handleDeletePhone(phone.id)}><FaRegTrashCan /></Button>
+                            </div>
+                        ))}
+                    </div>
+                    <div className={styles.contactBlock}>
+                        <div className={styles.contactTitle}>
+                            <h3>Emails:</h3>
+                            <Button green onClick={handleAddEmail}><FaPlus /></Button>
+                        </div>
+                        {pessoa.emails?.map((email) => (
+                            <div className={styles.contactRow}>
+                                <p key={email.id}>{email.email}</p>
+                                <p key={email.id}>{email.emailType}</p>
+                                <Button deleteButton onClick={() => handleDeleteEmail(email.id)}><FaRegTrashCan /></Button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
             <br />
             <br />
             <h3>Célula:</h3>

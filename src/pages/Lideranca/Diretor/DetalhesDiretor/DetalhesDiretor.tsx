@@ -85,7 +85,6 @@ const DetalhesDiretor: React.FC = () => {
             <p>Bairro: {pessoa.enderecoId?.bairro}</p>
             <p>Rua: {pessoa.enderecoId?.rua}</p>
             <p>Número: {pessoa.enderecoId?.numero}</p>
-            <p>Tipo de endereço: {pessoa.enderecoId?.addressType}</p>
             <button className={styles.button} onClick={() => handleEditDiretor(diretor)}>Editar</button>
             <button onClick={() => handleDeleteDiretor(diretor)}>Deletar</button>
             <br /><br />

@@ -130,7 +130,7 @@ const ManipularDiretor: React.FC = () => {
 
                     <Datalist
                         label="Id do membro"
-                        name="pessoaId"
+                        name="pessoaId.id"
                         options={pessoas}
                         errors={getIn(errors, "pessoaId.id")}
                         touched={getIn(touched, "pessoaId.id")}

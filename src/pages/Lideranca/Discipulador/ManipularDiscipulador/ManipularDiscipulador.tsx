@@ -12,6 +12,7 @@ import MultipleDatalist from "../../../../components/forms/Checkbox";
 import { Pessoa, getPessoas } from "../../../../services/pessoaService";
 import { Celula, getCelulas, getCelulasByDiscipuladorId } from "../../../../services/celulaService";
 import { getIn } from "formik";
+import Select from "../../../../components/forms/Select";
 
 const ManipularDiscipulador: React.FC = () => {
 
@@ -85,6 +86,7 @@ const ManipularDiscipulador: React.FC = () => {
         pessoaId: {
             id: "",
         },
+        rede: "",
         celulas: []
     };
 
@@ -93,6 +95,7 @@ const ManipularDiscipulador: React.FC = () => {
         pessoaId: Yup.object().shape({
             id: Yup.string().required("Campo obrigatório")
         }),
+        rede: Yup.string(),
         celulas: Yup.array().of(Yup.object().shape({
             id: Yup.string(),
             nome: Yup.string()
@@ -105,10 +108,10 @@ const ManipularDiscipulador: React.FC = () => {
             await createOrUpdateDiscipulador(values);
             resetForm();
             navigate("/discipuladores/listar");
-            alert("Líder salvo com sucesso!");
+            alert("Discipulador salvo com sucesso!");
         } catch (error) {
             console.error("Erro ao salvar líder", error);
-            alert("Erro ao salvar líder. Tente novamente.");
+            alert("Erro ao salvar discipulador. Tente novamente.");
         }
     };
 
@@ -136,6 +139,18 @@ const ManipularDiscipulador: React.FC = () => {
                         touched={getIn(touched, "pessoaId.id")}
                         optionFilter={discipuladoresIds}
                         filterType="exclude"
+                    />
+                    
+                    <Select
+                        label="Rede"
+                        name="rede"
+                        options={[
+                            { value: "Jovens", label: "Jovens" },
+                            { value: "Adultos", label: "Adultos" },
+                            { value: "Crianças", label: "Crianças" },
+                        ]}
+                        errors={errors.rede}
+                        touched={touched.rede}
                     />
 
                     <MultipleDatalist

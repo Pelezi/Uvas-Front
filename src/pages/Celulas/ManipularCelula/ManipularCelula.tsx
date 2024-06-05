@@ -15,6 +15,7 @@ import { Lider, getLideres } from "../../../services/liderService";
 import { Discipulador, getDiscipuladores } from "../../../services/discipuladorService";
 import { Pessoa, getPessoas, getPessoasByCelulaId } from "../../../services/pessoaService";
 import MultipleDatalist from "../../../components/forms/Checkbox";
+import style from "./ManipularCelula.module.css";
 
 const ManipularCelula: React.FC = () => {
 
@@ -95,7 +96,6 @@ const ManipularCelula: React.FC = () => {
             bairro: "",
             rua: "",
             numero: "",
-            addressType: "",
         },
         liderId: {
             id: "",
@@ -129,7 +129,6 @@ const ManipularCelula: React.FC = () => {
             bairro: Yup.string().required("Campo obrigatório"),
             rua: Yup.string(),
             numero: Yup.string(),
-            addressType: Yup.string().required("Campo obrigatório"),
         }),
         liderId: Yup.object().shape({
             id: Yup.string().required("Campo obrigatório"),
@@ -191,84 +190,91 @@ const ManipularCelula: React.FC = () => {
                         errors={errors.nome}
                         touched={touched.nome}
                     />
+                    <div className={style.inputRow}>
+                        <div className={style.flex2}>
+                            <Select
+                                label="Dia da semana"
+                                name="diaDaSemana"
+                                options={[
+                                    { value: "domingo", label: "Domingo" },
+                                    { value: "segunda", label: "Segunda" },
+                                    { value: "terça", label: "Terça" },
+                                    { value: "quarta", label: "Quarta" },
+                                    { value: "quinta", label: "Quinta" },
+                                    { value: "sexta", label: "Sexta" },
+                                    { value: "sabado", label: "Sábado" },
+                                ]}
+                                errors={errors.diaDaSemana}
+                                touched={touched.diaDaSemana}
+                            />
+                        </div>
+                        <div className={style.flex1}>
+                            <Input
+                                label="Horário"
+                                name="horario"
+                                type="time"
+                                errors={errors.horario}
+                                touched={touched.horario}
+                            />
+                        </div>
+                    </div>
 
-                    <Select
-                        label="Dia da semana"
-                        name="diaDaSemana"
-                        options={[
-                            { value: "domingo", label: "Domingo" },
-                            { value: "segunda", label: "Segunda" },
-                            { value: "terça", label: "Terça" },
-                            { value: "quarta", label: "Quarta" },
-                            { value: "quinta", label: "Quinta" },
-                            { value: "sexta", label: "Sexta" },
-                            { value: "sabado", label: "Sábado" },
-                        ]}
-                        errors={errors.diaDaSemana}
-                        touched={touched.diaDaSemana}
-                    />
+                    <div className={style.inputRow}>
+                        <div className={style.flex1}>
+                            <Input
+                                label="Bairro"
+                                name="enderecoId.bairro"
+                                errors={getIn(errors, "enderecoId.bairro")}
+                                touched={getIn(touched, "enderecoId.bairro")}
+                            />
+                        </div>
+                    </div>
+                    <div className={style.inputRow}>
+                        <div className={style.flex2}>
 
-                    <Input
-                        label="Horário"
-                        name="horario"
-                        errors={errors.horario}
-                        touched={touched.horario}
-                    />
+                            <Input
+                                label="Rua"
+                                name="enderecoId.rua"
+                                errors={getIn(errors, "enderecoId.rua")}
+                                touched={getIn(touched, "enderecoId.rua")}
+                            />
+                        </div>
+                        <div className={style.flex1}>
 
-                    <Input
-                        label="Bairro"
-                        name="enderecoId.bairro"
-                        errors={getIn(errors, "enderecoId.bairro")}
-                        touched={getIn(touched, "enderecoId.bairro")}
-                    />
-
-                    <Input
-                        label="Rua"
-                        name="enderecoId.rua"
-                        errors={getIn(errors, "enderecoId.rua")}
-                        touched={getIn(touched, "enderecoId.rua")}
-                    />
-
-                    <Input
-                        label="Número"
-                        name="enderecoId.numero"
-                        errors={getIn(errors, "enderecoId.numero")}
-                        touched={getIn(touched, "enderecoId.numero")}
-                    />
-
-                    <Select
-                        label="Tipo de endereço"
-                        name="enderecoId.addressType"
-                        options={[
-                            { value: "casa", label: "Casa" },
-                            { value: "apartamento", label: "Apartamento" },
-                            { value: "outro", label: "Outro" },
-                        ]}
-                        errors={getIn(errors, "enderecoId.addressType")}
-                        touched={getIn(touched, "enderecoId.addressType")}
-                    />
-
-                    <Datalist
-                        label="Líder"
-                        name="liderId.id"
-                        options={lideres}
-                        optionFilter={lideresIds}
-                        filterType="include"
-                        errors={getIn(errors, "liderId.id")}
-                        touched={getIn(touched, "liderId.id")}
-                        initialName={celula && celula.liderId?.pessoaId?.nome}
-                    />
-
-                    <Datalist
-                        label="Discipulador"
-                        name="discipuladorId.id"
-                        options={discipuladores}
-                        optionFilter={discipuladoresIds}
-                        filterType="include"
-                        errors={getIn(errors, "discipuladorId.id")}
-                        touched={getIn(touched, "discipuladorId.id")}
-                        initialName={celula && celula.discipuladorId?.pessoaId?.nome}
-                    />
+                            <Input
+                                label="Número"
+                                name="enderecoId.numero"
+                                errors={getIn(errors, "enderecoId.numero")}
+                                touched={getIn(touched, "enderecoId.numero")}
+                            />
+                        </div>
+                    </div>
+                    <div className={style.inputRow}>
+                        <div className={style.flex1}>
+                            <Datalist
+                                label="Líder"
+                                name="liderId.id"
+                                options={lideres}
+                                optionFilter={lideresIds}
+                                filterType="include"
+                                errors={getIn(errors, "liderId.id")}
+                                touched={getIn(touched, "liderId.id")}
+                                initialName={celula && celula.liderId?.pessoaId?.nome}
+                            />
+                        </div>
+                        <div className={style.flex1}>
+                            <Datalist
+                                label="Discipulador"
+                                name="discipuladorId.id"
+                                options={discipuladores}
+                                optionFilter={discipuladoresIds}
+                                filterType="include"
+                                errors={getIn(errors, "discipuladorId.id")}
+                                touched={getIn(touched, "discipuladorId.id")}
+                                initialName={celula && celula.discipuladorId?.pessoaId?.nome}
+                            />
+                        </div>
+                    </div>
 
                     <MultipleDatalist
                         label="Pessoas"

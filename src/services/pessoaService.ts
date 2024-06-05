@@ -9,7 +9,6 @@ export interface Pessoa {
         numero?: string;
         rua?: string;
         bairro?: string;
-        addressType?: string;
     };
     phones?: {
         id?: string;

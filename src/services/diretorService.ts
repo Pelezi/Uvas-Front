@@ -28,6 +28,12 @@ export const getDiretorById = async (id: string): Promise<Diretor> => {
     return response.data;
 }
 
+export const getDiretorByPessoaId = async (id: string): Promise<Diretor> => {
+    const response = await api.get<Diretor>(`/diretores/pessoa/${id}`);
+    return response.data;
+
+}
+
 export const updateDiretor = async (diretor: Diretor): Promise<Diretor> => {
     const response = await api.put<Diretor>(`/diretores/${diretor.id}`, diretor);
     return response.data;

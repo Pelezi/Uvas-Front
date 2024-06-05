@@ -24,7 +24,6 @@ export interface Celula {
         numero?: string;
         rua?: string;
         bairro?: string;
-        addressType?: string;
     };
     pessoas?: Array<
         {

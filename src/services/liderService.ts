@@ -28,8 +28,8 @@ export const getLiderById = async (id: string): Promise<Lider> => {
     return response.data;
 }
 
-export const getLideresByPessoaId = async (id: string): Promise<Lider[]> => {
-    const response = await api.get<Lider[]>(`/lideres/pessoa/${id}`);
+export const getLiderByPessoaId = async (id: string): Promise<Lider> => {
+    const response = await api.get<Lider>(`/lideres/pessoa/${id}`);
     return response.data;
 }
 

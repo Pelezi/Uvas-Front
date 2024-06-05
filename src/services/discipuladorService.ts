@@ -6,6 +6,7 @@ export interface Discipulador {
         id: string
         nome?: string;
     };
+    rede?: string;
     celulas?: {
             id?: string;
             nome?: string;
@@ -28,8 +29,8 @@ export const getDiscipuladorById = async (id: string): Promise<Discipulador> => 
     return response.data;
 }
 
-export const getDiscipuladoresByPessoaId = async (id: string): Promise<Discipulador[]> => {
-    const response = await api.get<Discipulador[]>(`/discipuladores/pessoa/${id}`);
+export const getDiscipuladorByPessoaId = async (id: string): Promise<Discipulador> => {
+    const response = await api.get<Discipulador>(`/discipuladores/pessoa/${id}`);
     return response.data;
 }
 

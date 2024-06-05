@@ -102,7 +102,6 @@ const DetalhesCelula: React.FC = () => {
             <p>Bairro: {celula.enderecoId?.bairro}</p>
             <p>Rua: {celula.enderecoId?.rua}</p>
             <p>Número: {celula.enderecoId?.numero}</p>
-            <p>Tipo de endereço: {celula.enderecoId?.addressType}</p>
             <button className={styles.button} onClick={() => handleEditCelula(celula)}>Editar</button>
             <button onClick={() => handleDeleteCelula(celula)}>Deletar</button>
             <br /><br />

@@ -1,3 +1,71 @@
-.button {
-    margin-right: 8px;
+.detalhesPage{
+    width: 80%;
+}
+
+.section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: #f1f1f1;
+    text-align: center;
+    margin: 0.5rem;
+}
+
+.contactSection{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
+
+.contactRow{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.contactRow p{
+    margin: 5px 0;
+}
+
+.contactBlock{
+    margin-left: 20px;
+    flex: 1;
+}
+
+.contactBlock h3{
+    text-align: left;
+}
+
+.contactTitle{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.endereco{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 95%;
+    margin-top: 20px;
+}
+
+.buttons{
+    position: fixed;
+    top: 95px;
+    right: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profiles{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }

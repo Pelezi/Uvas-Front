@@ -12,6 +12,8 @@ import Title from "../../../components/common/Title";
 import { Pessoa, createOrUpdatePessoa } from "../../../services/pessoaService";
 import { getIn } from "formik";
 
+import styles from "./ManipularPessoa.module.css";
+
 const ManipularPessoa: React.FC = () => {
 
     const navigate = useNavigate();
@@ -25,7 +27,6 @@ const ManipularPessoa: React.FC = () => {
             bairro: "",
             rua: "",
             numero: "",
-            addressType: "",
         },
         phones: [
             {
@@ -44,7 +45,7 @@ const ManipularPessoa: React.FC = () => {
         celulaId: {
             id: "",
             nome: "",
-            liderId:{
+            liderId: {
                 id: "",
                 pessoaId: {
                     id: "",
@@ -63,7 +64,6 @@ const ManipularPessoa: React.FC = () => {
             bairro: Yup.string(),
             rua: Yup.string(),
             numero: Yup.string(),
-            addressType: Yup.string(),
         }),
         phones: Yup.array().of(
             Yup.object().shape({
@@ -163,44 +163,28 @@ const ManipularPessoa: React.FC = () => {
                     <Input
                         label="Bairro"
                         name="enderecoId.bairro"
-                        // errors={errors.enderecoId}
-                        // touched={touched.enderecoId}
                         errors={getIn(errors, "enderecoId.bairro")}
                         touched={getIn(touched, "enderecoId.bairro")}
                     />
 
-                    <Input
-                        label="Rua"
-                        name="enderecoId.rua"
-                        // errors={errors.enderecoId}
-                        // touched={touched.enderecoId}
-                        errors={getIn(errors, "enderecoId.rua")}
-                        touched={getIn(touched, "enderecoId.rua")}
-                    />
-
-                    <Input
-                        label="Número"
-                        name="enderecoId.numero"
-                        // errors={errors.enderecoId}
-                        // touched={touched.enderecoId}
-                        errors={getIn(errors, "enderecoId.numero")}
-                        touched={getIn(touched, "enderecoId.numero")}
-                    />
-
-                    <Select
-                        label="Tipo de endereço"
-                        name="enderecoId.addressType"
-                        options={[
-                            { value: "casa", label: "Residencial" },
-                            { value: "trabalho", label: "Comercial" },
-                            { value: "outro", label: "Outro" },
-                        ]}
-                        // errors={errors.enderecoId.addressType} 
-                        errors={getIn(errors, "enderecoId.addressType")}
-                        // touched={touched.enderecoId}
-                        touched={getIn(touched, "enderecoId.addressType")}
-                    />
-
+                    <div className={styles.inputRow}>
+                        <div className={styles.flex2}>
+                            <Input
+                                label="Rua"
+                                name="enderecoId.rua"
+                                errors={getIn(errors, "enderecoId.rua")}
+                                touched={getIn(touched, "enderecoId.rua")}
+                            />
+                        </div>
+                        <div className={styles.flex1}>
+                            <Input
+                                label="Número"
+                                name="enderecoId.numero"
+                                errors={getIn(errors, "enderecoId.numero")}
+                                touched={getIn(touched, "enderecoId.numero")}
+                            />
+                        </div>
+                    </div>
                     <Button type="submit">Salvar</Button>
 
                 </>

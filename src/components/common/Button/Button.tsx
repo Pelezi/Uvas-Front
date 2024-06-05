@@ -5,16 +5,19 @@ import styles from "./Button.module.css";
 interface ButtonProps {
     type?: "button" | "submit";
     onClick?: () => void;
-    red?: boolean;
+    deleteButton?: boolean;
     children: React.ReactNode;
+    selected?: boolean;
+    green?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ type = "button", onClick, red, children }) => {
+const Button: React.FC<ButtonProps> = ({ type = "button", onClick, deleteButton, children, selected, green }) => {
     return (
         <button
             type={type}
             onClick={onClick}
-            className={`${styles.button} ${red && styles.redButton}`}
+            className={`${styles.button} ${deleteButton && styles.deleteButton} ${selected && styles.selectedButton} ${green && styles.greenButton}` }
+            disabled={selected}
         >
             {children}
         </button>
