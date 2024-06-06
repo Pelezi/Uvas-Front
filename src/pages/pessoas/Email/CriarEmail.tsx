@@ -65,7 +65,7 @@ const ManipularEmail: React.FC = () => {
                     />
 
                     <Select 
-                        label="Tipo de Telefone"
+                        label="Tipo de Email"
                         name="emailType"
                         options={[
                             { value: "pessoal", label: "Pessoal"},

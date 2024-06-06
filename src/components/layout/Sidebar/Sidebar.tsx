@@ -21,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({show, toggleSidebar}) => {
 
                     <ul>
                         <li>
-                            <NavLink to="/" onClick={toggleSidebar}>
+                            <NavLink to="/home" onClick={toggleSidebar}>
                                 <h3>Dashboard</h3>
                             </NavLink>
                         </li>
@@ -99,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({show, toggleSidebar}) => {
                     </ul>
                     <ul>
                         <li>
-                            <NavLink onClick={logout} to="/Login">
+                            <NavLink onClick={logout} to="/">
                                 <h3>Logout</h3>
                             </NavLink>
                         </li>

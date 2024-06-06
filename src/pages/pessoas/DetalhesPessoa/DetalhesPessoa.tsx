@@ -145,7 +145,7 @@ const DetalhesPessoa: React.FC = () => {
     const handleRemoveFromGrupo = async (id: string, grupoId: string) => {
         try {
             await removePessoaFromGrupo(id, grupoId);
-            fetchPessoa();
+            fetchGrupos();
             alert("Pessoa removida do grupo com sucesso!");
         } catch (error) {
             console.log("Erro ao remover pessoa do grupo", error);
@@ -163,20 +163,30 @@ const DetalhesPessoa: React.FC = () => {
             <div className={styles.section}>
                 <h1>{pessoa.nome}</h1>
                 <div className={styles.profiles}>
-                    {/* <p className={styles.cargo}>{pessoa.cargo}</p> */}
                     <Button selected>{pessoa.cargo}</Button>
                     {lider.id ? <Button onClick={handleLiderProfile}>Líder</Button> : null}
                     {discipulador.id ? <Button onClick={handleDiscipuladorProfile}>Discipulador</Button> : null}
                     {diretor.id ? <Button onClick={handleDiretorProfile}>Diretor</Button> : null}
                 </div>
-                <div className={styles.endereco}>
-                    <p>Rua: {pessoa.enderecoId?.rua}, {pessoa.enderecoId?.numero}</p>
-                    <p>Bairro: {pessoa.enderecoId?.bairro}</p>
-                </div>
             </div>
             <div className={styles.buttons}>
                 <Button onClick={() => handleEditPessoa(pessoa)}><FaPencil /></Button>
                 <Button onClick={() => handleDeletePessoa(pessoa)}><FaRegTrashCan /></Button>
+            </div>
+            <div className={styles.section}>
+                <div className={styles.contentSection}>
+                    <div className={styles.contentBlock}>
+                        <div className={styles.contentTitle}>
+                            <h3>Endereço:</h3>
+                        </div>
+                        <div className={styles.contentRow}>
+                            <p>Rua: {pessoa.enderecoId?.rua}, {pessoa.enderecoId?.numero}</p>
+                        </div>
+                        <div className={styles.contentRow}>
+                            <p>Bairro: {pessoa.enderecoId?.bairro}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div className={styles.section}>
                 <div className={styles.contentSection}>
@@ -222,28 +232,30 @@ const DetalhesPessoa: React.FC = () => {
                                 <Button green onClick={handleAddToCelula}><FaPlus /></Button>
                             }
                         </div>
-                        {pessoa.celulaId ?
-                            <div>
-                                <h3>{celula.nome}</h3>
-                                <div className={styles.contentRow}>
-                                    <p>{celula.enderecoId?.bairro}</p>
-                                    <p>{celula.diaDaSemana}</p>
-                                    <p>{celula.horario}</p>
-                                </div>
-                                <div className={styles.contentRow}>
-                                    <p>Líder: {celula.liderId?.pessoaId?.nome}</p>
-                                    <p>Discipulador: {celula.discipuladorId?.pessoaId?.nome}</p>
+                        <div className={styles.contentSection}>
+                            {pessoa.celulaId ?
+                                <div className={styles.contentBlock}>
+                                    <h3>{celula.nome}</h3>
+                                    <div className={styles.contentRow}>
+                                        <p>{celula.enderecoId?.bairro}</p>
+                                        <p>{celula.diaDaSemana}</p>
+                                        <p>{celula.horario}</p>
+                                    </div>
+                                    <div className={styles.contentRow}>
+                                        <p>Líder: {celula.liderId?.pessoaId?.nome}</p>
+                                        <p>Discipulador: {celula.discipuladorId?.pessoaId?.nome}</p>
+                                        <br />
+                                    </div>
                                     <br />
+                                    <div className={styles.contentRow}>
+                                        <Button blue onClick={handleCelulaProfile}>Ver Célula</Button>
+                                    </div>
                                 </div>
-                                <br />
-                                <div className={styles.contentRow}>
-                                    <Button blue onClick={handleCelulaProfile}>Ver Célula</Button>
-                                </div>
-                            </div>
 
-                            :
-                            null
-                        }
+                                :
+                                null
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -252,31 +264,28 @@ const DetalhesPessoa: React.FC = () => {
                     <div className={styles.contentBlock}>
                         <div className={styles.contentTitle}>
                             <h3>Grupos:</h3>
-                            {grupos.length > 0 ?
-                                <div className={styles.sectionButtons}>
-                                    <Button blue onClick={handleAddToGrupo}><FaPencil /></Button>
-                                    <Button deleteButton onClick={() => handleRemoveFromGrupo(String(pessoa.id), String(grupos[0].id))}><FaRegTrashCan /></Button>
-                                </div>
-                                :
-                                <Button green onClick={handleAddToGrupo}><FaPlus /></Button>
-                            }
+                            <Button green onClick={handleAddToGrupo}><FaPlus /></Button>
                         </div>
-                        {grupos.map((grupo) => (
-                            <div>
-                                <div className={styles.contentTitle}>
-
-                                    <h3 key={grupo.id}>{grupo.nome}</h3>
-                                    <button onClick={() => handleRemoveFromGrupo(String(pessoa.id), String(grupo.id))}>Remover do grupo</button>
+                        <div className={styles.contentSection}>
+                            {grupos.map((grupo) => (
+                                <div className={styles.contentBlock}>
+                                    <div className={styles.contentTitle}>
+                                        <h3 key={grupo.id}>{grupo.nome}</h3>
+                                        <Button deleteButton onClick={() => handleRemoveFromGrupo(String(pessoa.id), String(grupo.id))}><FaRegTrashCan /></Button>
+                                    </div>
+                                    <div className={styles.contentRow}>
+                                        <p key={grupo.id}>Grupo de {grupo.grupoType}</p>
+                                    </div>
+                                    <div className={styles.contentRow}>
+                                        <p key={grupo.id}>Diretor: {grupo.diretorId?.pessoaId?.nome}</p>
+                                    </div>
+                                    <br />
+                                    <div className={styles.contentRow}>
+                                        <Button blue onClick={() => handleGrupoProfile(grupo.id)}>Ver Grupo</Button>
+                                    </div>
                                 </div>
-                                <div className={styles.contentRow}>
-                                    <p key={grupo.id}>Grupo de: {grupo.grupoType}</p>
-                                </div>
-                                <div className={styles.contentRow}>
-                                    <p key={grupo.id}>Diretor: {grupo.diretorId?.pessoaId?.nome}</p>
-                                </div>
-                                <br />
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

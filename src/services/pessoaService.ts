@@ -31,6 +31,10 @@ export interface Pessoa {
             }
         };
     };
+    grupos?: {
+        id?: string,
+        nome?: string,
+    }[];
 }
 
 export const createPessoa = async (pessoa: Pessoa): Promise<Pessoa> => {

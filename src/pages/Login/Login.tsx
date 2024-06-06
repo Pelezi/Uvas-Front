@@ -38,7 +38,7 @@ const Login = () => {
         // try {
             // const user = await loginService(values);
             // login(user);
-            navigate('/');
+            navigate('/home');
         // } catch (error) {
             // console.log(error);
             // alert('Erro ao realizar login');

@@ -6,29 +6,38 @@ import Form from "../../../components/forms/Form";
 import Input from "../../../components/forms/Input/Input";
 import Button from "../../../components/common/Button";
 import Title from "../../../components/common/Title";
-import { Celula, createOrUpdateCelula, getCelulas } from "../../../services/celulaService";
+import { Grupo, createOrUpdateGrupo, getGrupos, getGruposByIntegranteId } from "../../../services/grupoService";
 import Select from "../../../components/forms/Select/Select";
-import { Pessoa, addPessoaToCelula } from "../../../services/pessoaService";
+import { Pessoa, addPessoaToGrupo } from "../../../services/pessoaService";
 import Datalist from "../../../components/forms/Datalist";
 import { getIn } from "formik";
 
-const AdicionarACelula: React.FC = () => {
+const AdicionarAGrupo: React.FC = () => {
     const { pessoaId } = useParams();
     const navigate = useNavigate();
 
-    const [celulas, setCelulas] = React.useState<Celula[]>([]);
+    const [grupos, setGrupos] = React.useState<Grupo[]>([]),
+        [selectedGrupos, setSelectedGrupos] = React.useState<Grupo[]>([]),
+        [gruposIds, setGruposIds] = React.useState<string[]>([]);
 
-    const fetchCelulas = async () => {
+    const fetchGrupos = async () => {
         try {
-            const celulas = await getCelulas();
-            setCelulas(celulas);
+            const grupos = await getGrupos();
+            setGrupos(grupos);
+            try {
+                const gruposIntegrante = await getGruposByIntegranteId(pessoaId || "");
+                setSelectedGrupos(gruposIntegrante);
+                setGruposIds(gruposIntegrante.map(grupo => grupo.id));
+            } catch (error) {
+                console.error("Erro ao buscar grupos do integrante", error);
+            }
         } catch (error) {
-            console.error("Erro ao buscar celulas", error);
+            console.error("Erro ao buscar grupos", error);
         }
     }
 
     React.useEffect(() => {
-        fetchCelulas();
+        fetchGrupos();
     }, []);
 
     const initialValues: Pessoa = {
@@ -70,7 +79,7 @@ const AdicionarACelula: React.FC = () => {
                 id: "",
                 nome: "",
             }
-        ],
+        ]
     };
 
     const validationSchema = Yup.object().shape({
@@ -98,7 +107,7 @@ const AdicionarACelula: React.FC = () => {
             })
         ),
         celulaId: Yup.object().shape({
-            id: Yup.string().required("Campo obrigatório"),
+            id: Yup.string(),
             nome: Yup.string(),
             liderId: Yup.object().shape({
                 id: Yup.string(),
@@ -113,18 +122,18 @@ const AdicionarACelula: React.FC = () => {
                 id: Yup.string(),
                 nome: Yup.string(),
             })
-        ),
+        )
     });
 
     const onSubmit = async (values: Pessoa, { resetForm }: { resetForm: () => void }) => {
         try {
-            await addPessoaToCelula(values.id, values.celulaId?.id || "");
+            await addPessoaToGrupo(pessoaId || "", values.grupos?.[0].id || ""); 
             resetForm();
             navigate(`/pessoa/${pessoaId}`); // Navigate back to DetalhesPessoa
-            alert("Célula salva com sucesso!");
+            alert("Grupo salvo com sucesso!");
         } catch (error) {
-            console.error("Erro ao salvar celula", error);
-            alert("Erro ao salvar celula. Tente novamente.");
+            console.error("Erro ao salvar grupo", error);
+            alert("Erro ao salvar grupo. Tente novamente.");
         }
     }
 
@@ -136,16 +145,17 @@ const AdicionarACelula: React.FC = () => {
         >
             {({ errors, touched }) => (
                 <>
-                    <Title>Adicionar Pessoa a Celula</Title>
+                    <Title>Adicionar Pessoa a Grupo</Title>
 
                     <Datalist
-                                label="Célula"
-                                name="celulaId.id"
-                                options={celulas}
-                                filterType="include"
-                                errors={getIn(errors, "celulaId.id")}
-                                touched={getIn(touched, "celulaId.id")}
-                            />
+                        label="Grupo"
+                        name="grupos.[0].id"
+                        options={grupos}
+                        optionFilter={gruposIds}
+                        filterType="exclude"
+                        errors={getIn(errors, "grupos.[0].id")}
+                        touched={getIn(touched, "grupos.[0].id")}
+                    />
 
                     <Button type="submit">Salvar</Button>
                 </>
@@ -154,4 +164,4 @@ const AdicionarACelula: React.FC = () => {
     );
 };
 
-export default AdicionarACelula;
+export default AdicionarAGrupo;
