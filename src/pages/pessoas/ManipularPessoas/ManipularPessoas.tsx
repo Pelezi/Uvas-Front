@@ -52,7 +52,13 @@ const ManipularPessoa: React.FC = () => {
                     nome: "",
                 },
             },
-        }
+        },
+        grupos: [
+            {
+                id: "",
+                nome: "",
+            }
+        ]
     };
 
     const validationSchema = Yup.object().shape({
@@ -90,6 +96,12 @@ const ManipularPessoa: React.FC = () => {
                 })
             })
         }),
+        grupos: Yup.array().of(
+            Yup.object().shape({
+                id: Yup.string(),
+                nome: Yup.string(),
+            })
+        )
     });
 
     const onSubmit = async (values: Pessoa, { resetForm }: { resetForm: () => void }) => {
