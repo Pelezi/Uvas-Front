@@ -11,6 +11,8 @@ import { Grupo, getGruposByIntegranteId } from "../../../services/grupoService";
 import { useParams } from "react-router-dom";
 
 import styles from "./DetalhesCelula.module.css";
+import Button from "../../../components/common/Button";
+import { FaPencil, FaPlus, FaRegTrashCan } from "react-icons/fa6";
 
 
 const DetalhesCelula: React.FC = () => {
@@ -66,58 +68,96 @@ const DetalhesCelula: React.FC = () => {
         }
     }
 
-    const handleaddPessoaToCelula = async (id: string) => {
-        try {
-            await addPessoaToCelula(id, celula.id);
-            fetchCelula();
-            alert("Pessoa adicionada com sucesso!");
-        } catch (error) {
-            console.log("Erro ao adicionar pessoa", error);
-            alert("Erro ao adicionar pessoa. Tente novamente.");
-
-        }
+    const handleLiderProfile = () => {
+        navigate(`/lider/${celula.liderId?.id}`);
     }
 
-    const handleRemoveFromCelula = async (id: string) => {
-        try {
-            await removePessoaFromCelula(id);
-            fetchCelula();
-            alert("Pessoa removida da célula com sucesso!");
-        } catch (error) {
-            console.log("Erro ao remover pessoa da célula", error);
-            alert("Erro ao remover pessoa da célula. Tente novamente.");
+    const handleDiscipuladorProfile = () => {
+        navigate(`/discipulador/${celula.discipuladorId?.id}`);
+    }
 
-        }
+    const handlePessoaProfile = async (id: string) => {
+        navigate(`/pessoa/${id}`);
     }
 
     return (
-        <div>
-            <h1>{celula.nome}</h1>
-            <p>Dia da Semana: {celula.diaDaSemana}</p>
-            <p>Horário: {celula.horario}</p>
-            <p>Líder: {celula.liderId?.pessoaId?.nome}</p>
-            <p>Discipulador: {celula.discipuladorId?.pessoaId?.nome}</p>
-            <br />
-            <h3>Endereço:</h3>
-            <p>Bairro: {celula.enderecoId?.bairro}</p>
-            <p>Rua: {celula.enderecoId?.rua}</p>
-            <p>Número: {celula.enderecoId?.numero}</p>
-            <button className={styles.button} onClick={() => handleEditCelula(celula)}>Editar</button>
-            <button onClick={() => handleDeleteCelula(celula)}>Deletar</button>
-            <br /><br />
-            <h3>Membros:</h3>
-            {pessoas.map((pessoa) => (
-                <div>
-                    <p key={pessoa.id}>Nome: {pessoa.nome}</p>
-                    <p key={pessoa.id}>Cargo: {pessoa.cargo}</p>
-                    <p>Bairro: {pessoa.enderecoId?.bairro}</p>
-                    <br />
-                    <button onClick={() => handleRemovePessoa(String(pessoa.id))}>Remover</button>
-                    <button onClick={() => handleaddPessoaToCelula(String(pessoa.id))}>Adicionar</button>
-                    <br />
-                    <br />
+        <div className={styles.detalhesPage}>
+            <div className={styles.section}>
+                <h1>{celula.nome}</h1>
+                <div className={styles.profiles}>
+                    {celula.liderId?.id ? <Button onClick={handleLiderProfile}>Líder</Button> : null}
+                    {celula.discipuladorId?.id ? <Button onClick={handleDiscipuladorProfile}>Discipulador</Button> : null}
                 </div>
-            ))}
+            </div>
+            <div className={styles.buttons}>
+                <Button onClick={() => handleEditCelula(celula)}><FaPencil /></Button>
+                <Button onClick={() => handleDeleteCelula(celula)}><FaRegTrashCan /></Button>
+            </div>
+            <div className={styles.section}>
+                <div className={styles.contentSection}>
+                    <div className={styles.contentBlock}>
+                        <div className={styles.contentTitle}>
+                            <h3>Info</h3>
+                        </div>
+                        <div className={styles.contentRow}>
+                            <p>{celula.diaDaSemana}</p>
+                            <p>{celula.horario}</p>
+                        </div>
+                        <div className={styles.contentRow}>
+                            <p className={styles.link} onClick={handleLiderProfile}>Líder: {celula.liderId?.pessoaId?.nome}</p>
+                        </div>
+                        <div className={styles.contentRow}>
+                            <p className={styles.link} onClick={handleDiscipuladorProfile}>Discipulador: {celula.discipuladorId?.pessoaId?.nome}</p>
+                        </div>
+                    </div>
+                    <div className={styles.contentBlock}>
+                        <div className={styles.contentTitle}>
+                            <h3>Endereço:</h3>
+                        </div>
+                        <div className={styles.contentRow}>
+                            <p>Bairro: {celula.enderecoId?.bairro}</p>
+                        </div>
+                        <div className={styles.contentRow}>
+                            <p>Rua: {celula.enderecoId?.rua}</p>
+                        </div>
+                        <div className={styles.contentRow}>
+                            <p>Número: {celula.enderecoId?.numero}</p>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+            <div className={styles.section}>
+                <div className={styles.contentSection}>
+                    <div className={styles.contentBlock}>
+                        <div className={styles.contentTitle}>
+                            <h3>Membros:</h3>
+                            <Button green onClick={() => handleEditCelula(celula)}><FaPlus /></Button>
+                        </div>
+                        <div className={styles.contentSection}>
+                            {pessoas.map((pessoa) => (
+                                <div className={styles.contentBlock}>
+                                    <div className={styles.contentTitle}>
+                                        <h3 key={pessoa.id}>{pessoa.nome}</h3>
+                                        <Button deleteButton onClick={() => handleRemovePessoa(String(pessoa.id))}><FaRegTrashCan /></Button>
+                                    </div>
+                                    <div className={styles.contentRow}>
+                                        <p key={pessoa.id}>Cargo: {pessoa.cargo}</p>
+                                    </div>
+                                    <div className={styles.contentRow}>
+                                        <p>Bairro: {pessoa.enderecoId?.bairro}</p>
+                                    </div>
+                                    <br />
+                                    <div className={styles.contentRow}>
+                                        <Button blue onClick={() => handlePessoaProfile(pessoa.id)}>Ver Pessoa</Button>
+                                    </div>
+                                    <br />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 };

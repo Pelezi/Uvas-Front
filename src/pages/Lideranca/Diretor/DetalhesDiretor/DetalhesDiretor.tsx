@@ -11,6 +11,10 @@ import { Grupo, getGruposById, getGruposByDiretorId, removeDiretorFromGrupo } fr
 import { useParams } from "react-router-dom";
 
 import styles from "./DetalhesDiretor.module.css";
+import { Lider, getLiderByPessoaId } from "../../../../services/liderService";
+import { Discipulador, getDiscipuladorByPessoaId } from "../../../../services/discipuladorService";
+import Button from "../../../../components/common/Button";
+import { FaPencil, FaPlus, FaRegTrashCan } from "react-icons/fa6";
 
 
 const DetalhesDiretor: React.FC = () => {
@@ -21,6 +25,8 @@ const DetalhesDiretor: React.FC = () => {
 
     const [diretor, setDiretor] = useState<Diretor>({} as Diretor);
     const [pessoa, setPessoa] = useState<Pessoa>({} as Pessoa);
+    const [lider, setLider] = useState<Lider>({} as Lider);
+    const [discipulador, setDiscipulador] = useState<Discipulador>({} as Discipulador);
     const [grupos, setGrupo] = useState<Grupo[]>([] as Grupo[]);
 
     const fetchDiretor = async () => {
@@ -29,8 +35,12 @@ const DetalhesDiretor: React.FC = () => {
             setDiretor(diretor);
             const pessoa = await getPessoaById(String(diretor.pessoaId?.id));
             setPessoa(pessoa);
-            const grupo = await getGruposByDiretorId(String(diretor.id));
-            setGrupo(grupo);
+            try {
+                const grupo = await getGruposByDiretorId(String(diretor.id));
+                setGrupo(grupo);
+            } catch (error) { console.log("Erro ao buscar grupos do diretor", error); }
+            try { const lider = await getLiderByPessoaId(String(pessoa.id)); setLider(lider); } catch (error) { console.log('Erro ao buscar lider', error); }
+            try { const discipulador = await getDiscipuladorByPessoaId(String(pessoa.id)); setDiscipulador(discipulador); } catch (error) { console.log('Erro ao buscar discipulador', error); }
         } catch (error) {
             console.log('Erro ao buscar diretor', error);
 
@@ -76,49 +86,72 @@ const DetalhesDiretor: React.FC = () => {
         navigate(`/pessoas/emails/cadastrar/${diretor.pessoaId?.id}`);
     };
 
+    const handlePessoaProfile = () => {
+        navigate(`/pessoa/${pessoa.id}`);
+    }
+
+    const handleLiderProfile = () => {
+        navigate(`/lider/${lider.id}`);
+    }
+
+    const handleDiscipuladorProfile = () => {
+        navigate(`/discipulador/${discipulador.id}`);
+    }
+
+    const handleDiretorProfile = () => {
+        navigate(`/diretor/${diretor.id}`);
+    }
+
+    const handleGrupoProfile = (grupoId: string) => {
+        navigate(`/grupo/${grupoId}`);
+    }
+
     return (
-        <div>
-            <h1>{pessoa.nome}</h1>
-            <p>Cargo: {pessoa.cargo}</p>
-            <br />
-            <h3>Endereço:</h3>
-            <p>Bairro: {pessoa.enderecoId?.bairro}</p>
-            <p>Rua: {pessoa.enderecoId?.rua}</p>
-            <p>Número: {pessoa.enderecoId?.numero}</p>
-            <button className={styles.button} onClick={() => handleEditDiretor(diretor)}>Editar</button>
-            <button onClick={() => handleDeleteDiretor(diretor)}>Deletar</button>
-            <br /><br />
-            <h3>Contatos:</h3>
-            {pessoa.phones?.map((phone) => (
-                <div>
-                    <p key={phone.id}>Telefone: {phone.numero}</p>
-                    <button onClick={() => deletePhone(phone.id)}>Remover</button>
+        <div className={styles.detalhesPage}>
+            <div className={styles.section}>
+                <h1>{pessoa.nome}</h1>
+                <div className={styles.profiles}>
+                    <Button onClick={handlePessoaProfile}>{pessoa.cargo}</Button>
+                    {lider.id ? <Button onClick={handleLiderProfile}>Líder</Button> : null}
+                    {discipulador.id ? <Button onClick={handleDiscipuladorProfile}>Discipulador</Button> : null}
+                    {diretor.id ? <Button selected>Diretor</Button> : null}
                 </div>
-            ))}
-            <button onClick={handleAddPhone}>Adicionar Telefone</button>
-            <br />
-            <br />
-            {pessoa.emails?.map((email) => (
-                <div>
-                    <p key={email.id}>Email: {email.email}</p>
-                    <button onClick={() => deleteEmail(email.id)}>Remover</button>
-                </div>
-            ))}
-            <button onClick={handleAddEmail}>Adicionar Email</button>
-            <h3>Grupos:</h3>
-            {grupos.map((grupo) => (
-                <div>
-                    <p key={grupo.id}>Nome do grupo: {grupo.nome}</p>
-                    <p key={grupo.id}>Tipo de grupo: {grupo.grupoType}</p>
-                    <p key={grupo.id}>Diretor: {grupo.diretorId?.pessoaId?.nome}</p>
-                    <button onClick={() => handleRemoveDiretorFromGrupo(String(grupo.id))}>Remover do grupo</button>
-                    <br />
-                </div>
-            ))}
-            <br />
-            <br />
+            </div>
+            <div className={styles.buttons}>
+                <Button onClick={() => handleEditDiretor(diretor)}><FaPencil /></Button>
+                <Button onClick={() => handleDeleteDiretor(diretor)}><FaRegTrashCan /></Button>
+            </div>
+            <div className={styles.section}>
+                <div className={styles.contentSection}>
+                    <div className={styles.contentBlock}>
+                        <div className={styles.contentTitle}>
+                            <h3>Grupos:</h3>
+                            <Button green onClick={() => handleEditDiretor(diretor)}><FaPlus /></Button>
+                        </div>
+                        <div className={styles.contentSection}>
 
-
+                            {grupos.map((grupo) => (
+                                <div className={styles.contentBlock}>
+                                    <div className={styles.contentTitle}>
+                                        <h3 key={grupo.id}>{grupo.nome}</h3>
+                                        <Button deleteButton onClick={() => handleRemoveDiretorFromGrupo(String(grupo.id))}><FaRegTrashCan /></Button>
+                                    </div>
+                                    <div className={styles.contentRow}>
+                                        <p key={grupo.id}>Grupo de {grupo.grupoType}</p>
+                                    </div>
+                                    <br />
+                                    <div className={styles.contentRow}>
+                                        <Button blue onClick={() => handleGrupoProfile(String(grupo.id))}>Ver Grupo</Button>
+                                    </div>
+                                    <br />
+                                </div>
+                            ))}
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 };

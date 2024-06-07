@@ -16,9 +16,10 @@ export interface InputProps {
     hidden?: boolean;
     hiddenLabel?: boolean;
     readonly?: boolean;
+    placeholder?: string;
 };
 
-const Input: React.FC<InputProps> = ({ label, name, type = "text", as, errors, touched, children, className, hidden, readonly, hiddenLabel }) => {
+const Input: React.FC<InputProps> = ({ label, name, type = "text", as, errors, touched, children, className, hidden, readonly, hiddenLabel, placeholder }) => {
     return (
         <fieldset className={`${styles.formGroup} ${hidden && styles.hidden}`}>
             <label htmlFor={name} className={`${styles.label} ${hiddenLabel && styles.hidden}`}>
@@ -30,6 +31,7 @@ const Input: React.FC<InputProps> = ({ label, name, type = "text", as, errors, t
                 as={as ? as : undefined}
                 readOnly={readonly}
                 className={`${className ? className : styles.input} ${touched && errors && styles.error}`}
+                placeholder={placeholder}
             >
                 {children}
             </Field>

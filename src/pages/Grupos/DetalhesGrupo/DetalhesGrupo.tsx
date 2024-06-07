@@ -10,6 +10,8 @@ import { Grupo, deleteGrupo, getGruposById } from "../../../services/grupoServic
 import { useParams } from "react-router-dom";
 
 import styles from "./DetalhesGrupo.module.css";
+import Button from "../../../components/common/Button";
+import { FaPencil, FaPlus, FaRegTrashCan } from "react-icons/fa6";
 
 
 const DetalhesGrupo: React.FC = () => {
@@ -89,28 +91,65 @@ const DetalhesGrupo: React.FC = () => {
         }
     }
 
+    const handleDiretorProfile = () => {
+        navigate(`/diretor/${grupo.diretorId?.id}`);
+    }
+
+    const handlePessoaProfile = async (id: string) => {
+        navigate(`/pessoa/${id}`);
+    }
+
     return (
-        <div>
-            <h1>{grupo.nome}</h1>
-            <p>Tipo: {grupo.grupoType}</p>
-            <p>Diretor: {grupo.diretorId?.pessoaId?.nome}</p>
-            <br />
-            <button className={styles.button} onClick={() => handleEditGrupo(grupo)}>Editar</button>
-            <button onClick={() => handleDeleteGrupo(grupo)}>Deletar</button>
-            <br /><br />
-            <h3>Membros:</h3>
-            {pessoas.map((pessoa) => (
-                <div>
-                    <p key={pessoa.id}>Nome: {pessoa.nome}</p>
-                    <p key={pessoa.id}>Cargo: {pessoa.cargo}</p>
-                    <p>Bairro: {pessoa.enderecoId?.bairro}</p>
-                    <br />
-                    <button onClick={() => handleRemovePessoa(String(pessoa.id))}>Remover</button>
-                    <button onClick={() => handleaddPessoaToGrupo(String(pessoa.id))}>Adicionar</button>
-                    <br />
-                    <br />
+        <div className={styles.detalhesPage}>
+            <div className={styles.section}>
+                <h1>{grupo.nome}</h1>
+                <div className={styles.profiles}>
+                    {grupo.diretorId?.id ? <Button onClick={handleDiretorProfile}>Diretor</Button> : null}
                 </div>
-            ))}
+            </div>
+            <div className={styles.buttons}>
+                <Button onClick={() => handleEditGrupo(grupo)}><FaPencil /></Button>
+                <Button onClick={() => handleDeleteGrupo(grupo)}><FaRegTrashCan /></Button>
+            </div>
+            <div className={styles.section}>
+                <div className={styles.contentSection}>
+                    <div className={styles.contentBlock}>
+                        <p>Grupo de {grupo.grupoType}</p>
+                        <a className={styles.link} onClick={handleDiretorProfile}>Diretor: {grupo.diretorId?.pessoaId?.nome}</a>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.section}>
+                <div className={styles.contentSection}>
+                    <div className={styles.contentBlock}>
+                        <div className={styles.contentTitle}>
+                            <h3>Membros:</h3>
+                            <Button green onClick={() => handleEditGrupo(grupo)}><FaPlus /></Button>
+                        </div>
+                        <div className={styles.contentSection}>
+                            {pessoas.map((pessoa) => (
+                                <div className={styles.contentBlock}>
+                                    <div className={styles.contentTitle}>
+                                        <h3 key={pessoa.id}>{pessoa.nome}</h3>
+                                        <Button deleteButton onClick={() => handleRemoveFromGrupo(String(pessoa.id))}><FaRegTrashCan /></Button>
+                                    </div>
+                                    <div className={styles.contentRow}>
+                                        <p key={pessoa.id}>Cargo: {pessoa.cargo}</p>
+                                    </div>
+                                    <div className={styles.contentRow}>
+                                        <p>Bairro: {pessoa.enderecoId?.bairro}</p>
+                                    </div>
+                                    <br />
+                                    <div className={styles.contentRow}>
+                                        <Button blue onClick={() => handlePessoaProfile(pessoa.id)}>Ver Pessoa</Button>
+                                    </div>
+                                    <br />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 };

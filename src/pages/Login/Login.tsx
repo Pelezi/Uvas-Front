@@ -18,64 +18,50 @@ import { useAuth } from "../../contexts/AuthContext";
 const Login = () => {
 
     const navigate = useNavigate();
-    const { login } = useAuth();
 
-    const initialValues: User = {
-        email: "",
-        password: "",
-    };
-
-    const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .email("E-mail inválido")
-            .required("E-mail é obrigatório"),
-        password: Yup.string()
-            .min(6, "A senha deve ter no mínimo 6 caracteres")
-            .required("Senha é obrigatória"),
-    });
-
-    const onSubmit = async (values: User) => {
-        // try {
-            // const user = await loginService(values);
-            // login(user);
-            navigate('/home');
-        // } catch (error) {
-            // console.log(error);
-            // alert('Erro ao realizar login');
-        // }
+    const onSubmit = async () => {
+        navigate('/home');
     };
 
     return (
         <div className={styles.loginWrapper}>
-            <Form
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-            >
-                {({ errors, touched }) => (
-                    <>
-                        <Title>Acesso ao Uvas</Title>
+            <div className={styles.imgBox}>
+                <img src="https://raw.githubusercontent.com/Pelezi/React-vite-typescript/Uvas/login.svg" />
+            </div>
+            <div className={styles.contentBox}>
+                <div className={styles.formBox}>
+                    <div className={styles.logo}>
+                        <img src="https://i.imgur.com/VQDMsMa.png" />
+                    </div>
+                    <h2>Login</h2>
+                    <form>
+                        <div className={styles.inputBox}>
+                            <span>E-mail</span>
+                            <input type="email" placeholder="@mail.com" />
+                        </div>
 
-                        <Input
-                            label="E-mail"
-                            name="email"
-                            type="email"
-                            errors={errors.email}
-                            touched={touched.email}
-                        />
+                        <div className={styles.inputBox}>
+                            <span>Senha</span>
+                            <input type="password" placeholder="senha..." />
+                        </div>
 
-                        <Input
-                            label="Password"
-                            name="password"
-                            type="password"
-                            errors={errors.password}
-                            touched={touched.password}
-                        />
+                        <div className={styles.remember}>
+                            <label>
+                                <input type="checkbox" /> Lembre de mim
+                            </label>
+                            <a href="#">Esqueci a Senha</a>
+                        </div>
 
-                        <Button type="submit" >Login</Button>
-                    </>
-                )}
-            </Form>
+                        <div className={styles.inputBox}>
+                            <input onClick={onSubmit} type="submit" value="Entrar" />
+                        </div>
+
+                        <div className={styles.inputBox}>
+                            <p>Não Tem Uma Conta? <a href="#">Inscrever-se</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 };
