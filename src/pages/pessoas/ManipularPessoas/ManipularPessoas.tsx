@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import * as Yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -18,6 +18,15 @@ const ManipularPessoa: React.FC = () => {
 
     const navigate = useNavigate();
     const pessoa = useLocation().state as Pessoa;
+
+    useEffect(() => {
+        if (!pessoa?.celulaId) {
+            pessoa.celulaId = {
+                id: "",
+                nome: "",
+            }
+        }
+    }, [pessoa]);
 
     const initialValues: Pessoa = {
         id: "",
@@ -166,8 +175,8 @@ const ManipularPessoa: React.FC = () => {
                     <Input
                         label="id"
                         name="enderecoId.id"
-                        errors={errors.enderecoId}
-                        touched={touched.enderecoId}
+                        errors={getIn(errors, "enderecoId.id")}
+                        touched={getIn(touched, "enderecoId.id")}
                         hidden
                     />
 
