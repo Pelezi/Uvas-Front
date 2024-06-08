@@ -20,7 +20,7 @@ const ManipularPessoa: React.FC = () => {
     const pessoa = useLocation().state as Pessoa;
 
     useEffect(() => {
-        if (!pessoa?.celulaId) {
+        if (pessoa && !pessoa?.celulaId?.id) {
             pessoa.celulaId = {
                 id: "",
                 nome: "",
