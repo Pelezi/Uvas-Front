@@ -11,23 +11,19 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-    const [show, setShow] = useState(false);
+    const [hide, setHide] = useState(true);
 
     const toggleSidebar = () => {
-        setShow(prevShow => !prevShow);
+        setHide(prevHide => !prevHide);
     };
 
     return (
         <div className={styles.container}>
-            <Header />
+            {/* <Header /> */}
             <div className={styles.main}>
-                <div className={styles.sidebar}>
-                    <div>
-                        <button className={styles.sidebarToggle} id="sidebarToggle" onClick={toggleSidebar}>☰</button>
-                    </div>
-                    {/* <Sidebar /> */}
+                <div className={`${styles.sidebar} ${hide && styles.hide}`}>
                     <Sidebar 
-                    show={show} 
+                    hide={hide}
                     toggleSidebar={toggleSidebar}
                     />
                 </div>
@@ -35,7 +31,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     {children}
                 </div>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 };

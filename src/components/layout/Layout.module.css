@@ -1,14 +1,15 @@
-.container {
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+.sidebar.hide {
+    width: 90px;
 }
 
-.main {
-    display: flex;
-    flex: 1;
-    height: 165px;
+.sidebar {
+    width: 250px;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    background-color: #a5d6bb;
+    transition: width 0.3s ease-in-out;
+    height: 100vh;
 }
 
 .content {
@@ -19,16 +20,29 @@
     overflow-y: auto;
     height: 100%;
     box-sizing: border-box;
+    width: calc(100% - 265px);
+    position: fixed;
+    right: 0;
+    transition: width 0.3s ease-in-out;
+
 }
 
-.sidebarToggle {
-    position: fixed;
-    display: none;
-    border: none;
-    background-color: transparent;
-    color: white;
-    font-weight: 400;
-    font-size: 27px;
+.sidebar.hide ~ .content {
+    width: calc(100% - 100px);
+}
+
+.container {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: #E4E9F7;
+}
+
+.main {
+    display: flex;
+    flex: 1;
+    height: 100vh;
 }
 
 @media screen and (max-width: 600px) {

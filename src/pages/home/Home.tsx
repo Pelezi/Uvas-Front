@@ -13,6 +13,7 @@ import { Discipulador, getDiscipuladores } from "../../services/discipuladorServ
 import { Diretor, getDiretores } from "../../services/diretorService";
 import { Celula, getCelulas } from "../../services/celulaService";
 import { Grupo, getGrupos } from "../../services/grupoService";
+import { NavLink } from "react-router-dom";
 
 const Home = () => {
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
@@ -91,37 +92,43 @@ const Home = () => {
             <p>Esta é a página inicial onde podemos encontrar algumas estatísticas.</p>
             <div className={styles.infoBoxContainer}>
                 <div className={styles.section}>
-                    <InfoBox
-                        title="Pessoas cadastradas"
-                        value={pessoas.length}
-                        icon={<FaUser size={65} />}
-                    />
+                        <InfoBox
+                            title="Pessoas cadastradas"
+                            value={pessoas.length}
+                            icon={<FaUser size={65} />}
+                            link="/pessoas/listar"
+                        />
                     <InfoBox
                         title="Células cadastradas"
                         value={celulas.length}
                         icon={<FaHouseChimney size={65} />}
+                        link="/celulas/listar"
                     />
-                    <InfoBox
-                        title="Grupos cadastrados"
-                        value={grupos.length}
-                        icon={<FaUsers size={65} />}
-                    />
-                </div>
-                <div className={styles.section}>
                     <InfoBox
                         title="Líderes cadastrados"
                         value={lideres.length}
                         icon={<FaHouseChimneyUser size={65} />}
+                        link="/lideres/listar"
                     />
                     <InfoBox
                         title="Discipuladores cadastrados"
                         value={discipuladores.length}
                         icon={<FaUserGroup size={65} />}
+                        link="/discipuladores/listar"
+                    />
+                </div>
+                <div className={styles.section}>
+                    <InfoBox
+                        title="Grupos cadastrados"
+                        value={grupos.length}
+                        icon={<FaUsers size={65} />}
+                        link="/grupos/listar"
                     />
                     <InfoBox
                         title="Diretores cadastrados"
                         value={diretores.length}
                         icon={<FaUserTie size={65} />}
+                        link="/diretores/listar"
                     />
                 </div>
             </div>

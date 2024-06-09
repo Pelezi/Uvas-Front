@@ -9,6 +9,8 @@
     height: fit-content;
 }
 
+
+
 .td {
     border: 1px solid #ddd;
     text-align: left;
@@ -41,6 +43,10 @@
 
 img {
     width: 100px;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
 .row:hover {
