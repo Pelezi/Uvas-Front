@@ -48,7 +48,7 @@ const ListarGrupos: React.FC = () => {
         }
     };
 
-    const capitalize = (str: string) => {
+    const capitalize = (str?: string) => {
         if (typeof str !== 'string') return ''
         return str.charAt(0).toUpperCase() + str.slice(1)
     }
@@ -56,7 +56,7 @@ const ListarGrupos: React.FC = () => {
     const columns: Column<Grupo>[] = [
         { header: "Nome", accessor: (item) => item.nome, type: "grupo/", linkAccessor: (item) => item.id},
         { header: "Diretor", accessor: (item) => item.diretorId?.pessoaId?.nome, type: "diretor/", linkAccessor: (item) => item.diretorId?.id},
-        { header: "Tipo", accessor: (item) => item.grupoType, type: "grupos/listar?filter=", linkAccessor: (item) => item.grupoType},
+        { header: "Tipo", accessor: (item) => capitalize(item.grupoType), type: "grupos/listar?filter=", linkAccessor: (item) => item.grupoType},
     ];
     return (
         <Table

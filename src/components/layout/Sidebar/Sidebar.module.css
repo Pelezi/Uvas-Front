@@ -187,14 +187,14 @@ header .imageText .name {
     margin-top: 1rem;
 }
 
+.dropdownBtn.active {
+    border-radius: 6px 6px 0 0;
+    background-color: #8dceaa;
+}
+
 .dropdownBtn:hover {
     background-color: #4aa4ee;
     color: #a5d6bb;
-}
-
-.dropdownBtn.active {
-    border-radius: 6px 6px 0 0;
-    background-color: #a5d6bb;
 }
 
 .dropdownContainer {

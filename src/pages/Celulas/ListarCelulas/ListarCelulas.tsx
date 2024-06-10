@@ -48,7 +48,7 @@ const ListarCelulas: React.FC = () => {
         }
     };
 
-    const capitalize = (str: string) => {
+    const capitalize = (str?: string) => {
         if (typeof str !== 'string') return ''
         return str.charAt(0).toUpperCase() + str.slice(1)
     }
@@ -57,8 +57,8 @@ const ListarCelulas: React.FC = () => {
         { header: "Nome", accessor: (item) => item.nome, type: "celula/", linkAccessor: (item) => item.id},
         { header: "Discipulador", accessor: (item) => item.discipuladorId?.pessoaId?.nome, type: "discipulador/", linkAccessor: (item) => item.discipuladorId?.id},
         { header: "Lider", accessor: (item) => item.liderId?.pessoaId?.nome, type: "lider/", linkAccessor: (item) => item.liderId?.id},
-        { header: "Dia", accessor: (item) => item.diaDaSemana, type: "celulas/listar?filter=", linkAccessor: (item) => item.diaDaSemana},
-        { header: "Horário", accessor: (item) => item.horario, type: "celulas/listar?filter=", linkAccessor: (item) => item.horario},
+        { header: "Dia", accessor: (item) => capitalize(item.diaDaSemana), type: "celulas/listar?filter=", linkAccessor: (item) => item.diaDaSemana},
+        { header: "Horário", accessor: (item) => item.horario?.split(':').slice(0, 2).join(':'), type: "celulas/listar?filter=", linkAccessor: (item) => item.horario},
         { header: "Bairro", accessor: (item) => item.enderecoId?.bairro, type: "celulas/listar?filter=", linkAccessor: (item) => item.enderecoId?.bairro},
     ];
     return (

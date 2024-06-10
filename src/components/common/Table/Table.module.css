@@ -22,17 +22,17 @@
     padding: 8px;
 }
 
-.filterButton{
+.filterButton {
     display: flex;
     align-content: center;
     flex-wrap: wrap;
 }
 
-.filterButton Button{
+.filterButton Button {
     height: 40px;
 }
 
-.filterInput{
+.filterInput {
     padding: 7px 20px;
     margin: 0px 10px;
     border: 1px solid #ccc;
@@ -45,15 +45,19 @@ img {
     width: 100px;
 }
 
+
 .table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: rgba(242, 242, 242, 0.5);
+    transition: 0.3s;
 }
 
 .table tr:nth-child(odd) {
-    background-color: #bdbdbd;
+    background-color: rgba(233, 233, 233, 0.5);
+    transition: 0.3s;
 }
-.row:hover {
-    background-color: #f2f2f2;
+
+.table tr.row:hover {
+    background-color: rgba(242, 242, 242, 0.7);
 }
 
 .link {
