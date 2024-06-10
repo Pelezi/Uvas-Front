@@ -8,7 +8,7 @@ import Datalist from "../../../../components/forms/Datalist/Datalist";
 
 import { Lider, createOrUpdateLider, getLideres } from "../../../../services/liderService";
 
-import MultipleDatalist from "../../../../components/forms/Checkbox";
+import MultipleDatalist from "../../../../components/forms/MultipleDatalist";
 import { Pessoa, getPessoas } from "../../../../services/pessoaService";
 import { Celula, getCelulas, getCelulasByLiderId } from "../../../../services/celulaService";
 import { getIn } from "formik";

@@ -75,7 +75,7 @@ const MultipleDatalist: React.FC<MultipleDatalistProps> = ({ label, name, option
                 onChange={handleInputChange}
                 className={`${className ? className : styles.input} ${touched && errors && styles.error}`}
                 list={`${name}-datalist`}
-
+                autoComplete="off"
             />
             <datalist id={`${name}-datalist`}>
                 {options

@@ -13,7 +13,7 @@ import { getIn } from "formik";
 import Datalist from "../../../components/forms/Datalist";
 import { Diretor, getDiretores } from "../../../services/diretorService";
 import { Pessoa, getPessoas, getPessoasByGrupoId } from "../../../services/pessoaService";
-import MultipleDatalist from "../../../components/forms/Checkbox";
+import MultipleDatalist from "../../../components/forms/MultipleDatalist";
 
 const ManipularGrupo: React.FC = () => {
 

@@ -112,6 +112,7 @@ const Datalist: React.FC<DatalistProps> = ({ label, name, options, errors, touch
                 disabled
                 className={`${className ? className : styles.input}`}
                 placeholder="Nome da opção selecionada"
+                autoComplete="off"
             />
         </fieldset>
     );

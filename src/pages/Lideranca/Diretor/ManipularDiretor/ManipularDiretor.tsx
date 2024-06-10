@@ -8,7 +8,7 @@ import Datalist from "../../../../components/forms/Datalist/Datalist";
 
 import { Diretor, createOrUpdateDiretor, getDiretores } from "../../../../services/diretorService";
 
-import MultipleDatalist from "../../../../components/forms/Checkbox";
+import MultipleDatalist from "../../../../components/forms/MultipleDatalist";
 import { Pessoa, getPessoas } from "../../../../services/pessoaService";
 import { Grupo, getGrupos, getGruposByDiretorId } from "../../../../services/grupoService";
 import { getIn } from "formik";

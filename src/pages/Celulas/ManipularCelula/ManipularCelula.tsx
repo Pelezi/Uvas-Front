@@ -14,7 +14,7 @@ import Datalist from "../../../components/forms/Datalist";
 import { Lider, getLideres } from "../../../services/liderService";
 import { Discipulador, getDiscipuladores } from "../../../services/discipuladorService";
 import { Pessoa, getPessoas, getPessoasByCelulaId } from "../../../services/pessoaService";
-import MultipleDatalist from "../../../components/forms/Checkbox";
+import MultipleDatalist from "../../../components/forms/MultipleDatalist";
 import style from "./ManipularCelula.module.css";
 
 const ManipularCelula: React.FC = () => {
