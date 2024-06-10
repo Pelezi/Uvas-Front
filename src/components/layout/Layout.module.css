@@ -20,7 +20,7 @@
     overflow-y: auto;
     height: 100%;
     box-sizing: border-box;
-    width: calc(100% - 265px);
+    width: calc(100% - 285px);
     position: fixed;
     right: 0;
     transition: width 0.3s ease-in-out;
