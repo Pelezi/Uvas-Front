@@ -49,6 +49,9 @@ img {
     background-color: #f2f2f2;
 }
 
+.table tr:nth-child(odd) {
+    background-color: #bdbdbd;
+}
 .row:hover {
     background-color: #f2f2f2;
 }
