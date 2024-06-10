@@ -98,6 +98,7 @@ const DetalhesGrupo: React.FC = () => {
     const handlePessoaProfile = async (id: string) => {
         navigate(`/pessoa/${id}`);
     }
+    
 
     return (
         <div className={styles.detalhesPage}>

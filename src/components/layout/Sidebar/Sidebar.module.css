@@ -194,6 +194,7 @@ header .imageText .name {
 
 .dropdownBtn.active {
     border-radius: 6px 6px 0 0;
+    background-color: #a5d6bb;
 }
 
 .dropdownContainer {

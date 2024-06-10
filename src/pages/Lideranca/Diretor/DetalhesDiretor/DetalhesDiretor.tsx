@@ -106,10 +106,15 @@ const DetalhesDiretor: React.FC = () => {
         navigate(`/grupo/${grupoId}`);
     }
 
+    const capitalize = (str: string) => {
+        if (typeof str !== 'string') return '';
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
     return (
         <div className={styles.detalhesPage}>
             <div className={styles.section}>
-                <h1>{pessoa.nome}</h1>
+                <h1>{capitalize(pessoa.nome)}</h1>
                 <div className={styles.profiles}>
                     <Button onClick={handlePessoaProfile}>{pessoa.cargo}</Button>
                     {lider.id ? <Button onClick={handleLiderProfile}>Líder</Button> : null}
