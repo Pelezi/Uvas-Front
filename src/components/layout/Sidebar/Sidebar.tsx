@@ -67,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({ hide, toggleSidebar }) => {
                                 )
                                 }
                                 to="/home"
-                                onClick={() => { toggleSidebar(); toggleactiveDropdowns(); }}
+                                onClick={() => { if(!hide){ toggleSidebar(); toggleactiveDropdowns();} else {} }}
                             >
                                 <MdDashboard className={styles.icon} />
                                 <span className={`${styles.text} ${hide && styles.hide}`}>Dashboard</span>
