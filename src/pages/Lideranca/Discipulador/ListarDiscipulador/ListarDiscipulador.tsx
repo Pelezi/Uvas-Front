@@ -42,7 +42,7 @@ const ListarDiscipulador: React.FC = () => {
         try {
             await deleteDiscipulador(discipulador.id);
             fetchDiscipuladores();
-            alert("Discipulador removida com sucesso!");
+            alert("Discipulador removido com sucesso!");
         } catch (error) {
             console.log("Erro ao remover discipulador", error);
             alert("Erro ao remover discipulador. Tente novamente.");

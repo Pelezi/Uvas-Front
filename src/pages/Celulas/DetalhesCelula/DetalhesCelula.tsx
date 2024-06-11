@@ -80,6 +80,11 @@ const DetalhesCelula: React.FC = () => {
         navigate(`/pessoa/${id}`);
     }
 
+    const capitalize = (str?: string) => {
+        if (typeof str !== 'string') return '';
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
     return (
         <div className={styles.detalhesPage}>
             <div className={styles.section}>
@@ -100,7 +105,7 @@ const DetalhesCelula: React.FC = () => {
                             <h3>Info</h3>
                         </div>
                         <div className={styles.contentRow}>
-                            <p>{celula.diaDaSemana}</p>
+                            <p>{capitalize(celula.diaDaSemana)}</p>
                             <p>{celula.horario}</p>
                         </div>
                         <div className={styles.contentRow}>

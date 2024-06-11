@@ -41,7 +41,7 @@ const ListarGrupos: React.FC = () => {
         try {
             await deleteGrupo(grupo.id);
             fetchGrupos();
-            alert("Grupo removida com sucesso!");
+            alert("Grupo removido com sucesso!");
         } catch (error) {
             console.log("Erro ao remover grupo", error);
             alert("Erro ao remover grupo. Tente novamente.");

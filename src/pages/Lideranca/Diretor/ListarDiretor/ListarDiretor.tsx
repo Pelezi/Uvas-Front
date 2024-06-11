@@ -42,7 +42,7 @@ const ListarDiretor: React.FC = () => {
         try {
             await deleteDiretor(diretor.id);
             fetchDiretores();
-            alert("Diretor removida com sucesso!");
+            alert("Diretor removido com sucesso!");
         } catch (error) {
             console.log("Erro ao remover diretor", error);
             alert("Erro ao remover diretor. Tente novamente.");

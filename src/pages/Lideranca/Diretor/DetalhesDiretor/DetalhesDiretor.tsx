@@ -116,7 +116,7 @@ const DetalhesDiretor: React.FC = () => {
             <div className={styles.section}>
                 <h1>{capitalize(pessoa.nome)}</h1>
                 <div className={styles.profiles}>
-                    <Button onClick={handlePessoaProfile}>{pessoa.cargo}</Button>
+                    <Button onClick={handlePessoaProfile}>{capitalize(pessoa.cargo)}</Button>
                     {lider.id ? <Button onClick={handleLiderProfile}>Líder</Button> : null}
                     {discipulador.id ? <Button onClick={handleDiscipuladorProfile}>Discipulador</Button> : null}
                     {diretor.id ? <Button selected>Diretor</Button> : null}
